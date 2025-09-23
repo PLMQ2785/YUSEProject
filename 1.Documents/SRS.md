@@ -8,11 +8,11 @@
 
 
 # Team members
-Student ID / Name
-Student ID / Name
-Student ID / Name
-Student ID / Name
-Student ID / Name
+Student ID / Name   
+Student ID / Name   
+Student ID / Name   
+Student ID / Name   
+Student ID / Name   
 
 
 # [1. 요구사항 정의]
