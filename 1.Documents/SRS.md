@@ -113,13 +113,9 @@
 ### UI.Clear: 게임 클리어 화면
 > **요약:** 게임을 클리어하면 호출되는 화면이다.
 1.  **UI.Clear.1:** 결과 화면에 플레이 데이터 통계를 표시한다.   
-    <div style="margin-left: 4em;">
-        <ul style="list-style-type: disc;">
-            <li>총 플레이 시간</li>
-            <li>처치한 몬스터 수</li>
-            <li>획득 재화</li>
-        </ul>
-    </div>
+    - 총 플레이 시간
+    - 처치한 몬스터 수
+    - 획득 재화
 2. **UI.Clear.2:** 재시작 또는 메인화면 복귀 버튼을 선택 할 수 있다.
 
 ### UI.Codex: 도감
@@ -153,17 +149,13 @@
 ### MON.Event: 몬스터 이벤트
 > **요약:** 몬스터에게 발생하는 이벤트를 정의한다
 1.  **MON.Event.Death:** 몬스터 사망   
-    <div style="margin-left: 11em;">
-        <ul style="list-style-type: square;">
-            <li>몬스터는 체력이 0이 되면 사망 처리된다.</li>
-        </ul>
-    </div>
+    - 몬스터는 체력이 0이 되면 사망 처리된다.
 2.  **MON.Event.Death.1:** 몬스터의 체력이 0이 되면 사망한다.
 3.  **MON.Event.Death.2:** 사망한 몬스터는 경험치 구슬을 드롭한다.
 4.  **MON.Event.BossDeath:** 보스 몬스터 사망
 5.  **MON.Event.BossDeath.1:** 보스 몬스터의 체력이 0이 되면 사망한다.
 6.  **MON.Event.BossDeath.2:** 사망한 보스 몬스터는 경험치 구슬과 보물 상자를 드롭한다.   
-    <div style="margin-left: 12em">단, 마지막 보스 몬스터는 조건에서 제외한다.</div>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;단, 마지막 보스 몬스터는 조건에서 제외한다.
 
 
 
