@@ -15,3 +15,5 @@
 
 - 예시: feat/18/playermove
 - 커밋 메시지 예시: doc: Use Case 7~13 내용 추가
+- PR 제목은 커밋 메시지와 동일하게
+- PR 내용에는 issues number 포함(#16 이런 식으로 샵 포함해서)
