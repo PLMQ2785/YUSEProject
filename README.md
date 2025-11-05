@@ -14,3 +14,4 @@
 - **refactor/#{issue_number}/{name}**: Refactoring branch
 
 - 예시: feat/18/playermove
+- 커밋 메시지 예시: doc: Use Case 7~13 내용 추가
