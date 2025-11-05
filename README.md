@@ -12,3 +12,5 @@
 - **hotfix/#{issue_number}/{hotfix_name}**: Bug working branch
 - **doc/#{issue_number}/{doc_name}**: Document branch
 - **refactor/#{issue_number}/{name}**: Refactoring branch
+
+- 예시: feat/18/playermove
