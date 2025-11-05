@@ -11,3 +11,4 @@
 - **feat/#{issue_number}/{feature_name}**: Normal working branch
 - **hotfix/#{issue_number}/{hotfix_name}**: Bug working branch
 - **doc/#{issue_number}/{doc_name}**: Document branch
+- **refactor/#{issue_number}/{name}**: Refactoring branch
