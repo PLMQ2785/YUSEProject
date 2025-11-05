@@ -574,7 +574,7 @@
 
 > * 5장은 게임 시스템 State machine diagram을 그리고 설명한다. 아래 [그림5-1]은 본 프로젝트에서 제작한 게임 시스템의 State machine diagram이다.
 
-![state machine diagram](./imgs/StateDiagram.png)
+![state machine diagram](imgs/StateDiagram.png)
 
     [그림 5-1] - State machine diagram
 
@@ -597,7 +597,7 @@
 
 * 아래 [그림 6-1]은 게임을 맨 처음 실행하면 등장하는 타이틀 화면이다.
 
-![Title](./imgs/UI_Prototype/Title.png)
+![Title](imgs/UI_Prototype/Title.png)
 
     [그림 6-1]-타이틀 화면
 
@@ -606,7 +606,7 @@
 ### 6.2 환경설정 화면
 * 아래 [그림 6-2]는 타이틀 화면에서 옵션창을 눌렀을 때 나오는 화면이다.
 
-![Option](./imgs/UI_Prototype/Option.png)
+![Option](imgs/UI_Prototype/Option.png)
 
     [그림 6-2]-환경설정 화면
 
@@ -615,34 +615,34 @@
 ### 6.3 로비 화면
 *
 
-![Lobby](./imgs/UI_Prototype/Lobby.png)
+![Lobby](imgs/UI_Prototype/Lobby.png)
 
     [그림 6-3]-로비 화면
 
 
 ### 6.4 도감 화면
 *
-![Compendium](./imgs/UI_Prototype/Compendium.png)
+![Compendium](imgs/UI_Prototype/Compendium.png)
 
     [그림 6-4]-도감 화면
 
 ### 6.5 특성 선택 화면
 *
-![Enhance](./imgs/UI_Prototype/Enhance.png)
+![Enhance](imgs/UI_Prototype/Enhance.png)
 
     [그림 6-5]-특성 선택 화면
 
 
 ### 6.6 특성 설명 화면
 *
-![Enhance_description](./imgs/UI_Prototype/Enhance_description.png)
+![Enhance_description](imgs/UI_Prototype/Enhance_description.png)
 
     [그림 6-6]-특성 설명 화면
 
 ### 6.7 인게임 기본 화면
 *아래 [그림 6-7]은 게임을 시작했을 때 나오는 인게임 UI프로토타입이다.
 
-![Ingame_Base](./imgs/UI_Prototype/In_Game_Base.png)
+![Ingame_Base](imgs/UI_Prototype/In_Game_Base.png)
 
     [그림 6-7]-인게임 기본 화면 
 
@@ -651,7 +651,7 @@
 ### 6.8 인게임 Pause 화면 
 * 아래 [그림 6-8]은 인게임 진행중에 ESC를 눌렀을 때 나오는 UI 프로토타입이다.
 
-![Ingame_Pause](./imgs/UI_Prototype/In_Game_Pause.png)
+![Ingame_Pause](imgs/UI_Prototype/In_Game_Pause.png)
 
     [그림 6-8]-인게임 Pause 화면
 
@@ -661,7 +661,7 @@
 ### 6.9 플레이어 데미지 받는 화면
 *
 
-![Damaged](./imgs/UI_Prototype/Damaged.png)
+![Damaged](imgs/UI_Prototype/Damaged.png)
 
     [그림 6-9]-데미지 받는 화면
 ---
@@ -669,33 +669,33 @@
 
 ### 6.10 플레이어 공격 화면
 *
-![Attack](./imgs/UI_Prototype/Attack.png)
+![Attack](imgs/UI_Prototype/Attack.png)
 
     [그림 6-10]-플레이어 공격 화면
 
 
 ### 6.11 적처치 보상 오브젝트 화면
 *
-![Experience_Gold](./imgs/UI_Prototype/Experience_Gold.png)
+![Experience_Gold](imgs/UI_Prototype/Experience_Gold.png)
 
     [그림 6-11]-경험치 및 재화 획득 화면
 
 ### 6.12 보스 등장 화면
 *
-![Boss](./imgs/UI_Prototype/Boss.png)
+![Boss](imgs/UI_Prototype/Boss.png)
 
     [그림 6-12] 보스 등장 화면
 
 ### 6.13 거점 보호 이벤트 발생 화면
 *
-![Event](./imgs/UI_Prototype/Event.png)
+![Event](imgs/UI_Prototype/Event.png)
 
     [그림 6-13] 거점 이벤트 발생 화면
 
 ### 6.14 보상 선택 화면
 * 아래 [그림 6-14]은 보상 화면을 나타내는 UI 프로토타입이다.
 
-![Reward](./imgs/UI_Prototype/Reward_Select.png)
+![Reward](imgs/UI_Prototype/Reward_Select.png)
 
     [그림 6-14] 보상 선택 화면
 
@@ -706,14 +706,14 @@
 ### 6.15 장비/아이템 획득 화면 
 *아래 [그림 6-15]은 보상을 획득했을 때 장비나 아이템이 표시되는 화면이다.
 
-![Equip](./imgs/UI_Prototype/Equipment_item.png)
+![Equip](imgs/UI_Prototype/Equipment_item.png)
 
     [그림 6-15] 아이템 및 장비 획득 표시 화면
 
 ### 6.16 게임 클리어 화면
 *아래의 [그림 6-16]은 게임을 클리어 시 나오는 UI 프로토타입이다.
 
-![GameClear](./imgs/UI_Prototype/Game_Clear.png)
+![GameClear](imgs/UI_Prototype/Game_Clear.png)
 
     [그림 6-16] 게임 클리어 화면
 
@@ -723,7 +723,7 @@
 ### 6.17 게임 오버 화면
 *아래 [그림 6-17]은 게임오버 되었을 때 나타나는 UI 프로토타입이다.
 
-![GameOver](./imgs/UI_Prototype/GameOver.png)
+![GameOver](imgs/UI_Prototype/GameOver.png)
 
     [그림 6-17] 게임 오버 화면
 
@@ -732,11 +732,12 @@
 ### 6.18 게임 통계 화면 
 *아래 [그림 6-18]은 '게임 클리어'나 '게임 오버' UI에서 '통계 보기' 버튼을 눌렀을 때 나타나는 상세 통계 UI 프로토타입입니다.
 
-![GameOver](./imgs/UI_Prototype/Game_statistics.png)
+![GameOver](imgs/UI_Prototype/Game_statistics.png)
 
     [그림 6-18] 게임 통계 화면
 
 &ensp;통계화면은 '적에게 준 총 데미지', '처치한 몬스터 수', '획득한 재화 수', '받은 피해량' 등과 같이 게임 플레이 중에 집계된 여러 통계 자료의 정확한 수치들을 자세히 보여줍니다.
+
 ---
 
 ## 7. Implementation requirements
@@ -764,7 +765,6 @@
 * **Prefab:** Unity 엔진에서 사용되는, 미리 구성된 게임 오브젝트의 원본 템플릿.
 
 ---
-
 ## 9. References
 
 > * Describe all of your references (book, paper, technical report etc).
