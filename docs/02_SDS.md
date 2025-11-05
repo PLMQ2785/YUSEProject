@@ -224,35 +224,123 @@
 
 ## 5. State machine diagram
 
-> * Draw state machine diagrams for the client and the server system.
-> * Explain each state machine diagram.
+> * 5장은 게임 시스템 State machine diagram을 그리고 설명한다. 아래 [그림5-1]은 본 프로젝트에서 제작한 게임 시스템의 State machine diagram이다.
 
-### 5.1 GameManager State Machine
+![이미지 설명](경로)
 
-`![GameManager State Machine](images/state_machine_gamemanager.png)`
+    [그림 5-1] - State machine diagram
 
-* **Explanation:** (GameManager의 상태도 설명)
-    * **MainMenu:** 메인 메뉴 씬의 상태입니다.
-    * **Playing:** '게임 시작' 시 Playing 상태로 전환되며, `UpdateGameState`가 동작합니다.
-    * **Paused:** 'ESC' 입력 시 Paused 상태로 전환됩니다.
-    * ...
+* 각 State는 게임에서 어떤 Scene을 보여주고 있는지에 대한 상태이고, Game Scene 내에서는 플레이어의 행동에 따라 캐릭터의 상태가 어떻게 바뀌는지 나타낸다.
+
+&ensp;이 프로젝트의 State는 크게 Title Scene, Lobby, Option, Directory, Enhance, Game Scene, Game Over, Game Clear가 있다.
+게임을 시작하게 되면 Title Scene에서 시작한다. Option 버튼을 누르면 옵션으로 그리고 Exit 버튼을 누르면 게임을 종료할 수 있다. 게임 하기 위해서 Game start 버튼을 누르면 로비 화면으로 들어간다. Lobby에서는 도감 버튼을 눌러서 플레이어가 게임을 플레이하면서 모은 오브젝트들의 정보를 확인 할 수 있으며, 강화 버튼을 통해 Enhance로 가서 플레이할 캐릭터의 능력치를 플레이어가 원하는 대로 강화할 수 있다. 그리고 Start 버튼을 누르면 Game Scene으로 들어간다. 
+
+&ensp;Game Scene에 들어가면 본격적으로 게임을 플레이할 수 있다. 게임 특성상 공격은 자동으로 나가기 때문에 Player는 기본적으로 움직이는 Move 상태, 움직이지 않는 idle 상태, Enemy에게 데미지를 입은 Damaged 상태, 그리고 피가 0 이하면 죽는 Dead 상태가 있다. 시스템 내부적으로 Enemy는 Player의 주변에서 Spawn 된다. Spawn 상태 이후에 Player가 있는 방향으로 이동하는 Chase 상태, Player와 충돌하거나 공격 범위 내에 있을 때 공격하는 Attack 상태, 그리고 Player의 공격에 맞았을 때 데미지를 받는 Damaged 상태가 있다. 이 Enemy의 모든 행동은 Enemy의 hp가 0이 아닐 때 작동하며 hp가 0 이하가 되면 Enemy는 사라진다. 만약 Player가 Dead 상태가 되면 Game Over로 넘어간다. Game Over에서는 재시작 버튼을 눌러 다시 Game Scene으로 돌아가 게임을 할 수 있고 로비 버튼을 통해 Lobby로 돌아갈 수도 있다. 또한 플레이어가 마지막 보스를 쓰러뜨리면 Game Clear로 간다. Game Clear에서도 마찬가지로 Game Scene이나 Lobby로 돌아갈 수 있다. 게임은 Game Clear나 Game Over가 되면 끝난다. 
 
 ---
 
 ## 6. User interface prototype
 
-> * Design user interface for your software system.
-> * It will be easy if you just think that you make a preliminary user manual of your system based on your user interface.
+> * 6장은 구현할 UI의 구조와 UI 안의 각 구성요소를 설명한다. 프로토타입이기 때문에 UI 디자인은 일부 달라질 수 있지만 내용 및 구성은 거의 동일하다.
 
-(Figma, PowerPoint 등에서 작업한 UI 프로토타입 스크린샷을 삽입하고 설명합니다.)
+
 
 ### 6.1 메인 화면 (Main Menu)
 
-`![UI Main Menu](images/ui_main_menu.png)`
+* 아래 [그림 6-1]은 게임을 맨 처음 실행하면 등장하는 타이틀 화면이다.
 
-* (1) **게임 시작:** `InGame` 씬으로 전환합니다.
-* (2) **능력치 강화:** 영구 능력치 업그레이드 패널(`UpgradePanel`)을 엽니다.
-* ...
+![이미지 설명](경로)
+
+    [그림 6-1] 타이틀 화면
+
+ &ensp;게임을 실행하면 처음으로 나타나는 타이틀 화면이다. ‘시작’ 버튼으로 메인 로비로 넘어갈 수 있고, ‘옵션’ 버튼으로 게임의 화면, 소리와 관련된 상세 설정을 할 수 있다. ‘종료’ 버튼을 누르면 게임을 바로 종료할 수도 있다.
+
+### 6.2 환경설정 화면
+* 아래 [그림 6-2]는 타이틀 화면에서 옵션창을 눌렀을 때 나오는 화면이다.
+
+![이미지 설명](경로)
+
+
+
+
+
+### 6.3 로비 화면
+*
+
+![이미지 설명](경로)
+
+
+
+### 6.4 도감 화면
+*
+![이미지 설명](경로)
+
+### 6.5 특성 선택 화면
+*
+![이미지 설명](경로)
+
+
+### 6.6 특성 설명 화면
+*
+![이미지 설명](경로)
+
+### 6.7 인게임 기본 화면
+*아래 [그림 6-7]은 게임을 시작했을 때 나오는 인게임 UI프로토타입이다.
+
+![이미지 설명](경로)
+
+    [그림 6-7]-인게임 기본 화면 
+
+ &ensp;인게임 UI 프로토타입을 보여준다. 좌측 상단에는 플레이어의 체력(HP)과 경험치(EXP)를 나타내는 바가 배치되어 있다. 그 하단에는 획득한 장비를 나타내는 6개의 슬롯 과 소모성 아이템을 표시하는 3개의 슬롯이 나란히 정렬되어 있다. 우측 상단에는 타이머가 남은 시간을 표시하며, 그 아래로는 플레이어가 보유한 총 재화와 몬스터 처치 수가 실시간으로 집계되어 나타난다.
+
+### 6.8 인게임 Pause 화면 
+* 아래 [그림 6-8]은 인게임 진행중에 ESC를 눌렀을 때 나오는 UI 프로토타입이다.
+
+![이미지 설명](경로)
+
+    [그림 6-8]-인게임 Pause 화면
+
+ &ensp;ESC 키를 누르면 화면이 어두워지며 게임이 일시 정지되고, 위 그림과 같은 메뉴 창이 나타난다. 좌측에는 '캐릭터 이미지'와 그 하단에 플레이어의 '종합 능력치(스탯)'가 표시된다. 중앙 상단에는 플레이어가 착용한 '장비' 슬롯이 있으며, 각 장비 아이콘에 마우스를 올리면 '장비 설명'란에 상세 정보가 나타난다. 중앙 하단에는 현재 '진행 시간'이 표시된다. 우측에는 게임을 '계속'하거나, '설정' 창을 열거나, 게임을 '종료'하고 시작 화면으로 돌아갈 수 있는 메뉴 버튼이 제공된다.
+
+
+### 6.9 플레이어 데미지 받는 화면
+*
+
+![이미지 설명](경로)
+
+    [그림 6-9]-데미지 받는 화면
+---
+
+
+### 6.10 플레이어 적 공격 화면
+![이미지 설명](경로)
+
+    [그림 6-10]-
+
+
+### 6.11 적처치 보상 오브젝트 화면
+*
+
+### 6.12 보스 등장 화면
+*
+
+### 6.13 거점 보호 이벤트 발생 화면
+*
+
+### 6.14 보상 선택 화면
+*
+
+### 6.15 장비/아이템 획득 화면 
+*
+
+### 6.16 게임 클리어 화면
+*
+
+### 6.17 게임 오버 화면
+*
+
+### 6.18 게임 통계 화면 
+*
 
 ---
 
