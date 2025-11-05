@@ -226,7 +226,7 @@
 
 > * 5장은 게임 시스템 State machine diagram을 그리고 설명한다. 아래 [그림5-1]은 본 프로젝트에서 제작한 게임 시스템의 State machine diagram이다.
 
-![state machine diagram](imgs/StateDiagram.)
+![state machine diagram](imgs/StateDiagram.png)
 
     [그림 5-1] - State machine diagram
 
