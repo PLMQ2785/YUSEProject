@@ -2,22 +2,22 @@
 
 ## 💻 팀원 목록
 
-| 학번 | 이름 | 이메일 |
-| :--- | :--- | :--- |
-| 22012139 | 김도경 | kjkkjs5252@gmail.com |
+| 학번       | 이름  | 이메일                    |
+|:---------|:----|:-----------------------|
+| 22012139 | 김도경 | kjkkjs5252@gmail.com   |
 | 22012140 | 김병규 | rlaqudrbabcd@gmail.com |
-| 22112089 | 백승헌 | hun4758@gmail.com |
-| 22213499 | 정태현 | ghgh036034@gmail.com |
-| 22311884 | 유민서 | winteryu21@gmail.com |
-| 22313530 | 배원일 | dnjsdlf325@gmail.com |
+| 22112089 | 백승헌 | hun4758@gmail.com      |
+| 22213499 | 정태현 | ghgh036034@gmail.com   |
+| 22311884 | 유민서 | winteryu21@gmail.com   |
+| 22313530 | 배원일 | dnjsdlf325@gmail.com   |
 
 ## 📜 Revision history
 
-| Revision date | Version # | Description | Author |
-| :--- | :--- | :--- | :--- |
-| 10/29/2025 | 1.00 | Use Case Diagram 및 Description 작성 | 유민서 |
-| 11/04/2025 | 1.10 | (예시)Class Diagram 초안 작성 | OOO |
-| 11/05/2025 | 1.20 | (예시)Class Diagram 상세 명세 양식 반영 | OOO |
+| Revision date | Version # | Description                       | Author |
+|:--------------|:----------|:----------------------------------|:-------|
+| 10/29/2025    | 1.00      | Use Case Diagram 및 Description 작성 | 유민서    |
+| 11/04/2025    | 1.10      | (예시)Class Diagram 초안 작성           | OOO    |
+| 11/05/2025    | 1.20      | (예시)Class Diagram 상세 명세 양식 반영     | OOO    |
 
 ## = Contents =
 
@@ -49,7 +49,7 @@
 
 ### 2.1 Use Case Diagram
 
-![Use Case Diagram](UseCaseDiagram1.png)
+![Use Case Diagram](imgs/usecaseDiagram.png)
 
 다이어그램에 대한 설명
 
@@ -59,110 +59,110 @@
 
 #### Use case #[Number] : [Use Case Name]
 
-| **GENERAL CHARACTERISTICS** | |
-| :--- | :--- |
-| **Summary** | (기능 요약) |
-| **Scope** | (시스템 범위, 예: 로그라이크 게임) |
-| **Level** | User level |
-| **Author** | (작성자 이름) |
-| **Last Update** | (작성일) |
-| **Status** | Analysis |
-| **Primary Actor** | (주 행위자, 예: 플레이어) |
-| **Preconditions** | (선행 조건) |
-| **Trigger** | (유스케이스 시작 계기) |
-| **Success Post Condition** | (성공 시 결과) |
-| **Failed Post Condition** | (실패 시 결과) |
+| **GENERAL CHARACTERISTICS** |                       |
+|:----------------------------|:----------------------|
+| **Summary**                 | (기능 요약)               |
+| **Scope**                   | (시스템 범위, 예: 로그라이크 게임) |
+| **Level**                   | User level            |
+| **Author**                  | (작성자 이름)              |
+| **Last Update**             | (작성일)                 |
+| **Status**                  | Analysis              |
+| **Primary Actor**           | (주 행위자, 예: 플레이어)      |
+| **Preconditions**           | (선행 조건)               |
+| **Trigger**                 | (유스케이스 시작 계기)         |
+| **Success Post Condition**  | (성공 시 결과)             |
+| **Failed Post Condition**   | (실패 시 결과)             |
 
 
-| **MAIN SUCCESS SCENARIO** | |
-| :--- | :--- |
-| **Step** | **Action** |
-| S | (시나리오 시작) |
-| 1 | (행위자 행동) |
-| 2 | (시스템 응답) |
-| 3 | ... |
-| 4 | (시나리오 종료) |
+| **MAIN SUCCESS SCENARIO** |            |
+|:--------------------------|:-----------|
+| **Step**                  | **Action** |
+| S                         | (시나리오 시작)  |
+| 1                         | (행위자 행동)   |
+| 2                         | (시스템 응답)   |
+| 3                         | ...        |
+| 4                         | (시나리오 종료)  |
 
-| **EXTENSION SCENARIOS** | |
-| :--- | :--- |
-| **Step** | **Branching Action** |
-| 2 | 2a. (예외 상황) <br> ...2a1. (시스템 응답) |
+| **EXTENSION SCENARIOS** |                                   |
+|:------------------------|:----------------------------------|
+| **Step**                | **Branching Action**              |
+| 2                       | 2a. (예외 상황) <br> ...2a1. (시스템 응답) |
 
-| **RELATED INFORMATION** | |
-| :--- | :--- |
-| **Performance** | (성능 요구사항) |
-| **Frequency** | (발생 빈도) |
-| **Concurrency** | (동시성) |
-| **Due Date** | (개발 마감일) |
+| **RELATED INFORMATION** |           |
+|:------------------------|:----------|
+| **Performance**         | (성능 요구사항) |
+| **Frequency**           | (발생 빈도)   |
+| **Concurrency**         | (동시성)     |
+| **Due Date**            | (개발 마감일)  |
 
 #### Use case #[1] : 게임을 시작한다
 
-| **GENERAL CHARACTERISTICS** | |
-| :--- | :--- |
-| **Summary** | 플레이어가 메인 화면에서 '게임 시작' 버튼을 눌러 인게임 씬으로 진입하는 기능 |
-| **Scope** | 메인 화면 |
-| **Level** | User level |
-| **Author** | 유민서 |
-| **Last Update** | 2025. 10. 29 |
-| **Status** | Analysis |
-| **Primary Actor** | 플레이어 |
-| **Preconditions** | 플레이어가 '메인화면' 씬에 있어야 한다. |
-| **Trigger** | 플레이어가 '게임 시작' 버튼을 클릭했을 때 |
-| **Success Post Condition** | 현재 씬이 '인게임'으로 전환된다. |
-| **Failed Post Condition** | 실패 조건 없음 |
+| **GENERAL CHARACTERISTICS** |                                              |
+|:----------------------------|:---------------------------------------------|
+| **Summary**                 | 플레이어가 메인 화면에서 '게임 시작' 버튼을 눌러 인게임 씬으로 진입하는 기능 |
+| **Scope**                   | 메인 화면                                        |
+| **Level**                   | User level                                   |
+| **Author**                  | 유민서                                          |
+| **Last Update**             | 2025. 10. 29                                 |
+| **Status**                  | Analysis                                     |
+| **Primary Actor**           | 플레이어                                         |
+| **Preconditions**           | 플레이어가 '메인화면' 씬에 있어야 한다.                      |
+| **Trigger**                 | 플레이어가 '게임 시작' 버튼을 클릭했을 때                     |
+| **Success Post Condition**  | 현재 씬이 '인게임'으로 전환된다.                          |
+| **Failed Post Condition**   | 실패 조건 없음                                     |
 
-| **MAIN SUCCESS SCENARIO** | |
-| :--- | :--- |
-| **Step** | **Action** |
-| S | 플레이어가 게임을 시작한다. |
-| 1 | 이 Use case는 플레이어가 메인 화면에서 '게임 시작' 버튼을 누를 때 시작된다. |
-| 2 | 시스템은 씬을 '메인 화면'에서 '인게임'으로 전환한다. |
-| 3 | 시스템은 인게임 시스템(타이머, 몬스터 스폰 등)을 초기화하고 동작시킨다. |
-| 4 | 이 Use case는 인게임 씬이 성공적으로 로드되면 종료된다. |
+| **MAIN SUCCESS SCENARIO** |                                                  |
+|:--------------------------|:-------------------------------------------------|
+| **Step**                  | **Action**                                       |
+| S                         | 플레이어가 게임을 시작한다.                                  |
+| 1                         | 이 Use case는 플레이어가 메인 화면에서 '게임 시작' 버튼을 누를 때 시작된다. |
+| 2                         | 시스템은 씬을 '메인 화면'에서 '인게임'으로 전환한다.                  |
+| 3                         | 시스템은 인게임 시스템(타이머, 몬스터 스폰 등)을 초기화하고 동작시킨다.        |
+| 4                         | 이 Use case는 인게임 씬이 성공적으로 로드되면 종료된다.              |
 
-| **RELATED INFORMATION** | |
-| :--- | :--- |
-| **Performance** | 씬 로딩 시간 ≤ 3초 |
-| **Frequency** | 세션 당 1회 |
-| **Concurrency** | |
-| **Due Date** | |
+| **RELATED INFORMATION** |              |
+|:------------------------|:-------------|
+| **Performance**         | 씬 로딩 시간 ≤ 3초 |
+| **Frequency**           | 세션 당 1회      |
+| **Concurrency**         |              |
+| **Due Date**            |              |
 
 #### Use case #[2] : [Use Case Name]
 
-| **GENERAL CHARACTERISTICS** | |
-| :--- | :--- |
-| **Summary** | (기능 요약) |
-| **Scope** | (시스템 범위, 예: 로그라이크 게임) |
-| **Level** | User level |
-| **Author** | (작성자 이름) |
-| **Last Update** | (작성일) |
-| **Status** | Analysis |
-| **Primary Actor** | (주 행위자, 예: 플레이어) |
-| **Preconditions** | (선행 조건) |
-| **Trigger** | (유스케이스 시작 계기) |
-| **Success Post Condition** | (성공 시 결과) |
-| **Failed Post Condition** | (실패 시 결과) |
+| **GENERAL CHARACTERISTICS** |                       |
+|:----------------------------|:----------------------|
+| **Summary**                 | (기능 요약)               |
+| **Scope**                   | (시스템 범위, 예: 로그라이크 게임) |
+| **Level**                   | User level            |
+| **Author**                  | (작성자 이름)              |
+| **Last Update**             | (작성일)                 |
+| **Status**                  | Analysis              |
+| **Primary Actor**           | (주 행위자, 예: 플레이어)      |
+| **Preconditions**           | (선행 조건)               |
+| **Trigger**                 | (유스케이스 시작 계기)         |
+| **Success Post Condition**  | (성공 시 결과)             |
+| **Failed Post Condition**   | (실패 시 결과)             |
 
-| **MAIN SUCCESS SCENARIO** | |
-| :--- | :--- |
-| **Step** | **Action** |
-| S | (시나리오 시작) |
-| 1 | (행위자 행동) |
-| 2 | (시스템 응답) |
-| 3 | ... |
-| 4 | (시나리오 종료) |
+| **MAIN SUCCESS SCENARIO** |            |
+|:--------------------------|:-----------|
+| **Step**                  | **Action** |
+| S                         | (시나리오 시작)  |
+| 1                         | (행위자 행동)   |
+| 2                         | (시스템 응답)   |
+| 3                         | ...        |
+| 4                         | (시나리오 종료)  |
 
-| **EXTENSION SCENARIOS** | |
-| :--- | :--- |
-| **Step** | **Branching Action** |
-| 2 | 2a. (예외 상황) <br> ...2a1. (시스템 응답) |
+| **EXTENSION SCENARIOS** |                                   |
+|:------------------------|:----------------------------------|
+| **Step**                | **Branching Action**              |
+| 2                       | 2a. (예외 상황) <br> ...2a1. (시스템 응답) |
 
-| **RELATED INFORMATION** | |
-| :--- | :--- |
-| **Performance** | (성능 요구사항) |
-| **Frequency** | (발생 빈도) |
-| **<Concurrency>** | (동시성) |
-| **Due Date** | (개발 마감일) |
+| **RELATED INFORMATION** |           |
+|:------------------------|:----------|
+| **Performance**         | (성능 요구사항) |
+| **Frequency**           | (발생 빈도)   |
+| **<Concurrency>**       | (동시성)     |
+| **Due Date**            | (개발 마감일)  |
 
 ---
 
@@ -185,21 +185,23 @@
 * **Description:** (클래스에 대한 상세 설명, 예: 예약 정보 DB)
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `[FieldName]` | (필드에 대한 설명, 예: 고유 식별자) | `[FieldType]` | `Private/Public` |
-| `currentState` | 현재 게임 상태 | `GameState` | `Private` |
-| `currentTime` | 현재 플레이 시간 | `float` | `Private` |
-| `playerManager` | 플레이어 매니저 참조 | `PlayerManager` | `Private` |
-| `...` | | | |
+
+| Name            | Description            | Type            | Visibility       |
+|:----------------|:-----------------------|:----------------|:-----------------|
+| `[FieldName]`   | (필드에 대한 설명, 예: 고유 식별자) | `[FieldType]`   | `Private/Public` |
+| `currentState`  | 현재 게임 상태               | `GameState`     | `Private`        |
+| `currentTime`   | 현재 플레이 시간              | `float`         | `Private`        |
+| `playerManager` | 플레이어 매니저 참조            | `PlayerManager` | `Private`        |
+| `...`           |                        |                 |                  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `[MethodName]([param]: [Type])` | (메서드에 대한 설명, 예: 게임 일시정지) | `[ReturnType]` | `Public/Private` |
-| `PauseGame()` | 게임을 일시정지 상태로 변경 | `void` | `Public` |
-| `UpdateGameState(deltaTime: float)` | 게임 상태를 매 프레임 갱신 | `void` | `Public` |
-| `...` | | | |
+
+| Name                                | Description              | Type (Return)  | Visibility       |
+|:------------------------------------|:-------------------------|:---------------|:-----------------|
+| `[MethodName]([param]: [Type])`     | (메서드에 대한 설명, 예: 게임 일시정지) | `[ReturnType]` | `Public/Private` |
+| `PauseGame()`                       | 게임을 일시정지 상태로 변경          | `void`         | `Public`         |
+| `UpdateGameState(deltaTime: float)` | 게임 상태를 매 프레임 갱신          | `void`         | `Public`         |
+| `...`                               |                          |                |                  |
 
 ### 3.2.1 Core Class
 
@@ -207,62 +209,68 @@
 * **Description:** Manager 클래스들을 종합 관리하는 마스터 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `currentState` | 현재 게임 상태 | `GameState` | `Private` |
-| `currentTime` | 현재 플레이 시간 | `float` | `Private` |
-| `maxTime` | 최대 플레이 시간 | `float` | `Private` |
-| `playerManager` | 플레이어 매니저 참조 | `PlayerManager` | `Private` |
-| `spawnManager` | 스폰 매니저 참조 | `SpawnManager` | `Private` |
-| `questManager` | 퀘스트 매니저 참조 | `QuestManager` | `Private` |
-| `hudManager` | HUD 매니저 참조 | `HUDManager` | `Private` |
-| `inGamePanalManager` | 인게임 씬 패널 매니저 참조 | `InGamePanelManager` | `Private` |
-| `audioManager` | 오디오 매니저 참조 | `AudioManager` | `Private` |
+
+| Name                 | Description     | Type                 | Visibility |
+|:---------------------|:----------------|:---------------------|:-----------|
+| `currentState`       | 현재 게임 상태        | `GameState`          | `Private`  |
+| `currentTime`        | 현재 플레이 시간       | `float`              | `Private`  |
+| `maxTime`            | 최대 플레이 시간       | `float`              | `Private`  |
+| `playerManager`      | 플레이어 매니저 참조     | `PlayerManager`      | `Private`  |
+| `spawnManager`       | 스폰 매니저 참조       | `SpawnManager`       | `Private`  |
+| `questManager`       | 퀘스트 매니저 참조      | `QuestManager`       | `Private`  |
+| `hudManager`         | HUD 매니저 참조      | `HUDManager`         | `Private`  |
+| `inGamePanalManager` | 인게임 씬 패널 매니저 참조 | `InGamePanelManager` | `Private`  |
+| `audioManager`       | 오디오 매니저 참조      | `AudioManager`       | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `StartGame()` | 게임 시작 | `void` | `Public` |
-| `PauseGame()` | 게임을 일시정지 상태로 변경 | `void` | `Public` |
-| `ResumeGame()` | 일시정지 상태에서 게임을 재개 | `void` | `Public` |
-| `UpdateGameState(deltaTime: float)` | 게임 상태를 매 프레임 갱신 | `void` | `Public` |
-| `GameOver()` | 게임 오버 처리 | `void` | `Public` |
-| `GameClear()` | 게임 클리어 처리 | `void` | `Public` |
-| `GoToMainMenu()` | 인게임 씬에서 메인 메뉴 씬으로 전환 | `void` | `Public` |
-| `RestartGame()` | 게임 세션을 처음부터 다시 시작 | `void` | `Public` |
+
+| Name                                | Description          | Type (Return) | Visibility |
+|:------------------------------------|:---------------------|:--------------|:-----------|
+| `StartGame()`                       | 게임 시작                | `void`        | `Public`   |
+| `PauseGame()`                       | 게임을 일시정지 상태로 변경      | `void`        | `Public`   |
+| `ResumeGame()`                      | 일시정지 상태에서 게임을 재개     | `void`        | `Public`   |
+| `UpdateGameState(deltaTime: float)` | 게임 상태를 매 프레임 갱신      | `void`        | `Public`   |
+| `GameOver()`                        | 게임 오버 처리             | `void`        | `Public`   |
+| `GameClear()`                       | 게임 클리어 처리            | `void`        | `Public`   |
+| `GoToMainMenu()`                    | 인게임 씬에서 메인 메뉴 씬으로 전환 | `void`        | `Public`   |
+| `RestartGame()`                     | 게임 세션을 처음부터 다시 시작    | `void`        | `Public`   |
 
 #### Class: [InputManager]
 * **Description:** 사용자의 입력을 관리하는 매니저 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `horizontallInput` | 수평 입력 값 | `float` | `Private` |
-| `verticalInput` | 수직 입력 값 | `float` | `Private` |
-| `pauseInput` | 일시 정지 입력 값 | `bool` | `Private` |
-| `itemUseInput` | 아이템 사용 키 입력 값 | `PlayerManager` | `Private` |
+
+| Name               | Description   | Type            | Visibility |
+|:-------------------|:--------------|:----------------|:-----------|
+| `horizontallInput` | 수평 입력 값       | `float`         | `Private`  |
+| `verticalInput`    | 수직 입력 값       | `float`         | `Private`  |
+| `pauseInput`       | 일시 정지 입력 값    | `bool`          | `Private`  |
+| `itemUseInput`     | 아이템 사용 키 입력 값 | `PlayerManager` | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `GetMovementInput()` | 플레이어 이동 입력 처리 | `Vector2` | `Public` |
-| `IsPausePressed()` | 일시 정지 입력 처리 | `bool` | `Public` |
-| `GetItemUseInput()` | 아이템 사용 키 입력 처리 | `int` | `Public` |
+
+| Name                 | Description    | Type (Return) | Visibility |
+|:---------------------|:---------------|:--------------|:-----------|
+| `GetMovementInput()` | 플레이어 이동 입력 처리  | `Vector2`     | `Public`   |
+| `IsPausePressed()`   | 일시 정지 입력 처리    | `bool`        | `Public`   |
+| `GetItemUseInput()`  | 아이템 사용 키 입력 처리 | `int`         | `Public`   |
 
 #### Class: [AudioManager]
 * **Description:** 게임의 모든 사운드를 관리하는 매니저 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `bgmClips` | 배경 음악 리스트 | `AudipClip[0..*]` | `Private` |
-| `sfxClips` | 효과음 리스트 | `AudipClip[0..*]` | `Private` |
+
+| Name       | Description | Type              | Visibility |
+|:-----------|:------------|:------------------|:-----------|
+| `bgmClips` | 배경 음악 리스트   | `AudipClip[0..*]` | `Private`  |
+| `sfxClips` | 효과음 리스트     | `AudipClip[0..*]` | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `PlayBGM(clipName: string)` | 배경 음악 재생 | `void` | `Public` |
-| `PlaySFX(clipName: string)` | 효과음 재생 | `void` | `Public` |
+
+| Name                        | Description | Type (Return) | Visibility |
+|:----------------------------|:------------|:--------------|:-----------|
+| `PlayBGM(clipName: string)` | 배경 음악 재생    | `void`        | `Public`   |
+| `PlaySFX(clipName: string)` | 효과음 재생      | `void`        | `Public`   |
 
 ### 3.2.2 Player Class
 
@@ -270,74 +278,81 @@
 * **Description:** 플레이어 객체를 관리하는 매니저 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `stats` | 플레이어의 능력치 참조 | `PlayerStats` | `Private` |
-| `equipmentManager` | 플레이어 장비 참조 | `EquipmentManager` | `Private` |
-| `itemManager` | 플레이어 아이템 참조 | `itemManager` | `Private` |
-| `level` | 플레이어 레벨 | `int` | `Private` |
-| `currentExp` | 플레이어의 현재 경험치 | `int` | `Private` |
-| `maxExp` | 플레이어의 최대 경험치 | `int` | `Private` |
-| `killCount` | 플레이어의 적 처치 수 | `int` | `Private` |
+
+| Name               | Description  | Type               | Visibility |
+|:-------------------|:-------------|:-------------------|:-----------|
+| `stats`            | 플레이어의 능력치 참조 | `PlayerStats`      | `Private`  |
+| `equipmentManager` | 플레이어 장비 참조   | `EquipmentManager` | `Private`  |
+| `itemManager`      | 플레이어 아이템 참조  | `itemManager`      | `Private`  |
+| `level`            | 플레이어 레벨      | `int`              | `Private`  |
+| `currentExp`       | 플레이어의 현재 경험치 | `int`              | `Private`  |
+| `maxExp`           | 플레이어의 최대 경험치 | `int`              | `Private`  |
+| `killCount`        | 플레이어의 적 처치 수 | `int`              | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `Move(direction: Vector2)` | 플레이어 이동 처리 | `void` | `Public` |
-| `UseItem(slotIndex: int)` | 아이템 사용 | `void` | `Public` |
-| `TakeDamage(amount: float)` | 입은 피해 처리 | `void` | `Public` |
-| `Heal(amount: float)` | Hp 회복 처리 | `void` | `Public` |
-| `GainExp(amount: int)` | 경험치 회복 | `void` | `Public` |
-| `LevelUp()` | 레벨 증가 | `void` | `Public` |
-| `Die()` | 플레이어 사망 처리 | `void` | `Public` |
-| `AddEquipment(equipmentData: EquipmentData)` | 플레이어 장비 추가 | `void` | `Public` |
+
+| Name                                         | Description | Type (Return) | Visibility |
+|:---------------------------------------------|:------------|:--------------|:-----------|
+| `Move(direction: Vector2)`                   | 플레이어 이동 처리  | `void`        | `Public`   |
+| `UseItem(slotIndex: int)`                    | 아이템 사용      | `void`        | `Public`   |
+| `TakeDamage(amount: float)`                  | 입은 피해 처리    | `void`        | `Public`   |
+| `Heal(amount: float)`                        | Hp 회복 처리    | `void`        | `Public`   |
+| `GainExp(amount: int)`                       | 경험치 회복      | `void`        | `Public`   |
+| `LevelUp()`                                  | 레벨 증가       | `void`        | `Public`   |
+| `Die()`                                      | 플레이어 사망 처리  | `void`        | `Public`   |
+| `AddEquipment(equipmentData: EquipmentData)` | 플레이어 장비 추가  | `void`        | `Public`   |
 
 #### Class: [PlayerStats]
 * **Description:** 플레이어의 능력치를 관리하는 데이터 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `Hp` | 체력 | `float` | `Private` |
-| `speed` | 이동 속도 | `float` | `Private` |
-| `magnetRange` | 드랍 오브젝트 획득 범위 | `float` | `Private` |
-| `reduceDamage` | 입는 피해 감소 | `float` | `Private` |
-| `damageMult` | 입히는 피해 배수 | `float` | `Private` |
-| `ciriticalProbability` | 치명타 확률 | `float` | `Private` |
-| `criticalDamageMult` | 치명타 피해 배율 | `float` | `Private` |
-| `expMult` | 획득 경험치 배율 | `float` | `Private` |
-| `goldMult` | 획득 재화 배율 | `float` | `Private` |
-| `reduceCooldownMult` | 장비 쿨다운 감소 배율 | `float` | `Private` |
-| `projectileSpeedMult` | 투사체 속도 배율 | `float` | `Private` |
+
+| Name                   | Description   | Type    | Visibility |
+|:-----------------------|:--------------|:--------|:-----------|
+| `Hp`                   | 체력            | `float` | `Private`  |
+| `speed`                | 이동 속도         | `float` | `Private`  |
+| `magnetRange`          | 드랍 오브젝트 획득 범위 | `float` | `Private`  |
+| `reduceDamage`         | 입는 피해 감소      | `float` | `Private`  |
+| `damageMult`           | 입히는 피해 배수     | `float` | `Private`  |
+| `ciriticalProbability` | 치명타 확률        | `float` | `Private`  |
+| `criticalDamageMult`   | 치명타 피해 배율     | `float` | `Private`  |
+| `expMult`              | 획득 경험치 배율     | `float` | `Private`  |
+| `goldMult`             | 획득 재화 배율      | `float` | `Private`  |
+| `reduceCooldownMult`   | 장비 쿨다운 감소 배율  | `float` | `Private`  |
+| `projectileSpeedMult`  | 투사체 속도 배율     | `float` | `Private`  |
 
 
 #### Class: [EquipmentManager]
 * **Description:** 플레이어의 장비를 관리하는 매니저 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `currentEquips` | 보유 장비 리스트 | `List<Equipment>[0..5]` | `Private` |
+
+| Name            | Description | Type                    | Visibility |
+|:----------------|:------------|:------------------------|:-----------|
+| `currentEquips` | 보유 장비 리스트   | `List<Equipment>[0..5]` | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `UpdateAllEquipments(deltaTime: float)` | 장비의 쿨다운, 자동 공격 갱신 | `void` | `Public` |
-| `AddOrLevelUpEquipment(equipmentData: EquipmentData)` | 장비 획득 처리 | `void` | `Public` |
+
+| Name                                                  | Description       | Type (Return) | Visibility |
+|:------------------------------------------------------|:------------------|:--------------|:-----------|
+| `UpdateAllEquipments(deltaTime: float)`               | 장비의 쿨다운, 자동 공격 갱신 | `void`        | `Public`   |
+| `AddOrLevelUpEquipment(equipmentData: EquipmentData)` | 장비 획득 처리          | `void`        | `Public`   |
 
 #### Class: [ItemManager]
 * **Description:** 플레이어의 아이템을 관리하는 매니저 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `currentItems` | 보유 장비 리스트 | `List<Item>[0..2]` | `Private` |
+
+| Name           | Description | Type               | Visibility |
+|:---------------|:------------|:-------------------|:-----------|
+| `currentItems` | 보유 장비 리스트   | `List<Item>[0..2]` | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `ActivateItem(slotIndex: int)` | 아이템 사용 | `void` | `Public` |
-| `UpdateAllItemCooldowns(deltaTime: float)` | 아이템 쿨다운 갱신 | `void` | `Public` |
+
+| Name                                       | Description | Type (Return) | Visibility |
+|:-------------------------------------------|:------------|:--------------|:-----------|
+| `ActivateItem(slotIndex: int)`             | 아이템 사용      | `void`        | `Public`   |
+| `UpdateAllItemCooldowns(deltaTime: float)` | 아이템 쿨다운 갱신  | `void`        | `Public`   |
 
 ### 3.2.3 UI Class
 
@@ -345,121 +360,134 @@
 * **Description:** 인게임 씬의 실시간 정보 인터페이스를 관리하는 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `hpBar` | 플레이어의 체력 바 | `Slider` | `Private` |
-| `expBar` | 플레이어의 경험치 바 | `Slider` | `Private` |
-| `bossHpBar` | 보스 몬스터의 체력 바 | `Slider` | `Private` |
-| `timerText    ` | 게임이 진행된 시간 텍스트 | `TextMeshProUGUI` | `Private` |
-| `goldText` | 보유 중인 재화 텍스트 | `TextMeshProUGUI` | `Private` |
-| `killCountText` | 처치한 적의 수 텍스트 | `TextMeshProUGUI` | `Private` |
-| `questInfoPanel` | 돌발 이벤트의 정보 패널 | `GameObject` | `Private` |
+
+| Name             | Description    | Type              | Visibility |
+|:-----------------|:---------------|:------------------|:-----------|
+| `hpBar`          | 플레이어의 체력 바     | `Slider`          | `Private`  |
+| `expBar`         | 플레이어의 경험치 바    | `Slider`          | `Private`  |
+| `bossHpBar`      | 보스 몬스터의 체력 바   | `Slider`          | `Private`  |
+| `timerText    `  | 게임이 진행된 시간 텍스트 | `TextMeshProUGUI` | `Private`  |
+| `goldText`       | 보유 중인 재화 텍스트   | `TextMeshProUGUI` | `Private`  |
+| `killCountText`  | 처치한 적의 수 텍스트   | `TextMeshProUGUI` | `Private`  |
+| `questInfoPanel` | 돌발 이벤트의 정보 패널  | `GameObject`      | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `UpdateHpBar(current: float, max: float)` | 체력 바 갱신 | `void` | `Public` |
-| `UpdateExpBar(current: float, max: float)` | 경험치 바 갱신 | `void` | `Public` |
-| `UpdateTimer(time: float)` | 시간 텍스트 갱신 | `void` | `Public` |
-| `UpdateGold(amount: float)` | 보유 재화 텍스트 갱신 | `void` | `Public` |
-| `ShowBossHpBar(current: float, max: float)` | 보스 체력 바 표시 | `void` | `Public` |
-| `ToggleQuestInfo(show: bool, description: string)` | 돌발 이벤트 정보 표시 | `void` | `Public` |
+
+| Name                                               | Description  | Type (Return) | Visibility |
+|:---------------------------------------------------|:-------------|:--------------|:-----------|
+| `UpdateHpBar(current: float, max: float)`          | 체력 바 갱신      | `void`        | `Public`   |
+| `UpdateExpBar(current: float, max: float)`         | 경험치 바 갱신     | `void`        | `Public`   |
+| `UpdateTimer(time: float)`                         | 시간 텍스트 갱신    | `void`        | `Public`   |
+| `UpdateGold(amount: float)`                        | 보유 재화 텍스트 갱신 | `void`        | `Public`   |
+| `ShowBossHpBar(current: float, max: float)`        | 보스 체력 바 표시   | `void`        | `Public`   |
+| `ToggleQuestInfo(show: bool, description: string)` | 돌발 이벤트 정보 표시 | `void`        | `Public`   |
 
 #### Class: [InGamePanelManager]
 * **Description:** 인게임 씬의 패널 UI를 관리하는 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `rewardPanel` | 보상 패널 | `GameObject` | `Private` |
-| `pausePanel` | 일시 정지 패널 | `GameObject` | `Private` |
-| `gameOverPanel` | 게임 오버 패널 | `GameObject` | `Private` |
-| `gameClearPanel` | 게임 클리어 패널 | `GameObject` | `Private` |
+
+| Name             | Description | Type         | Visibility |
+|:-----------------|:------------|:-------------|:-----------|
+| `rewardPanel`    | 보상 패널       | `GameObject` | `Private`  |
+| `pausePanel`     | 일시 정지 패널    | `GameObject` | `Private`  |
+| `gameOverPanel`  | 게임 오버 패널    | `GameObject` | `Private`  |
+| `gameClearPanel` | 게임 클리어 패널   | `GameObject` | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `ShowRewardPanel(show: bool)` | 보상 패널 호출 | `void` | `Public` |
-| `ShowPausePanel(show: bool)` | 일시 정지 패널 호출 | `void` | `Public` |
-| `ShowGameOverPanel(show: bool)` | 게임 오버 패널 호출 | `void` | `Public` |
-| `ShowGameClearPanel(show: bool)` | 게임 클리어 패널 호출 | `void` | `Public` |
+
+| Name                             | Description  | Type (Return) | Visibility |
+|:---------------------------------|:-------------|:--------------|:-----------|
+| `ShowRewardPanel(show: bool)`    | 보상 패널 호출     | `void`        | `Public`   |
+| `ShowPausePanel(show: bool)`     | 일시 정지 패널 호출  | `void`        | `Public`   |
+| `ShowGameOverPanel(show: bool)`  | 게임 오버 패널 호출  | `void`        | `Public`   |
+| `ShowGameClearPanel(show: bool)` | 게임 클리어 패널 호출 | `void`        | `Public`   |
 
 #### Class: [RewardManager]
 * **Description:** 보상 시스템을 관리하는 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `rerollCount` | 현재 새로고침 횟수 | `int` | `Private` |
-| `rerollPrice` | 새로고침 비용 | `int` | `Private` |
+
+| Name          | Description | Type  | Visibility |
+|:--------------|:------------|:------|:-----------|
+| `rerollCount` | 현재 새로고침 횟수  | `int` | `Private`  |
+| `rerollPrice` | 새로고침 비용     | `int` | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `GenerateRewards()` | 보상 선택지 생성 | `void` | `Public` |
-| `OnRewardSelected(data: EquipmentData)` | 보상 선택 | `void` | `Public` |
-| `OnRerollPressed()` | 보상 선택지 새로고침 | `void` | `Public` |
-| `OnSkipPressed()` | 보상 안 받고 넘기기 | `void` | `Public` |
+
+| Name                                    | Description | Type (Return) | Visibility |
+|:----------------------------------------|:------------|:--------------|:-----------|
+| `GenerateRewards()`                     | 보상 선택지 생성   | `void`        | `Public`   |
+| `OnRewardSelected(data: EquipmentData)` | 보상 선택       | `void`        | `Public`   |
+| `OnRerollPressed()`                     | 보상 선택지 새로고침 | `void`        | `Public`   |
+| `OnSkipPressed()`                       | 보상 안 받고 넘기기 | `void`        | `Public`   |
 
 #### Class: [MainMenuPanelManager]
 * **Description:** 메인 메뉴 씬의 패널 UI를 관리하는 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `upgradePanel` | 캐릭터 영구 강화 패널 | `GameObject` | `Private` |
-| `codexPanel` | 도감 패널 | `GameObject` | `Private` |
-| `settingPanel` | 설정 화면 패널 | `GameObject` | `Private` |
+
+| Name           | Description  | Type         | Visibility |
+|:---------------|:-------------|:-------------|:-----------|
+| `upgradePanel` | 캐릭터 영구 강화 패널 | `GameObject` | `Private`  |
+| `codexPanel`   | 도감 패널        | `GameObject` | `Private`  |
+| `settingPanel` | 설정 화면 패널     | `GameObject` | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `ShowUpgradePanel(show: bool)` | 캐릭터 영구 강화 패널 호출 | `void` | `Public` |
-| `ShowCodexPanel(show: bool)` | 도감 패널 호출 | `void` | `Public` |
-| `ShowSettingsPanel(show: bool)` | 설정 화면 패널 호출 | `void` | `Public` |
+
+| Name                            | Description     | Type (Return) | Visibility |
+|:--------------------------------|:----------------|:--------------|:-----------|
+| `ShowUpgradePanel(show: bool)`  | 캐릭터 영구 강화 패널 호출 | `void`        | `Public`   |
+| `ShowCodexPanel(show: bool)`    | 도감 패널 호출        | `void`        | `Public`   |
+| `ShowSettingsPanel(show: bool)` | 설정 화면 패널 호출     | `void`        | `Public`   |
 
 #### Class: [UpgradeManager]
 * **Description:** 캐릭터 능력치 영구 강화를 관리하는 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `hpUpgrade` | 체력 강화 단계 | `int` | `Private` |
-| `speedUpgrade` | 이동 속도 강화 단계 | `int` | `Private` |
-| ... |
+
+| Name           | Description | Type  | Visibility |
+|:---------------|:------------|:------|:-----------|
+| `hpUpgrade`    | 체력 강화 단계    | `int` | `Private`  |
+| `speedUpgrade` | 이동 속도 강화 단계 | `int` | `Private`  |
+| ...            |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `UpgradeStat(statToUpgrade: StatType)` | 능력치 강화 | `void` | `Public` |
-| `GetUpgradeCose(statToUpgrade: StatType)` | 능력치 강화 비용 계산 | `void` | `Public` |
-| `ApplyAllUpgrades(stats: PlayerStats)` | 강화된 능력치 인게임 적용 | `void` | `Public` |
+
+| Name                                      | Description    | Type (Return) | Visibility |
+|:------------------------------------------|:---------------|:--------------|:-----------|
+| `UpgradeStat(statToUpgrade: StatType)`    | 능력치 강화         | `void`        | `Public`   |
+| `GetUpgradeCose(statToUpgrade: StatType)` | 능력치 강화 비용 계산   | `void`        | `Public`   |
+| `ApplyAllUpgrades(stats: PlayerStats)`    | 강화된 능력치 인게임 적용 | `void`        | `Public`   |
 
 #### Class: [CodexManager]
 * **Description:** 도감 메뉴를 관리하는 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `monsterList` | 조우한 몬스터 리스트 | `List<MonsterData>[0..*]` | `Private` |
-| `equipmentList` | 획득 이력이 있는 장비 리스트 | `List<EquipmentData>[0..*]` | `Private` |
-| `itemList` | 획득 이력이 있는 아이템 리스트 | `List<ItemData>[0..*]` | `Private` |
+
+| Name            | Description       | Type                        | Visibility |
+|:----------------|:------------------|:----------------------------|:-----------|
+| `monsterList`   | 조우한 몬스터 리스트       | `List<MonsterData>[0..*]`   | `Private`  |
+| `equipmentList` | 획득 이력이 있는 장비 리스트  | `List<EquipmentData>[0..*]` | `Private`  |
+| `itemList`      | 획득 이력이 있는 아이템 리스트 | `List<ItemData>[0..*]`      | `Private`  |
 
 #### Class: [SettingManager]
 * **Description:** 설정 메뉴를 관리하는 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `masterVolume` | 마스터 불륨 | `float` | `Private` |
-| `resolutionIndex` | 해상도 | `int` | `Private` |
-| `isFullScreen` | 전체 화면 여부 | `bool` | `Private` |
+
+| Name              | Description | Type    | Visibility |
+|:------------------|:------------|:--------|:-----------|
+| `masterVolume`    | 마스터 불륨      | `float` | `Private`  |
+| `resolutionIndex` | 해상도         | `int`   | `Private`  |
+| `isFullScreen`    | 전체 화면 여부    | `bool`  | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `SetMasterVolume(level: float)` | 불륨 설정 | `void` | `Public` |
-| `ApplyResolution(index: int)` | 해상도 설정 | `void` | `Public` |
+
+| Name                            | Description | Type (Return) | Visibility |
+|:--------------------------------|:------------|:--------------|:-----------|
+| `SetMasterVolume(level: float)` | 불륨 설정       | `void`        | `Public`   |
+| `ApplyResolution(index: int)`   | 해상도 설정      | `void`        | `Public`   |
 
 ### 3.2.4 Data Class
 
@@ -467,87 +495,97 @@
 * **Description:** 모든 장비가 상속받는 추상 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `level` | 장비 레벨 | `int` | `Private` |
-| `cooldown` | 쿨다운 | `float` | `Private` |
+
+| Name       | Description | Type    | Visibility |
+|:-----------|:------------|:--------|:-----------|
+| `level`    | 장비 레벨       | `int`   | `Private`  |
+| `cooldown` | 쿨다운         | `float` | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `PerformAttack()` | 자동 공격 | `void` | `Public` |
-| `LevelUp()` | 장비 레벨 증가 | `void` | `Public` |
-| `UpdateCooldown(deltaTime: float)` | 쿨다운 갱신 | `void` | `Public` |
+
+| Name                               | Description | Type (Return) | Visibility |
+|:-----------------------------------|:------------|:--------------|:-----------|
+| `PerformAttack()`                  | 자동 공격       | `void`        | `Public`   |
+| `LevelUp()`                        | 장비 레벨 증가    | `void`        | `Public`   |
+| `UpdateCooldown(deltaTime: float)` | 쿨다운 갱신      | `void`        | `Public`   |
 
 #### Class: [Item]
 * **Description:** 모든 아이템이 상속받는 추상 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `durability` | 최대 사용 횟수 | `int` | `Private` |
-| `cooldown` | 쿨다운 | `float` | `Private` |
+
+| Name         | Description | Type    | Visibility |
+|:-------------|:------------|:--------|:-----------|
+| `durability` | 최대 사용 횟수    | `int`   | `Private`  |
+| `cooldown`   | 쿨다운         | `float` | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `Activate()` | 아이템 사용 | `void` | `Public` |
-| `UpdateCooldown(deltaTime: float)` | 쿨다운 갱신 | `void` | `Public` |
+
+| Name                               | Description | Type (Return) | Visibility |
+|:-----------------------------------|:------------|:--------------|:-----------|
+| `Activate()`                       | 아이템 사용      | `void`        | `Public`   |
+| `UpdateCooldown(deltaTime: float)` | 쿨다운 갱신      | `void`        | `Public`   |
 
 #### Class: [EquipmentData]
 * **Description:** 장비의 이름, 설명, 아이콘 정보를 담는 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `name` | 이름 | `string` | `Private` |
-| `description` | 설명 | `string` | `Private` |
-| `icon` | 장비 스프라이트 | `Sprite` | `Private` |
+
+| Name          | Description | Type     | Visibility |
+|:--------------|:------------|:---------|:-----------|
+| `name`        | 이름          | `string` | `Private`  |
+| `description` | 설명          | `string` | `Private`  |
+| `icon`        | 장비 스프라이트    | `Sprite` | `Private`  |
 
 #### Class: [ItemData]
 * **Description:** 아이템의 이름, 설명, 아이콘 정보를 담는 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `name` | 이름 | `string` | `Private` |
-| `description` | 설명 | `string` | `Private` |
-| `icon` | 아이템 스프라이트 | `Sprite` | `Private` |
+
+| Name          | Description | Type     | Visibility |
+|:--------------|:------------|:---------|:-----------|
+| `name`        | 이름          | `string` | `Private`  |
+| `description` | 설명          | `string` | `Private`  |
+| `icon`        | 아이템 스프라이트   | `Sprite` | `Private`  |
 
 #### Class: [MonsterData]
 * **Description:** 몬스터의 이름, 설명, 외형 정보를 담는 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `name` | 이름 | `string` | `Private` |
-| `description` | 설명 | `string` | `Private` |
-| `icon` | 몬스터 스프라이트 | `Sprite` | `Private` |
+
+| Name          | Description | Type     | Visibility |
+|:--------------|:------------|:---------|:-----------|
+| `name`        | 이름          | `string` | `Private`  |
+| `description` | 설명          | `string` | `Private`  |
+| `icon`        | 몬스터 스프라이트   | `Sprite` | `Private`  |
 
 #### Class: [Projectile]
 * **Description:** 투사체의 정보를 담는 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `genTime` | 객체가 생성된 시간 | `float` | `Private` |
-| `maxTime` | 객체가 소멸하는 시간 | `float` | `Private` |
-| `damage` | 투사체 피해량 | `float` | `Private` |
+
+| Name      | Description | Type    | Visibility |
+|:----------|:------------|:--------|:-----------|
+| `genTime` | 객체가 생성된 시간  | `float` | `Private`  |
+| `maxTime` | 객체가 소멸하는 시간 | `float` | `Private`  |
+| `damage`  | 투사체 피해량     | `float` | `Private`  |
 
 #### Class: [BaseQuest]
 * **Description:** 모든 돌발 이벤트가 상속받는 추상 클래스
 
 **Attributes (속성)**
-| Name | Description | Type | Visibility |
-| :--- | :--- | :--- | :--- |
-| `questTimer` | 이벤트 지속 시간 | `float` | `Private` |
+
+| Name         | Description | Type    | Visibility |
+|:-------------|:------------|:--------|:-----------|
+| `questTimer` | 이벤트 지속 시간   | `float` | `Private`  |
 
 **Operations (메서드)**
-| Name | Description | Type (Return) | Visibility |
-| :--- | :--- | :--- | :--- |
-| `Start()` | 이벤트 시작 | `void` | `Public` |
-| `UpdateQuest()` | 이벤트 완료 여부 갱신 | `void` | `Public` |
-| `End()` | 이벤트 종료 | `void` | `Public` |
+
+| Name            | Description  | Type (Return) | Visibility |
+|:----------------|:-------------|:--------------|:-----------|
+| `Start()`       | 이벤트 시작       | `void`        | `Public`   |
+| `UpdateQuest()` | 이벤트 완료 여부 갱신 | `void`        | `Public`   |
+| `End()`         | 이벤트 종료       | `void`        | `Public`   |
 
 ---
 
