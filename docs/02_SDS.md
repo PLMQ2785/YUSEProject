@@ -460,6 +460,77 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Concurrency**         | 제한 없음        |
 | **Due Date**            |              |
 
+#### Use case #[14] : 게임을 재시작한다
+
+| **GENERAL CHARACTERISTICS** | |
+| :--- | :--- |
+| **Summary** | 플레이어가 결과 화면에서 다시 게임씬으로 가는 기능 |
+| **Scope** | Game system |
+| **Level** | User level |
+| **Author** | 김도경 |
+| **Last Update** | 2025. 11. 06 |
+| **Status** | Analysis |
+| **Primary Actor** | 플레이어 |
+| **Preconditions** | 게임 오버나 게임 클리어  결과 화면이어야 한다. |
+| **Trigger** | 플레이어가 '재시작' 버튼을 클릭했을 때 |
+| **Success Post Condition** | 게임 씬으로 다시 들어간다.|
+| **Failed Post Condition** | 실패 조건 없음 |
+
+| **MAIN SUCCESS SCENARIO** | |
+| :--- | :--- |
+| **Step** | **Action** |
+| S | 플레이어가 게임이 끝나 결과 화면을 본다. |
+| 1 | 이 Use case는 플레이어가 결과 화면의 '재시작'버튼을 누르면 시작된다. |
+| 2 | 게임 씬으로 다시 들어간다.|
+| 3 | 이 Use case는 성공적으로 게임씬으로 다시 들어가면 종료된다.|
+
+| **EXTENSION SCENARIOS** | |
+| :--- | :--- |
+| **Step** | **Branching Action** |
+| -| - |
+
+| **RELATED INFORMATION** | |
+| :--- | :--- |
+| **Performance** | 씬 로딩 시간 ≤ 3초 |
+| **Frequency** | 세션 당 1회 |
+| **Concurrency** |none |
+| **Due Date** | |
+
+#### Use case #[15] : 메인화면으로 돌아간다.
+
+| **GENERAL CHARACTERISTICS** | |
+| :--- | :--- |
+| **Summary** | 게임씬에서 메인 화면으로 넘어가는 기능 |
+| **Scope** | Game system |
+| **Level** | User level |
+| **Author** | 김도경 |
+| **Last Update** | 2025.11.06 |
+| **Status** | Analysis |
+| **Primary Actor** | 플레이어 |
+| **Preconditions** | 게임 오버나 게임 클리어  결과 화면이어야 한다. |
+| **Trigger** | 결과 화면에서 '메인 화면' 버튼을 누른다 |
+| **Success Post Condition** | 메인 화면으로 돌아간다. |
+| **Failed Post Condition** | 실패 조건 없음 |
+
+| **MAIN SUCCESS SCENARIO** | |
+| :--- | :--- |
+| **Step** | **Action** |
+| S | 플레이어가 게임이 끝나 결과 화면을 본다.
+| 1 | 이 Use case는 플레이어가 결과 화면의 '메인 화면'버튼을 누르면 시작된다.
+| 2 | 메인 화면으로 돌아간다. |
+| 3 |이 Use case는 성공적으로 메인 화면으로 돌아가면 종료된다. |
+
+| **EXTENSION SCENARIOS** | |
+| :--- | :--- |
+| **Step** | **Branching Action** |
+| -| - |
+
+| **RELATED INFORMATION** | |
+| :--- | :--- |
+| **Performance** | 메인 화면 로딩 시간 ≤ 3seconds |
+| **Frequency** | 게임이 끝날 때 마다 한번 |
+| **Concurrency** | none|
+| **Due Date** |  |
 ---
 
 ## 3. Class diagram
@@ -1105,7 +1176,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 ![GameClear](imgs/UI_Prototype/Game_Clear.png)
 
 
-&ensp;상단 중앙에 클리어 메시지를 출력하여 게임이 끝났다는 것을 알려준다. 좌측에는 플레이한 캐릭터의 이미지와 장착한 장비들을 보여준다. 우측에는 플레이한 시간, 획득한 재화 그리고 처치한 몬스터의 수를 보여준다. 통계 보기 버튼을 누르면 통계 창으로 넘어간다. 하단의 재시작 버튼을 누르면 게임을 처음부터 다시 시작한다. 메인 화면 버튼을 누르면 메인 화면으로 넘어간다.
+&ensp;상단 중앙에 클리어 메시지를 출력하여 게임이 끝났다는 것을 알려준다. 좌측에는 플레이한 캐릭터의 이미지와 장착한 장비들을 보여준다. 우측에는 플레이한 시간, 획득한 재화 그리고 처치한 몬스터의 수를 보여준다. 하단의 재시작 버튼을 누르면 게임을 처음부터 다시 시작한다. 메인 화면 버튼을 누르면 메인 화면으로 넘어간다.
 
 
 ### 6.17 게임 오버 화면
@@ -1116,13 +1187,6 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 &ensp;상단 중앙에 ‘플레이어를 죽인 몹에게 죽었습니다.’ 메시지를 출력한다. 나머지는 클리어 UI와 동일하다.
 
-### 6.18 게임 통계 화면 
-*아래 [그림 6-18]은 '게임 클리어'나 '게임 오버' UI에서 '통계 보기' 버튼을 눌렀을 때 나타나는 상세 통계 UI 프로토타입입니다.
-
-![GameOver](imgs/UI_Prototype/Game_statistics.png)
-
-
-&ensp;통계화면은 '적에게 준 총 데미지', '처치한 몬스터 수', '획득한 재화 수', '받은 피해량' 등과 같이 게임 플레이 중에 집계된 여러 통계 자료의 정확한 수치들을 자세히 보여줍니다.
 
 ---
 
