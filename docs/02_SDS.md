@@ -228,7 +228,6 @@
 
 ![state machine diagram](imgs/StateDiagram.png)
 
-    [그림 5-1] - State machine diagram
 
 * 각 State는 게임에서 어떤 Scene을 보여주고 있는지에 대한 상태이고, Game Scene 내에서는 플레이어의 행동에 따라 캐릭터의 상태가 어떻게 바뀌는지 나타낸다.
 
