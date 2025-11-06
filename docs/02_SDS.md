@@ -173,7 +173,7 @@
 
 ### 3.1 Class Diagram
 
-![Class Diagram](imgs/classDiagram.png)
+![Class Diagram](imgs/classDiagram.jpg)
 
 설명
 
