@@ -586,7 +586,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | `spawnManager`       | 스폰 매니저 참조       | `SpawnManager`       | `Private`  |
 | `questManager`       | 퀘스트 매니저 참조      | `QuestManager`       | `Private`  |
 | `hudManager`         | HUD 매니저 참조      | `HUDManager`         | `Private`  |
-| `inGamePanalManager` | 인게임 씬 패널 매니저 참조 | `InGamePanelManager` | `Private`  |
+| `inGamePanelManager` | 인게임 씬 패널 매니저 참조 | `InGamePanelManager` | `Private`  |
 | `audioManager`       | 오디오 매니저 참조      | `AudioManager`       | `Private`  |
 
 **Operations (메서드)**
@@ -609,10 +609,10 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 | Name               | Description   | Type            | Visibility |
 |:-------------------|:--------------|:----------------|:-----------|
-| `horizontallInput` | 수평 입력 값       | `float`         | `Private`  |
+| `horizontalInput` | 수평 입력 값       | `float`         | `Private`  |
 | `verticalInput`    | 수직 입력 값       | `float`         | `Private`  |
 | `pauseInput`       | 일시 정지 입력 값    | `bool`          | `Private`  |
-| `itemUseInput`     | 아이템 사용 키 입력 값 | `PlayerManager` | `Private`  |
+| `itemUseInput`     | 아이템 사용 키 입력 값 | `bool` | `Private`  |
 
 **Operations (메서드)**
 
@@ -660,7 +660,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | `TryStartRandomQuest(gameTime:float)` | 돌발 이벤트 활성화 시도 | `void`        | `Public`   |
 | `StartQuest(quest: BaseQuest)`        | 돌발 이벤트 시작     | `void`        | `Public`   |
 | `UpdateCurrentQuest()`                | 이벤트 완료 여부 검사  | `void`        | `Public`   |
-| `EndQuest()`                          | 이벤트 완료 처리     | `Vector2`     | `Public`   |
+| `EndQuest()`                          | 이벤트 완료 처리     | `void`     | `Public`   |
 
 #### Class: [AudioManager]
 * **Description:** 게임의 모든 사운드를 관리하는 매니저 클래스
@@ -669,8 +669,8 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 | Name       | Description | Type              | Visibility |
 |:-----------|:------------|:------------------|:-----------|
-| `bgmClips` | 배경 음악 리스트   | `AudipClip[0..*]` | `Private`  |
-| `sfxClips` | 효과음 리스트     | `AudipClip[0..*]` | `Private`  |
+| `bgmClips` | 배경 음악 리스트   | `AudioClip[0..*]` | `Private`  |
+| `sfxClips` | 효과음 리스트     | `AudioClip[0..*]` | `Private`  |
 
 **Operations (메서드)**
 
@@ -690,7 +690,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 |:-------------------|:-------------|:-------------------|:-----------|
 | `stats`            | 플레이어의 능력치 참조 | `PlayerStats`      | `Private`  |
 | `equipmentManager` | 플레이어 장비 참조   | `EquipmentManager` | `Private`  |
-| `itemManager`      | 플레이어 아이템 참조  | `itemManager`      | `Private`  |
+| `itemManager`      | 플레이어 아이템 참조  | `ItemManager`      | `Private`  |
 | `level`            | 플레이어 레벨      | `int`              | `Private`  |
 | `currentExp`       | 플레이어의 현재 경험치 | `int`              | `Private`  |
 | `maxExp`           | 플레이어의 최대 경험치 | `int`              | `Private`  |
@@ -721,7 +721,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | `magnetRange`          | 드랍 오브젝트 획득 범위 | `float` | `Private`  |
 | `reduceDamage`         | 입는 피해 감소      | `float` | `Private`  |
 | `damageMult`           | 입히는 피해 배수     | `float` | `Private`  |
-| `ciriticalProbability` | 치명타 확률        | `float` | `Private`  |
+| `criticalProbability` | 치명타 확률        | `float` | `Private`  |
 | `criticalDamageMult`   | 치명타 피해 배율     | `float` | `Private`  |
 | `expMult`              | 획득 경험치 배율     | `float` | `Private`  |
 | `goldMult`             | 획득 재화 배율      | `float` | `Private`  |
@@ -773,7 +773,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | `hpBar`          | 플레이어의 체력 바     | `Slider`          | `Private`  |
 | `expBar`         | 플레이어의 경험치 바    | `Slider`          | `Private`  |
 | `bossHpBar`      | 보스 몬스터의 체력 바   | `Slider`          | `Private`  |
-| `timerText    `  | 게임이 진행된 시간 텍스트 | `TextMeshProUGUI` | `Private`  |
+| `timerText`      | 게임이 진행된 시간 텍스트 | `TextMeshProUGUI` | `Private`  |
 | `goldText`       | 보유 중인 재화 텍스트   | `TextMeshProUGUI` | `Private`  |
 | `killCountText`  | 처치한 적의 수 텍스트   | `TextMeshProUGUI` | `Private`  |
 | `questInfoPanel` | 돌발 이벤트의 정보 패널  | `GameObject`      | `Private`  |
@@ -785,7 +785,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | `UpdateHpBar(current: float, max: float)`          | 체력 바 갱신      | `void`        | `Public`   |
 | `UpdateExpBar(current: float, max: float)`         | 경험치 바 갱신     | `void`        | `Public`   |
 | `UpdateTimer(time: float)`                         | 시간 텍스트 갱신    | `void`        | `Public`   |
-| `UpdateGold(amount: float)`                        | 보유 재화 텍스트 갱신 | `void`        | `Public`   |
+| `UpdateGold(amount: int)`                        | 보유 재화 텍스트 갱신 | `void`        | `Public`   |
 | `ShowBossHpBar(current: float, max: float)`        | 보스 체력 바 표시   | `void`        | `Public`   |
 | `ToggleQuestInfo(show: bool, description: string)` | 돌발 이벤트 정보 표시 | `void`        | `Public`   |
 
@@ -868,7 +868,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | Name                                      | Description    | Type (Return) | Visibility |
 |:------------------------------------------|:---------------|:--------------|:-----------|
 | `UpgradeStat(statToUpgrade: StatType)`    | 능력치 강화         | `void`        | `Public`   |
-| `GetUpgradeCose(statToUpgrade: StatType)` | 능력치 강화 비용 계산   | `void`        | `Public`   |
+| `GetUpgradeCost(statToUpgrade: StatType)` | 능력치 강화 비용 계산   | `void`        | `Public`   |
 | `ApplyAllUpgrades(stats: PlayerStats)`    | 강화된 능력치 인게임 적용 | `void`        | `Public`   |
 
 #### Class: [CodexManager]
@@ -879,7 +879,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | Name            | Description       | Type                        | Visibility |
 |:----------------|:------------------|:----------------------------|:-----------|
 | `monsterList`   | 조우한 몬스터 리스트       | `List<MonsterData>[0..*]`   | `Private`  |
-| `equipmentList` | 획득 이력이 있는 장비 리스트  | `List<EquipmentData>[0..*]` | `Private`  |
+| `equipList` | 획득 이력이 있는 장비 리스트  | `List<EquipmentData>[0..*]` | `Private`  |
 | `itemList`      | 획득 이력이 있는 아이템 리스트 | `List<ItemData>[0..*]`      | `Private`  |
 
 #### Class: [SettingManager]
@@ -997,6 +997,102 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | `Start()`       | 이벤트 시작       | `void`        | `Public`   |
 | `UpdateQuest()` | 이벤트 완료 여부 갱신 | `void`        | `Public`   |
 | `End()`         | 이벤트 종료       | `void`        | `Public`   |
+
+#### Class: [DefenceQuest]
+* **Description:** 특정 시간동안 거점을 방어하는 돌발 이벤트를 정의하는 클래스
+
+**Attributes (속성)**
+
+| Name         | Description | Type    | Visibility |
+|:-------------|:------------|:--------|:-----------|
+| `objectHp`   |  방어 대상 체력  | `float` | `Public`  |
+
+
+### 3.2.5 Monster Class
+
+#### Class: [Monster]
+* **Description:** 모든 몬스터의 기본 속성과 행동을 정의하는 추상 클래스
+
+**Attributes (속성)**
+
+| Name            | Description     | Type    | Visibility |
+|:----------------|:--------------- |:--------|:-----------|
+| `maxHp`         |  최대 체력       | `float` | `Public`   |
+| `currentHp`     |  현재 체력       | `float` | `Public`   |
+| `damage`        |  공격력          | `float` | `Public`   |
+| `moveSpeed`     |  이동 속도       | `float` | `Public`   |
+| `dropExpAmount` |  드롭할 경험치 양 | `int`   | `Public`   |
+
+**Operations (메서드)**
+
+| Name                                                            | Description          | Type (Return) | Visibility |
+|:----------------------------------------------------------------|:---------------------|:--------------|:-----------|
+| `Move(targetPosition: Vector2)`                                 | 대상 위치로 이동       | `void`        | `Public`   |
+| `TakeDamage(amount: float)`                                     | 피해를 입음           | `void`        | `Public`   |
+| `Die()`                                                         | 사망 처리             | `void`        | `Public`   |
+| `PerformAttack(target: PlayerManager)`                          | 플레이어 공격          | `void`        | `Public`   |
+| `SpawnAcquirable(object: AcquireableObject, position: Vector2)` | 획득 가능 오브젝트 생성 | `void`        | `Public`   |
+
+#### Class: [BossMonster]
+* **Description:** Monster 클래스를 상속받는 보스 몬스터 클래스
+
+**Operations (메서드)**
+
+| Name                                   | Description                        | Type (Return) | Visibility |
+|:---------------------------------------|:-----------------------------------|:--------------|:-----------|
+| `PerformAttack(target: PlayerManager)` | 플레이어 공격                        | `void`        | `Public`   |
+| `Die()`                                | 보물 상자를 드롭하는 등 확장된 사망 처리 | `void`        | `Public`   |
+
+#### Class: [NormalMonster]
+* **Description:** Monster 클래스를 상속받는 일반 몬스터 클래스
+
+**Operations (메서드)**
+
+| Name                                   | Description | Type (Return) | Visibility |
+|:---------------------------------------|:------------|:--------------|:-----------|
+| `PerformAttack(target: PlayerManager)` | 플레이어 공격 | `void`        | `Public`   |
+
+### 3.2.6 Acquirables Class
+
+#### Class: [AcquireableObject]
+* **Description:** 플레이어가 획득할 수 있는 모든 오브젝트의 부모 추상 클래스
+
+**Attributes (속성)**
+
+| Name         | Description | Type      | Visibility |
+|:-------------|:------------|:----------|:-----------|
+| `position`   | 오브젝트 위치 | `Vector2` | `Public`   |
+
+**Operations (메서드)**
+
+| Name                                  | Description               | Type (Return) | Visibility |
+|:--------------------------------------|:------------------------- |:--------------|:-----------|
+| `MoveToPlayer(target: PlayerManager)` | 플레이어 방향으로 이동       | `void`        | `Public`   |
+| `OnAcquire(player: PlayerManager)`    | 플레이어에게 획득될 때의 동작 | `void`        | `Public`   |
+
+#### Class: [ExperienceOrb]
+* **Description:** AcquireableObject 클래스를 상속받는 경험치 구슬 클래스
+
+**Attributes (속성)**
+
+| Name         | Description        | Type  | Visibility |
+|:-------------|:-------------------|:------|:-----------|
+| `expAmount`  | 구슬이 주는 경험치 양 | `int` | `Public`   |
+
+**Operations (메서드)**
+
+| Name                               | Description           | Type (Return) | Visibility |
+|:-----------------------------------|:--------------------- |:--------------|:-----------|
+| `OnAcquire(player: PlayerManager)` | 플레이어에게 경험치 전달  | `void`        | `Public`   |
+
+#### Class: [TreasureChest]
+* **Description:** AcquireableObject 클래스를 상속받는 보물 상자 클래스
+
+**Operations (메서드)**
+
+| Name                               | Description              | Type (Return) | Visibility |
+|:-----------------------------------|:------------------------ |:--------------|:-----------|
+| `OnAcquire(player: PlayerManager)` | 보상 패널 호출 등 획득 처리  | `void`        | `Public`   |
 
 ---
 
