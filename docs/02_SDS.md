@@ -173,7 +173,7 @@
 
 ### 3.1 Class Diagram
 
-![Class Diagram](imgs/classDiagram.png)
+![Class Diagram](imgs/classDiagram.jpg)
 
 설명
 
@@ -254,6 +254,46 @@
 | `GetMovementInput()` | 플레이어 이동 입력 처리  | `Vector2`     | `Public`   |
 | `IsPausePressed()`   | 일시 정지 입력 처리    | `bool`        | `Public`   |
 | `GetItemUseInput()`  | 아이템 사용 키 입력 처리 | `int`         | `Public`   |
+
+#### Class: [SpawnManager]
+* **Description:** 몬스터 생성을 관리하는 매니저 클래스
+
+**Attributes (속성)**
+
+| Name               | Description     | Type                  | Visibility |
+|:-------------------|:----------------|:----------------------|:-----------|
+| `normalMobPrefabs` | 일반 몬스터 프리팹      | `NormalMonster[0..*]` | `Private`  |
+| `bossMobPrefabs`   | 보스 몬스터 프리팹      | `BossMonster[0..*]`   | `Private`  |
+| `playerTransform`  | 플레이어 위치         | `Transform`           | `Private`  |
+| `spawnRadius`      | 몬스터 객체 생성 범위    | `float`               | `Private`  |
+| `safeRadius`       | 몬스터 객체 생성 제외 범위 | `float`               | `Private`  |
+
+**Operations (메서드)**
+
+| Name                                             | Description      | Type (Return) | Visibility |
+|:-------------------------------------------------|:-----------------|:--------------|:-----------|
+| `UpdateSpawning(gameTime:float)`                 | 시간에 맞는 몬스터 생성 처리 | `void`        | `Public`   |
+| `SpawnMonster(prefab:Monster, position:Vector2)` | 실제 몬스터 생성        | `void`        | `Public`   |
+| `SpawnBoss(prefab:Bossmonster)`                  | 보스 몬스터 생성        | `void`        | `Public`   |
+| `CalculateSpawnPosition()`                       | 몬스터 생성 위치 계산     | `Vector2`     | `Public`   |
+
+#### Class: [QuestManager]
+* **Description:** 돌발 이벤트를 관리하는 매니저 클래스
+
+**Attributes (속성)**
+
+| Name           | Description | Type        | Visibility |
+|:---------------|:------------|:------------|:-----------|
+| `currentQuest` | 현재 퀘스트 정보   | `BaseQuest` | `Private`  |
+
+**Operations (메서드)**
+
+| Name                                  | Description   | Type (Return) | Visibility |
+|:--------------------------------------|:--------------|:--------------|:-----------|
+| `TryStartRandomQuest(gameTime:float)` | 돌발 이벤트 활성화 시도 | `void`        | `Public`   |
+| `StartQuest(quest: BaseQuest)`        | 돌발 이벤트 시작     | `void`        | `Public`   |
+| `UpdateCurrentQuest()`                | 이벤트 완료 여부 검사  | `void`        | `Public`   |
+| `EndQuest()`                          | 이벤트 완료 처리     | `Vector2`     | `Public`   |
 
 #### Class: [AudioManager]
 * **Description:** 게임의 모든 사운드를 관리하는 매니저 클래스
@@ -446,11 +486,15 @@
 
 **Attributes (속성)**
 
-| Name           | Description | Type  | Visibility |
-|:---------------|:------------|:------|:-----------|
-| `hpUpgrade`    | 체력 강화 단계    | `int` | `Private`  |
-| `speedUpgrade` | 이동 속도 강화 단계 | `int` | `Private`  |
-| ...            |
+| Name                         | Description  | Type  | Visibility |
+|:-----------------------------|:-------------|:------|:-----------|
+| `hpUpgrade`                  | 체력 강화 단계     | `int` | `Private`  |
+| `speedUpgrade`               | 이동 속도 강화 단계  | `int` | `Private`  |
+| `magnetUpgrade`              | 드롭 획득 범위 증가  | `int` | `Private`  |
+| `criticalProbabilityUpgrade` | 치명타 확률 증가    | `int` | `Private`  |
+| `criticalDamageMultUpgrade`  | 치명타 피해 배율 증가 | `int` | `Private`  |
+| `expMultUpgrade`             | 경험치 획득 배율 증가 | `int` | `Private`  |
+| `goldMult`                   | 재화 획득 배율 증가  | `int` | `Private`  |
 
 **Operations (메서드)**
 
