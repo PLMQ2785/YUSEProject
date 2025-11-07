@@ -1091,7 +1091,9 @@
 
 ![Sequence Diagram 5](imgs/Diagram_Sequance/05.jpg)
 
-'보상을 건너뛴다' 내용
+위 [그림 4-5]는 사용자가 보상화면을 건너뛰는 Use case를 나타내는 Sequence diagram이다.
+
+Player가 보상을 받지않고 건너뛰기위해 '스킵' 버튼을 누르면 Player는 OnSikpPressed 신호를 RewardManager에게 보낸다. 신호를 받은 RewardManager에서는 InGamePanelManager에게는 ShowRewardPanel 신호를 보내 화면에 띄워진 보상 화면을 닫고 GameManager에게는 HandleRewardFinished 신호를 보내 보상 이벤트를 종료한다. 그 후 GainExp 신호를 PlayerManager에게 보내 보상을 건너뛰기 했을 때의 대체 보상으로 플레이어에게 경험치를 준다.
 
 ## 4.2 인게임
 
@@ -1117,7 +1119,9 @@
 
 ![Sequence Diagram 11](imgs/Diagram_Sequance/11.jpg)
 
-'아이템을 사용한다' 내용
+위 [그림 4-11]은 사용자가 아이템을 사용하는 Use case를 나타내는 Sequence diagram이다.
+
+게임 플레이 중 얻은 아이템은 PlayerManager가 보낸 Additem 신호를 통해 ItemManager가 관리한다. 게임 플레이 중 사용자가 아이템을 사용하기위해 GetItemUseInput 신호를 보내면 UseItem, ActivateItem 신호로 PlayerManager를 거쳐 ItemManager가 관리하고 있던 아이템이 사용된다. 아이템 사용 신호를 받은 후 ItemManager가 Item에게 Activate 신호를 보내면 Item에서 그 아이템의 durability를 확인한다. 만약 durability가 0보다 크면 정상적으로 아이템이 사용되고, 그렇지 않으면 아이템이 사용되지 않는다. 아이템이 사용된 경우에 UpdateCooldown을 통해 아이템의 쿨타임을 적용하고 durability를 1 감소시킨 후, 사용된 아이템에 따른 효과를 PlayerManager에서 반영한다.
 
 ![Sequence Diagram 12](imgs/Diagram_Sequance/12.jpg)
 
