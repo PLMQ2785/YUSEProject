@@ -207,7 +207,89 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Concurrency**         | 제한 없음                |
 | **Due Date**            |              |
 
-#### Use case #[4] : 캐릭터를 이동한다
+#### Use case #[4] : 보상을 새로 고침한다.
+
+| **GENERAL CHARACTERISTICS** |                                                 |
+|:----------------------------|:------------------------------------------------|
+| **Summary**                 | 보상목록을 재화를 이용하여 새로고침 하는 기능 |
+| **Scope**                   | 인게임                                             |
+| **Level**                   | User level                                      |
+| **Author**                  | 김도경                                            |
+| **Last Update**             | 2025. 11. 07.                                   |
+| **Status**                  | Analysis                                        |
+| **Primary Actor**           | 플레이어                                            |
+| **Preconditions**           | 플레이어가 보상목록 화면에 있어야하고, 새로고침 할 재화가 충분해야한다. |
+| **Trigger**                 | 플레이어가 '새로고침' 버튼을 눌렀을때                               |
+| **Success Post Condition**  | 보상 목록 3개가 전부 다른 것으로 새로고침 된다.                     |
+| **Failed Post Condition**   | 재화가 부족할 시 실패한다.                                     |
+
+
+| **MAIN SUCCESS SCENARIO** |            |
+|:--------------------------|:-----------|
+| **Step**                  | **Action** |
+| S                         | 플레이어가 보상을 '새로고침' 한다.  |
+| 1                         | 이 Use case는 플레이어가 '새로고침' 버튼을 눌렀을 때 시작된다.   |
+| 2                         | 시스템은 3개의 선택 보상을 다른 보상으로 새로고침 해준다.  |
+| 3                         | 이 Use case는 새로운 보상으로 바뀌면 종료된다.     |
+                                                                  
+
+
+| **EXTENSION SCENARIOS** |                                                                                                                     |
+|:------------------------|:--------------------------------------------------------------------------------------------------------------------|
+| **Step**                |**BranchingAction**                                                                                                |
+|
+
+| **RELATED INFORMATION** |                      |
+|:------------------------|:---------------------|
+| **Performance**         | 새로 고침 시간 ≤ 1초         |
+| **Frequency**           | 플레이어가 새로고침 버튼을 누를 때 발생 |
+| **Concurrency**         | 제한 없음                |
+| **Due Date**            |              |
+
+#### Use case #[5] : 보상을 건너뛴다.
+
+| **GENERAL CHARACTERISTICS** |                                                 |
+|:----------------------------|:------------------------------------------------|
+| **Summary**                 | 보상목록을 건너뛰는 기능 |
+| **Scope**                   | 인게임                                             |
+| **Level**                   | User level                                      |
+| **Author**                  | 김도경                                            |
+| **Last Update**             | 2025. 11. 07.                                   |
+| **Status**                  | Analysis                                        |
+| **Primary Actor**           | 플레이어                                            |
+| **Preconditions**           | 플레이어가 보상목록 화면에 있어야한다. |
+| **Trigger**                 | 플레이어가 '건너뛰기' 버튼을 눌렀을 때                           |
+| **Success Post Condition**  | 보상 목록이 닫히고 일정량의 경험치를 획득한다.                    |
+| **Failed Post Condition**   | 실패 조건 없음                                 |
+
+
+| **MAIN SUCCESS SCENARIO** |            |
+|:--------------------------|:-----------|
+| **Step**                  | **Action** |
+| S                         | 플레이어가 보상을 '건너뛰기' 한다.  |
+| 1                         | 이 Use case는 플레이어가 '건너뛰기' 버튼을 눌렀을 때 시작된다.   |
+| 2                         | 시스템은 보상 창을 닫고 플레이어 근처에 경험치 오브를 떨어뜨린다.   |
+| 3                         | 이 Use Case는 '건너뛰기'버튼을 누르면 종료된다.     |
+                                                                  
+
+
+| **EXTENSION SCENARIOS** |                                                                                                                     |
+|:------------------------|:--------------------------------------------------------------------------------------------------------------------|
+| **Step**                |**BranchingAction**                                                                                                |
+|
+
+| **RELATED INFORMATION** |                      |
+|:------------------------|:---------------------|
+| **Performance**         | 건너뛰기 시간 ≤ 1초         |
+| **Frequency**           | 플레이어가 '건너뛰기' 버튼을 누를 때 발생 |
+| **Concurrency**         | 제한 없음                |
+| **Due Date**            |              |
+
+
+
+
+
+#### Use case #[6] : 캐릭터를 이동한다
 
 | **GENERAL CHARACTERISTICS** |                                                            |
 |:----------------------------|:-----------------------------------------------------------|
@@ -245,7 +327,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Concurrency**         | 제한 없음               |
 | **Due Date**            |                     |
 
-#### Use case #[5] : 영구 능력치를 강화한다
+#### Use case #[7] : 영구 능력치를 강화한다
 
 | **GENERAL CHARACTERISTICS** |                                                  |
 |:----------------------------|:-------------------------------------------------|
@@ -283,7 +365,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Concurrency**         | 제한 없음                       |
 | **Due Date**            |                    |
 
-#### Use case #[6] : 도감을 조회한다.
+#### Use case #[8] : 도감을 조회한다.
 
 | **GENERAL CHARACTERISTICS** |                                          |
 |:----------------------------|:-----------------------------------------|
@@ -321,7 +403,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Concurrency**         | 제한 없음                |
 | **Due Date**            |                      |
 
-#### Use case #[7] : 설정을 변경한다
+#### Use case #[9] : 설정을 변경한다
 
 | **GENERAL CHARACTERISTICS** |                                                  |
 |:----------------------------|:-------------------------------------------------|
@@ -359,7 +441,45 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Concurrency**         | 제한 없음                |
 | **Due Date**            |                      |
 
-#### Use case #[8] : 아이템을 사용한다.
+#### Use case #[10] : 도감을 초기화한다.
+
+| **GENERAL CHARACTERISTICS** |                                                  |
+|:----------------------------|:-------------------------------------------------|
+| **Summary**                 | 플레이어가 모은 도감을 초기화하는 기능              |
+| **Scope**                   | 메인 화면                                            |
+| **Level**                   | User level                                       |
+| **Author**                  | 김도경                                             |
+| **Last Update**             | 2025. 11. 07.                                    |
+| **Status**                  | Analysis                                         |
+| **Primary Actor**           | 플레이어                                             |
+| **Preconditions**           | 플레이어가 설정창을 열고 있어야한다. |
+| **Trigger**                 | 플레이어가 '도감 초기화' 버튼을 클릭했을 때                            |
+| **Success Post Condition**  | 도감이 아무것도 없는 상태로 초기화된다.            |
+| **Failed Post Condition**   | 초기화가 제대로 되지않는다.                                        |
+
+| **MAIN SUCCESS SCENARIO** |                                                  |
+|:--------------------------|:-------------------------------------------------|
+| **Step**                  | **Action**                                       |
+| S                         | 플레이어가 도감을 초기화한다.                             |
+| 1                         | 이 Use case는 플레이어가 '도감 초기화' 버튼을 눌렀을때 시작된다.            |
+| 2                         | 시스템이 도감을 초기화한다.            |
+| 3                         |이 Use case는 '도감 초기화' 버튼을 누르면 종료된다.    |
+
+
+| **EXTENSION SCENARIOS** |                                                                               |
+|:------------------------|:------------------------------------------------------------------------------|
+| **Step**                | **Branching Action**                                                          |
+| -                     | -
+
+| **RELATED INFORMATION** |                      |
+|:------------------------|:---------------------|
+| **Performance**         | 도감 초기화 시간 ≤ 5초        |
+| **Frequency**           | 플레이어 당 평균 1번 |
+| **Concurrency**         | 제한 없음                |
+| **Due Date**            |                      |
+
+
+#### Use case #[11] : 아이템을 사용한다.
 
 | **GENERAL CHARACTERISTICS** |                                  |
 |:----------------------------|:---------------------------------|
@@ -396,7 +516,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Concurrency**         | 제한 없음               |
 | **Due Date**            |                     |
 
-#### Use case #[9] : 게임을 재시작한다
+#### Use case #[12] : 게임을 재시작한다
 
 | **GENERAL CHARACTERISTICS** |                              |
 |:----------------------------|:-----------------------------|
@@ -428,7 +548,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Concurrency**         | 제한 없음        |
 | **Due Date**            |              |
 
-#### Use case #[10] : 메인 화면으로 이동한다
+#### Use case #[13] : 메인 화면으로 이동한다
 
 | **GENERAL CHARACTERISTICS** |                               |
 |:----------------------------|:------------------------------|
@@ -459,78 +579,6 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Frequency**           | 세션 당 1회      |
 | **Concurrency**         | 제한 없음        |
 | **Due Date**            |              |
-
-#### Use case #[14] : 게임을 재시작한다
-
-| **GENERAL CHARACTERISTICS** | |
-| :--- | :--- |
-| **Summary** | 플레이어가 결과 화면에서 다시 게임씬으로 가는 기능 |
-| **Scope** | Game system |
-| **Level** | User level |
-| **Author** | 김도경 |
-| **Last Update** | 2025. 11. 06 |
-| **Status** | Analysis |
-| **Primary Actor** | 플레이어 |
-| **Preconditions** | 게임 오버나 게임 클리어  결과 화면이어야 한다. |
-| **Trigger** | 플레이어가 '재시작' 버튼을 클릭했을 때 |
-| **Success Post Condition** | 게임 씬으로 다시 들어간다.|
-| **Failed Post Condition** | 실패 조건 없음 |
-
-| **MAIN SUCCESS SCENARIO** | |
-| :--- | :--- |
-| **Step** | **Action** |
-| S | 플레이어가 게임이 끝나 결과 화면을 본다. |
-| 1 | 이 Use case는 플레이어가 결과 화면의 '재시작'버튼을 누르면 시작된다. |
-| 2 | 게임 씬으로 다시 들어간다.|
-| 3 | 이 Use case는 성공적으로 게임씬으로 다시 들어가면 종료된다.|
-
-| **EXTENSION SCENARIOS** | |
-| :--- | :--- |
-| **Step** | **Branching Action** |
-| -| - |
-
-| **RELATED INFORMATION** | |
-| :--- | :--- |
-| **Performance** | 씬 로딩 시간 ≤ 3초 |
-| **Frequency** | 세션 당 1회 |
-| **Concurrency** |none |
-| **Due Date** | |
-
-#### Use case #[15] : 메인화면으로 돌아간다.
-
-| **GENERAL CHARACTERISTICS** | |
-| :--- | :--- |
-| **Summary** | 게임씬에서 메인 화면으로 넘어가는 기능 |
-| **Scope** | Game system |
-| **Level** | User level |
-| **Author** | 김도경 |
-| **Last Update** | 2025.11.06 |
-| **Status** | Analysis |
-| **Primary Actor** | 플레이어 |
-| **Preconditions** | 게임 오버나 게임 클리어  결과 화면이어야 한다. |
-| **Trigger** | 결과 화면에서 '메인 화면' 버튼을 누른다 |
-| **Success Post Condition** | 메인 화면으로 돌아간다. |
-| **Failed Post Condition** | 실패 조건 없음 |
-
-| **MAIN SUCCESS SCENARIO** | |
-| :--- | :--- |
-| **Step** | **Action** |
-| S | 플레이어가 게임이 끝나 결과 화면을 본다.
-| 1 | 이 Use case는 플레이어가 결과 화면의 '메인 화면'버튼을 누르면 시작된다.
-| 2 | 메인 화면으로 돌아간다. |
-| 3 |이 Use case는 성공적으로 메인 화면으로 돌아가면 종료된다. |
-
-| **EXTENSION SCENARIOS** | |
-| :--- | :--- |
-| **Step** | **Branching Action** |
-| -| - |
-
-| **RELATED INFORMATION** | |
-| :--- | :--- |
-| **Performance** | 메인 화면 로딩 시간 ≤ 3seconds |
-| **Frequency** | 게임이 끝날 때 마다 한번 |
-| **Concurrency** | none|
-| **Due Date** |  |
 ---
 
 ## 3. Class diagram
