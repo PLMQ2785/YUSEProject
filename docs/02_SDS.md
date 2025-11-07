@@ -1087,7 +1087,6 @@
 
 ![Sequence Diagram 4](imgs/Diagram_Sequance/04.jpg)
 
-'보상을 새로 고침한다' 내용
 위 [그림 4-4]는 사용자가 보상을 새로 고침하는 Use case를 나타내는 Sequence diagram이다.
 Player가 보상을 받지 않고 ReRoll을 요청하면 GetRerollPrice로 굴리는 비용을 갱신한다.
 CanSpendGold(rerollPrice)로 현재 지불이 가능한지 결과를 받아오고
