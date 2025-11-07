@@ -1073,13 +1073,16 @@
 
 ## 4.1 메인 화면
 
-![Sequence Diagram 1](imgs/Diagram_Sequance/01.jpg)게임 시작 일시정지 
+![Sequence Diagram 1](imgs/Diagram_Sequance/01.jpg)
 
-'게임을 시작한다' 내용
+&ensp;위 그림은 사용자가 게임을 시작하는 Use case를 나타내는 Game Start Sequence diagram이다. Player가 Main menu Panel에 'Game Start'버튼을 누르면 MainMenuPanelManager에게 이벤트가 전달된다. MainMenuPanelManager는 GameManager에게 Start Game함수를 실행하라고 한다. 그러면 GameManager는 게임 플레이 씬으로 전환하고, 점수나 플레이어 체력 같은 시스템 값들을 초기화한다.
 
 ![Sequence Diagram 2](imgs/Diagram_Sequance/02.jpg)
 
-'게임을 일시 정지한다' 내용
+&ensp; 위 그림은 게임을 pause 했을때 나타나는 sequence diagram이다. 플레이어가 ESC를 누르면 InputManager가 매 프레임 검사하는 IsPausePressed를 통해 입력을 감지, 감지시 GameManager의 PauseGame(true)를 호출해 게임 진행을 멈춘다. 
+동시에 InGamePanelManager의 ShowPausePanel(true)가 호출되어 일시정지 UI가 표시된다.
+플레이어가 계속하기 버튼을 클릭하면 OnResumeClick을 통해 GameManager의 ResumeGame이 실행되고, ShowPausePanel(false)로 일시정지 패널이 숨겨져 게임이 재개된다. 
+반대로 메인화면으로 버튼을 클릭하면 OnMainMenuClick이 GameManager의 GoToMainMenu를 호출하여 메인 화면으로 전환된다.
 
 ![Sequence Diagram 3](imgs/Diagram_Sequance/03.jpg)
 
@@ -1101,11 +1104,12 @@
 
 ![Sequence Diagram 7](imgs/Diagram_Sequance/07.jpg)
 
-'영구 능력치를 강화한다' 내용
+&ensp;위 그림은 플레이어가 영구 능력치를 강화할 때를 나타내는 Squence diagram이다. 플레이어가 특정 능력치를 강화하기 위해 UpgradeStat을 요청한다. 이 요청은 UpgradeManager에게 전달되어 활성화된다. UpgradeManager는 먼저 해당 능려기를 강화하는데 필요한 재화 비용을 계산하고, 플레이어가 충분한 재화가 있는지 확인한다. 여기서 플레이어의 재화가 충분하고 최대 레벨이 아닐 경우 UpGradeManager가 PlayerManager에게 재화를 쓰라고 한다. 이후 UpGradeManager는 선택 된 스텟의 레벨을 1 증가시키고 변경 사항을 저장한다. 재화가 부족한 경우
+UpgradeManager가 플레이어에게 재화가 부족하다는 UI를 표시하고 이미 최대 레벨일 경우 이미 최대 레벨이라는 UI표시한다.
 
 ![Sequence Diagram 8](imgs/Diagram_Sequance/08.jpg)
 
-'도감을 조회한다' 내용
+&ensp;위 그림은 플레이어가 메인 메뉴에서 도감을 조회하는 과정을 나타낸 시퀀스 다이어그램이다. 플레이어가 도감 버튼을 누르면 MainMenuPanelManager가 도감 패널을 표시하고(Codex 패널 활성화), CodexManager에서 도감 데이터를 불러온다. 이후 플레이어가 뒤로가기를 누르기 전까지 카테고리와 항목 선택이 반복되며, 선택한 항목이 잠겨 있으면 실루엣과 ‘?’만 표시되고, 해금된 항목이면 상세 정보가 출력된다.
 
 ![Sequence Diagram 9](imgs/Diagram_Sequance/09.jpg)
 
@@ -1121,11 +1125,11 @@
 
 ![Sequence Diagram 12](imgs/Diagram_Sequance/12.jpg)
 
-게임을 재시작한다
+&ensp;위 그림은 플레이어가 결과 화면에서 게임을 재시작 할 때를 나타내는 squence diagram이다. 플레이어가 InGAME Panel의 'Restart' 버튼을 누르면 InGamePanelManager가 이벤트를 받아 GameManager에게 Restart 함수를 실행 시킨다. GameManager는 열려있는 결과 화면창을 닫고 시스템을 초기화한 이후에 게임씬을 다시 시작한다.
 
 ![Sequence Diagram 13](imgs/Diagram_Sequance/13.jpg)
 
-메인화면으로 이동한다 내용
+&ensp;위 그림은 플레이어가 결과 화면에서 메인 메뉴로 넘어갈 떄를 나타내는 squence diagram이다. 플레이어가 InGamePanel의 'Main menu' 버튼을 누르면 InGamePanelManager가 이벤트를 받아 GameManager에게 GoToMain 함수를 실행시킨다.GameManager는 현재 게임씬에서 메인 화면씬으로 전환한다.
 
 ---
 
