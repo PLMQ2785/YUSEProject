@@ -1073,7 +1073,7 @@
 
 ## 4.1 메인 화면
 
-![Sequence Diagram 1](imgs/Diagram_Sequance/01.jpg)게임 시작 일시정지 
+![Sequence Diagram 1](imgs/Diagram_Sequance/01.jpg)
 
 '게임을 시작한다' 내용
 
@@ -1097,7 +1097,12 @@
 
 ![Sequence Diagram 6](imgs/Diagram_Sequance/06.jpg)
 
-'캐릭터를 이동한다' 내용
+&ensp;위 그림은 '캐릭터를 이동한다' Use Case를 나타내는 시퀀스 다이어그램이다.
+이 상호작용은 loop(인게임 플레이 중) 프레그먼트(fragment) 내에서 발생하며, 게임 플레이 중에 지속적으로 반복된다.
+먼저 PlayerManager는 InputManager에게 direction = GetMovementInput() 메시지를 보낸다.
+
+&ensp;이를 통해 PlayerManager는 InputManager로부터 플레이어의 키보드 입력(W, A, S, D 등)에 따른 현재 이동 방향 값(direction)을 요청하고 반환받는다.
+InputManager로부터 방향 값을 전달받은 PlayerManager는 이 direction 값을 인자로 하여 자신의 Move(direction) 메서드를 호출한다. 이 Move 메서드는 PlayerStats의 speed 값을 참조하여 캐릭터의 실제 위치를 맵 상에서 이동시키는 로직을 수행한다.
 
 ![Sequence Diagram 7](imgs/Diagram_Sequance/07.jpg)
 
