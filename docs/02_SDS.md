@@ -143,14 +143,14 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Success Post Condition**  | 게임의 모든 인게임 시스템 동작이 일시 중단되고, 일시 정지 화면이 호출된다.     |
 | **Failed Post Condition**   | 실패 조건 없음                                        |
 
-| **MAIN SUCCESS SCENARIO** |            |
-|:--------------------------|:-----------|
-| **Step**                  | **Action** |
-| S                         | 플레이어가 게임을 일시 정지한다.  |
-| 1                         | 이 Use case는 플레이어가 ESC 키를 누를 때 시작된다.   |
-| 2                         | 시스템은 시간 측정, 몬스터 이동 등 모든 인게임 시스템 동작을 중단시킨다.   |
-| 3                         | 시스템은 일시 정지 화면을 호출하며, 현재 진행 상황(보유 장비 등)을 요약하여 표시한다.    |
-| 4                         | 시스템은 플레이어의 '계속하기' 또는 '게임 종료' 선택을 대기한다.  |
+| **MAIN SUCCESS SCENARIO** |                                                          |
+|:--------------------------|:---------------------------------------------------------|
+| **Step**                  | **Action**                                               |
+| S                         | 플레이어가 게임을 일시 정지한다.                                       |
+| 1                         | 이 Use case는 플레이어가 ESC 키를 누르거나, 게임 프로세스가 포커스를 잃었을 때 시작된다. |
+| 2                         | 시스템은 시간 측정, 몬스터 이동 등 모든 인게임 시스템 동작을 중단시킨다.               |
+| 3                         | 시스템은 일시 정지 화면을 호출하며, 현재 진행 상황(보유 장비 등)을 요약하여 표시한다.       |
+| 4                         | 시스템은 플레이어의 '계속하기' 또는 '게임 종료' 선택을 대기한다.                   |
 
 | **EXTENSION SCENARIOS** |                                                                                                                  |
 |:------------------------|:-----------------------------------------------------------------------------------------------------------------|
@@ -163,7 +163,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Performance**         | 즉시 반응 ≤ 0.1초    |
 | **Frequency**           | 플레이어의 판단에 따라 다름 |
 | **<Concurrency>**       | 제한 없음           |
-| **Due Date**            |        |
+| **Due Date**            |                 |
 
 #### Use case #[3] : 보상을 선택한다
 
@@ -176,143 +176,140 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Last Update**             | 2025. 10. 29.                                   |
 | **Status**                  | Analysis                                        |
 | **Primary Actor**           | 플레이어                                            |
-| **Preconditions**           | 플레이어의 캐릭터가 레벨 업 하거나, 보스 몬스터를 처치해야 한다.                                   |
-| **Trigger**                 | 시스템이 '보상 화면'을 호출했을 때                                  |
-| **Success Post Condition**  | 플레이어가 선택한 보상이 캐릭터에 적용되고, 보상 화면이 닫힌 후 게임이 재개된다.                                       |
-| **Failed Post Condition**   | 실패 조건 없음                                      |
+| **Preconditions**           | 플레이어의 캐릭터가 레벨 업 하거나, 보물 상자를 획득해야 한다.            |
+| **Trigger**                 | 시스템이 '보상 화면'을 호출했을 때                            |
+| **Success Post Condition**  | 플레이어가 선택한 보상이 캐릭터에 적용되고, 보상 화면이 닫힌 후 게임이 재개된다.  |
+| **Failed Post Condition**   | 실패 조건 없음                                        |
 
 
-| **MAIN SUCCESS SCENARIO** |            |
-|:--------------------------|:-----------|
-| **Step**                  | **Action** |
-| S                         | 플레이어가 보상을 선택한다.  |
-| 1                         | 이 Use case는 시스템이 보상 화면을 호출할 때 시작된다.   |
-| 2                         | 시스템은 3개의 선택 가능한 보상 목록을 표시한다.   |
-| 3                         | 플레이어가 3개의 보상 중 하나를 선택하고 클릭한다.       |
-| 4                         | 시스템은 선택된 보상('장비 획득' 또는 '기존 장비 강화')을 캐릭터에 적용한다.  |
-| 5                         | 시스템은 보상 화면을 닫고 게임을 재개한다.                                                |
-| 6                         | 이 Use case는 보상 적용이 완료되면 종료된다.                                                                        |
+| **MAIN SUCCESS SCENARIO** |                                                |
+|:--------------------------|:-----------------------------------------------|
+| **Step**                  | **Action**                                     |
+| S                         | 플레이어가 보상을 선택한다.                                |
+| 1                         | 이 Use case는 시스템이 보상 화면을 호출할 때 시작된다.            |
+| 2                         | 시스템은 3개의 선택 가능한 보상 목록을 표시한다.                   |
+| 3                         | 플레이어가 3개의 보상 중 하나를 선택하고 클릭한다.                  |
+| 4                         | 시스템은 선택된 보상('장비 획득' 또는 '기존 장비 강화')을 캐릭터에 적용한다. |
+| 5                         | 시스템은 보상 화면을 닫고 게임을 재개한다.                       |
+| 6                         | 이 Use case는 보상 적용이 완료되면 종료된다.                  |
 
 
-| **EXTENSION SCENARIOS** |                                                                                                                     |
-|:------------------------|:--------------------------------------------------------------------------------------------------------------------|
-| **Step**                | **Branching Action**                                                                                                |
-| 3                       | 3a. 플레이어가 보상을 선택하는 대신 '보상 목록 새로고침' 버튼을 클릭한다<br/>…3a1. 시스템은 플레이어의 재화를 소모한다.<br/>...3a2. 시스템은 3개의 보상 목록을 새로고침하여 다시 표시한다.<br/>...3a3. 시나리오 3단계(보상 선택)로 돌아간다.|
-| 3                       | 3b. 플레이어가 보상을 선택하는 대신 '건너뛰기'를 선택한다.<br/>…3b1. 시스템은 보상 화면을 닫고 플레이어에게 일정량의 경험치를 지급한다.<br/>...3b2. Use case가 종료된다.|
+| **EXTENSION SCENARIOS** |                                                                                                                                             |
+|:------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------|
+| **Step**                | **Branching Action**                                                                                                                        |
+| 3                       | 3a. 플레이어가 '보상 목록 새로고침' 버튼을 클릭한다<br/>…3a1. 시스템은 'Use Case #[4] : 보상을 새로 고침한다'를 실행한다.<br>…3a2. 'Use Case #[4]'가 성공적으로 종료되면, 3단계(보상 선택)로 돌아간다. |
+| 3                       | 3b. 플레이어가 '건너뛰기'를 선택한다.<br/>…3b1. 시스템은 보상 화면을 닫고 플레이어에게 일정량의 경험치를 지급한다.<br/>...3b2. Use case가 종료된다.                                         |
 
 | **RELATED INFORMATION** |                      |
 |:------------------------|:---------------------|
 | **Performance**         | 즉시 반응 ≤ 0.1초         |
 | **Frequency**           | 레벨 업 또는 보스 처치 시마다 발생 |
 | **Concurrency**         | 제한 없음                |
-| **Due Date**            |              |
+| **Due Date**            |                      |
 
 #### Use case #[4] : 보상을 새로 고침한다.
 
-| **GENERAL CHARACTERISTICS** |                                                 |
-|:----------------------------|:------------------------------------------------|
-| **Summary**                 | 보상목록을 재화를 이용하여 새로고침 하는 기능 |
-| **Scope**                   | 인게임                                             |
-| **Level**                   | User level                                      |
-| **Author**                  | 김도경                                            |
-| **Last Update**             | 2025. 11. 07.                                   |
-| **Status**                  | Analysis                                        |
-| **Primary Actor**           | 플레이어                                            |
-| **Preconditions**           | 플레이어가 보상목록 화면에 있어야하고, 새로고침 할 재화가 충분해야한다. |
-| **Trigger**                 | 플레이어가 '새로고침' 버튼을 눌렀을때                               |
-| **Success Post Condition**  | 보상 목록 3개가 전부 다른 것으로 새로고침 된다.                     |
-| **Failed Post Condition**   | 재화가 부족할 시 실패한다.                                     |
+| **GENERAL CHARACTERISTICS** |                                                                                                                                                                                                                                                                       |
+|:----------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Summary**                 | 보상목록을 재화를 이용하여 새로고침 하는 기능                                                                                                                                                                                                                                             |
+| **Scope**                   | 인게임                                                                                                                                                                                                                                                                   |
+| **Level**                   | User level                                                                                                                                                                                                                                                            |
+| **Author**                  | 김도경                                                                                                                                                                                                                                                                   |
+| **Last Update**             | 2025. 11. 07.                                                                                                                                                                                                                                                         |
+| **Status**                  | Analysis                                                                                                                                                                                                                                                              |
+| **Primary Actor**           | 플레이어                                                                                                                                                                                                                                                                  |
+| **Preconditions**           | (조건1) 플레이어가 보상 화면에 있어야 한다<br>(조건2) 플레이어의 재화가 '새로고침'에 필요한 양보다 많거나 같아야 한다.<br>(조건3) 다음 조건 중 하나를 만족해야 함:<br>- 플레이어의 장비 슬롯에 여유가 있다.<br>- 플레이어의 장비 중 최대 레벨이 아닌 것이 하나 이상 있다.<br><br>> (참고): 사전 조건 2 또는 3이 충족되지 않으면, 이 Use Case는 시작될 수 없다. (이는 UI에서 '새로고침' 버튼이 비활성화됨을 의미한다.) |
+| **Trigger**                 | 플레이어가 '새로고침' 버튼을 눌렀을때                                                                                                                                                                                                                                                 |
+| **Success Post Condition**  | 보상 목록 3개가 전부 다른 것으로 새로고침 된다.                                                                                                                                                                                                                                          |
+| **Failed Post Condition**   | 실패 조건 없음                                                                                                                                                                                                                                                              |
 
 
-| **MAIN SUCCESS SCENARIO** |            |
-|:--------------------------|:-----------|
-| **Step**                  | **Action** |
-| S                         | 플레이어가 보상을 '새로고침' 한다.  |
-| 1                         | 이 Use case는 플레이어가 '새로고침' 버튼을 눌렀을 때 시작된다.   |
-| 2                         | 시스템은 3개의 선택 보상을 다른 보상으로 새로고침 해준다.  |
-| 3                         | 이 Use case는 새로운 보상으로 바뀌면 종료된다.     |
+| **MAIN SUCCESS SCENARIO** |                                          |
+|:--------------------------|:-----------------------------------------|
+| **Step**                  | **Action**                               |
+| S                         | 플레이어가 보상을 '새로고침' 한다.                     |
+| 1                         | 이 Use case는 플레이어가 '새로고침' 버튼을 눌렀을 때 시작된다. |
+| 2                         | 시스템은 플레이어의 재화를 소모한다.                     |
+| 2                         | 시스템은 3개의 보상 목록을 새로고침하여 다시 표시한다.          |
+| 3                         | 이 Use case가 종료된다.                        |
                                                                   
 
 
-| **EXTENSION SCENARIOS** |                                                                                                                     |
-|:------------------------|:--------------------------------------------------------------------------------------------------------------------|
-| **Step**                |**BranchingAction**                                                                                                |
+| **EXTENSION SCENARIOS** |                     |
+|:------------------------|:--------------------|
+| **Step**                | **BranchingAction** |
 |
 
-| **RELATED INFORMATION** |                      |
-|:------------------------|:---------------------|
-| **Performance**         | 새로 고침 시간 ≤ 1초         |
+| **RELATED INFORMATION** |                        |
+|:------------------------|:-----------------------|
+| **Performance**         | 새로 고침 시간 ≤ 1초          |
 | **Frequency**           | 플레이어가 새로고침 버튼을 누를 때 발생 |
-| **Concurrency**         | 제한 없음                |
-| **Due Date**            |              |
+| **Concurrency**         | 제한 없음                  |
+| **Due Date**            |                        |
 
 #### Use case #[5] : 보상을 건너뛴다.
 
-| **GENERAL CHARACTERISTICS** |                                                 |
-|:----------------------------|:------------------------------------------------|
-| **Summary**                 | 보상목록을 건너뛰는 기능 |
-| **Scope**                   | 인게임                                             |
-| **Level**                   | User level                                      |
-| **Author**                  | 김도경                                            |
-| **Last Update**             | 2025. 11. 07.                                   |
-| **Status**                  | Analysis                                        |
-| **Primary Actor**           | 플레이어                                            |
-| **Preconditions**           | 플레이어가 보상목록 화면에 있어야한다. |
-| **Trigger**                 | 플레이어가 '건너뛰기' 버튼을 눌렀을 때                           |
-| **Success Post Condition**  | 보상 목록이 닫히고 일정량의 경험치를 획득한다.                    |
-| **Failed Post Condition**   | 실패 조건 없음                                 |
+| **GENERAL CHARACTERISTICS** |                            |
+|:----------------------------|:---------------------------|
+| **Summary**                 | 보상목록을 건너뛰는 기능              |
+| **Scope**                   | 인게임                        |
+| **Level**                   | User level                 |
+| **Author**                  | 김도경                        |
+| **Last Update**             | 2025. 11. 07.              |
+| **Status**                  | Analysis                   |
+| **Primary Actor**           | 플레이어                       |
+| **Preconditions**           | 플레이어가 보상 화면에 있어야한다.        |
+| **Trigger**                 | 플레이어가 '건너뛰기' 버튼을 눌렀을 때     |
+| **Success Post Condition**  | 보상 목록이 닫히고 일정량의 경험치를 획득한다. |
+| **Failed Post Condition**   | 실패 조건 없음                   |
 
 
-| **MAIN SUCCESS SCENARIO** |            |
-|:--------------------------|:-----------|
-| **Step**                  | **Action** |
-| S                         | 플레이어가 보상을 '건너뛰기' 한다.  |
-| 1                         | 이 Use case는 플레이어가 '건너뛰기' 버튼을 눌렀을 때 시작된다.   |
-| 2                         | 시스템은 보상 창을 닫고 플레이어 근처에 경험치 오브를 떨어뜨린다.   |
-| 3                         | 이 Use Case는 '건너뛰기'버튼을 누르면 종료된다.     |
+| **MAIN SUCCESS SCENARIO** |                                          |
+|:--------------------------|:-----------------------------------------|
+| **Step**                  | **Action**                               |
+| S                         | 플레이어가 보상을 '건너뛰기' 한다.                     |
+| 1                         | 이 Use case는 플레이어가 '건너뛰기' 버튼을 눌렀을 때 시작된다. |
+| 2                         | 시스템은 보상 화면을 닫고 플레이어에게 일정량의 경험치를 지급한다.    |
+| 3                         | Use Case가 종료된다.                          |
                                                                   
 
 
-| **EXTENSION SCENARIOS** |                                                                                                                     |
-|:------------------------|:--------------------------------------------------------------------------------------------------------------------|
-| **Step**                |**BranchingAction**                                                                                                |
+| **EXTENSION SCENARIOS** |                     |
+|:------------------------|:--------------------|
+| **Step**                | **BranchingAction** |
 |
 
-| **RELATED INFORMATION** |                      |
-|:------------------------|:---------------------|
-| **Performance**         | 건너뛰기 시간 ≤ 1초         |
+| **RELATED INFORMATION** |                          |
+|:------------------------|:-------------------------|
+| **Performance**         | 건너뛰기 시간 ≤ 1초             |
 | **Frequency**           | 플레이어가 '건너뛰기' 버튼을 누를 때 발생 |
-| **Concurrency**         | 제한 없음                |
-| **Due Date**            |              |
-
-
-
-
+| **Concurrency**         | 제한 없음                    |
+| **Due Date**            |                          |
 
 #### Use case #[6] : 캐릭터를 이동한다
 
-| **GENERAL CHARACTERISTICS** |                                                            |
-|:----------------------------|:-----------------------------------------------------------|
-| **Summary**                 | 플레이어가 키보드를 조작하여 캐릭터를 맵 상에서 8방향으로 자유롭게 이동시키는 기능 |
-| **Scope**                   | 인게임                                                        |
-| **Level**                   | User level                                                 |
-| **Author**                  | 유민서                                                        |
-| **Last Update**             | 2025. 11. 06.                                              |
-| **Status**                  | Analysis                                                   |
-| **Primary Actor**           | 플레이어                                                       |
-| **Preconditions**           | 플레이어가 '인게임' 씬에서 게임을 플레이 중이며, 캐릭터가 움직일 수 있는 상태이다.           |
-| **Trigger**                 | 플레이어가 W, A, S, D 키 중 하나 이상을 누르고 있을 때                       |
-| **Success Post Condition**  | 캐릭터가 플레이어가 입력한 방향으로 이동한다.                                  |
-| **Failed Post Condition**   | 실패 조건 없음                                                   |
+| **GENERAL CHARACTERISTICS** |                                                  |
+|:----------------------------|:-------------------------------------------------|
+| **Summary**                 | 플레이어가 키보드를 조작하여 캐릭터를 맵 상에서 8방향으로 자유롭게 이동시키는 기능   |
+| **Scope**                   | 인게임                                              |
+| **Level**                   | User level                                       |
+| **Author**                  | 유민서                                              |
+| **Last Update**             | 2025. 11. 06.                                    |
+| **Status**                  | Analysis                                         |
+| **Primary Actor**           | 플레이어                                             |
+| **Preconditions**           | 플레이어가 '인게임' 씬에서 게임을 플레이 중이며, 캐릭터가 움직일 수 있는 상태이다. |
+| **Trigger**                 | 플레이어가 W, A, S, D 키 중 하나 이상을 누르고 있을 때             |
+| **Success Post Condition**  | 캐릭터가 플레이어가 입력한 방향으로 이동한다.                        |
+| **Failed Post Condition**   | 실패 조건 없음                                         |
 
-| **MAIN SUCCESS SCENARIO** |                                                          |
-|:--------------------------|:---------------------------------------------------------|
-| **Step**                  | **Action**                                               |
-| S                         | 플레이어가 캐릭터를 이동한다.                                         |
-| 1                         | 이 Use case는 플레이어가 W, A, S, D 중 하나 이상의 키를 누를 때 시작된다.      |
-| 2                         | 시스템은 플레이어의 키 입력(상하좌우 또는 대각선)을 감지한다.                      |
-| 3                         | 캐릭터는 해당 방향으로 CHA.Stat.1에 정의된 '이동 속도'에 맞춰 이동한다.           |
-| 4                         | 이 Use case는 플레이어가 키에서 손을 떼어 이동 입력을 멈출 때 종료된다.                      |
+| **MAIN SUCCESS SCENARIO** |                                                     |
+|:--------------------------|:----------------------------------------------------|
+| **Step**                  | **Action**                                          |
+| S                         | 플레이어가 캐릭터를 이동한다.                                    |
+| 1                         | 이 Use case는 플레이어가 W, A, S, D 중 하나 이상의 키를 누를 때 시작된다. |
+| 2                         | 시스템은 플레이어의 키 입력(상하좌우 또는 대각선)을 감지한다.                 |
+| 3                         | 캐릭터는 해당 방향으로 CHA.Stat.1에 정의된 '이동 속도'에 맞춰 이동한다.      |
+| 4                         | 이 Use case는 플레이어가 키에서 손을 떼어 이동 입력을 멈출 때 종료된다.       |
 
 | **EXTENSION SCENARIOS** |                                                                   |
 |:------------------------|:------------------------------------------------------------------|
@@ -329,19 +326,19 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 #### Use case #[7] : 영구 능력치를 강화한다
 
-| **GENERAL CHARACTERISTICS** |                                                  |
-|:----------------------------|:-------------------------------------------------|
-| **Summary**                 | 플레이어가 능력치 강화화면에서 캐릭터의 기본 능력치를 올리는 기능             |
-| **Scope**                   | 메인 화면                                            |
-| **Level**                   | User level                                       |
-| **Author**                  | 김병규                                              |
-| **Last Update**             | 2025. 11. 06.                                    |
-| **Status**                  | Analysis                                         |
-| **Primary Actor**           | 플레이어                                             |
-| **Preconditions**           | 플레이어가 '캐릭터 강화' 씬에 있으며, 강화에 필요한만큼 이상의 재화가 있어야 한다. |
-| **Trigger**                 | 플레이어가 강화하려는 능력치의 버튼을 클릭했을 때                      |
-| **Success Post Condition**  | 선택한 능력치가 정해진 수준만큼 증가한다.                          |
-| **Failed Post Condition**   | 캐릭터의 능력치에 변화가 없다.                                |
+| **GENERAL CHARACTERISTICS** |                                                |
+|:----------------------------|:-----------------------------------------------|
+| **Summary**                 | 플레이어가 능력치 강화화면에서 캐릭터의 기본 능력치를 올리는 기능           |
+| **Scope**                   | 메인 화면                                          |
+| **Level**                   | User level                                     |
+| **Author**                  | 김병규                                            |
+| **Last Update**             | 2025. 11. 06.                                  |
+| **Status**                  | Analysis                                       |
+| **Primary Actor**           | 플레이어                                           |
+| **Preconditions**           | '캐릭터 강화' 패널이 띄워져 있으며, 강화에 요구되는 충분한 재화가 있어야 한다. |
+| **Trigger**                 | 플레이어가 강화하려는 능력치의 버튼을 클릭했을 때                    |
+| **Success Post Condition**  | 선택한 강화 단계가 한 단계 증가한다.                          |
+| **Failed Post Condition**   | 실패 조건 없음                                       |
 
 
 | **MAIN SUCCESS SCENARIO** |                                                          |
@@ -349,7 +346,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Step**                  | **Action**                                               |
 | S                         | 플레이어가 캐릭터의 능력치를 강화한다.                                    |
 | 1                         | 이 Use case는 플레이어가 캐릭터 강화화면에서 강화를 원하는 능력치의 버튼을 누를 때 시작된다. |
-| 2                         | 시스템은 플레이어가 선택한 능력치를 정해진 수준만큼 증가시킨다.                      |
+| 2                         | 시스템은 플레이어가 선택한 능력치 강화를 한 단계 증가시킨다.                       |
 | 3                         | 이 Use case는 능력치를 증가시킨 후 종료된다.                            |
 
 | **EXTENSION SCENARIOS** |                                                                                              |
@@ -363,7 +360,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | **Performance**         | 즉시 반응 ≤ 0.1초                |
 | **Frequency**           | 플레이어가 능력치 강화 버튼을 클릭 할때마다 발생 |
 | **Concurrency**         | 제한 없음                       |
-| **Due Date**            |                    |
+| **Due Date**            |                             |
 
 #### Use case #[8] : 도감을 조회한다.
 
@@ -405,34 +402,36 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 #### Use case #[9] : 설정을 변경한다
 
-| **GENERAL CHARACTERISTICS** |                                                  |
-|:----------------------------|:-------------------------------------------------|
-| **Summary**                 | 게임의 설정을 플레이어가 본인 환경에 맞게 변경하는 기능                  |
-| **Scope**                   | 메인 화면                                            |
-| **Level**                   | User level                                       |
-| **Author**                  | 김병규                                              |
-| **Last Update**             | 2025. 11. 06.                                    |
-| **Status**                  | Analysis                                         |
-| **Primary Actor**           | 플레이어                                             |
+| **GENERAL CHARACTERISTICS** |                                           |
+|:----------------------------|:------------------------------------------|
+| **Summary**                 | 게임의 설정을 플레이어가 본인 환경에 맞게 변경하는 기능           |
+| **Scope**                   | 메인 화면                                     |
+| **Level**                   | User level                                |
+| **Author**                  | 김병규                                       |
+| **Last Update**             | 2025. 11. 06.                             |
+| **Status**                  | Analysis                                  |
+| **Primary Actor**           | 플레이어                                      |
 | **Preconditions**           | 플레이어가 플레이어가 메인 화면 혹은 인게임의 일시 정지상태에 있어야한다. |
-| **Trigger**                 | 플레이어가 '설정' 버튼을 클릭했을 때                            |
-| **Success Post Condition**  | 플레이어가 선택한 설정에 따라 화면크기, 음향 등이 변경된다.               |
-| **Failed Post Condition**   | 실패 조건 없음                                         |
+| **Trigger**                 | 플레이어가 '설정' 버튼을 클릭했을 때                     |
+| **Success Post Condition**  | 플레이어가 선택한 설정에 따라 화면 크기, 음향 등이 변경된다.       |
+| **Failed Post Condition**   | 실패 조건 없음                                  |
 
-| **MAIN SUCCESS SCENARIO** |                                                  |
-|:--------------------------|:-------------------------------------------------|
-| **Step**                  | **Action**                                       |
-| S                         | 플레이어가 게임의 설정을 변경한다.                              |
-| 1                         | 이 Use case는 플레이어가 '설정' 버튼을 누르면 시작된다.             |
-| 2                         | 시스템은 '설정' 버튼을 눌렀던 화면위에 팝업으로 설정창을 띄운다.            |
-| 3                         | 플레이어는 각종 설정(화면 크기, 해상도, 음향)을 본인 환경에 맞게 설정한다.     |
-| 4                         | 플레이어가 '적용하기' 버튼을 누르면 입력한 설정으로 환경이 변경된다.          |
-| 5                         | 이 Use case는 단계 3~4 반복 중 플레이어가 '닫기' 버튼을 누르면 종료된다. |
+| **MAIN SUCCESS SCENARIO** |                                              |
+|:--------------------------|:---------------------------------------------|
+| **Step**                  | **Action**                                   |
+| S                         | 플레이어가 게임의 설정을 변경한다.                          |
+| 1                         | 이 Use case는 플레이어가 '설정' 버튼을 누르면 시작된다.         |
+| 2                         | 시스템은 '설정' 버튼을 눌렀던 화면위에 설정 패널을 띄운다.           |
+| 3                         | 플레이어는 각종 설정(화면 크기, 해상도, 음향)을 본인 환경에 맞게 설정한다. |
+| 4                         | 플레이어가 '적용하기' 버튼을 누르면 입력한 설정으로 환경이 변경된다.      |
+| 5                         | 이 Use case는 단계 플레이어가 '닫기' 버튼을 누르면 종료된다.      |
 
 | **EXTENSION SCENARIOS** |                                                                               |
 |:------------------------|:------------------------------------------------------------------------------|
 | **Step**                | **Branching Action**                                                          |
 | 3                       | 3a. 설정창에서 '도감 초기화' 버튼을 누른다. <br/> ...3a1 현재 도감의 상태를 해금된 오브젝트가 없는 초기 상태로 되돌린다. |
+| 3                       | 3b. 설정창에서 '불륨' 슬라이드를 조절한다. <br/> ...3b1 슬라이드의 위치에 따라 불륨 수치가 조절된다.             |
+| 3                       | 3c. 설정창에서 '전체화면' 버튼을 토글한다. <br/> ...3c1 현재 상태에 따라 전체화면, 창모드로 전환된다.            |
 
 | **RELATED INFORMATION** |                      |
 |:------------------------|:---------------------|
@@ -443,40 +442,34 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 #### Use case #[10] : 도감을 초기화한다.
 
-| **GENERAL CHARACTERISTICS** |                                                  |
-|:----------------------------|:-------------------------------------------------|
-| **Summary**                 | 플레이어가 모은 도감을 초기화하는 기능              |
-| **Scope**                   | 메인 화면                                            |
-| **Level**                   | User level                                       |
-| **Author**                  | 김도경                                             |
-| **Last Update**             | 2025. 11. 07.                                    |
-| **Status**                  | Analysis                                         |
-| **Primary Actor**           | 플레이어                                             |
-| **Preconditions**           | 플레이어가 설정창을 열고 있어야한다. |
-| **Trigger**                 | 플레이어가 '도감 초기화' 버튼을 클릭했을 때                            |
-| **Success Post Condition**  | 도감이 아무것도 없는 상태로 초기화된다.            |
-| **Failed Post Condition**   | 초기화가 제대로 되지않는다.                                        |
+| **GENERAL CHARACTERISTICS** |                           |
+|:----------------------------|:--------------------------|
+| **Summary**                 | 플레이어가 모은 도감을 초기화하는 기능     |
+| **Scope**                   | 메인 화면                     |
+| **Level**                   | User level                |
+| **Author**                  | 김도경                       |
+| **Last Update**             | 2025. 11. 07.             |
+| **Status**                  | Analysis                  |
+| **Primary Actor**           | 플레이어                      |
+| **Preconditions**           | 플레이어가 설정창을 열고 있어야한다.      |
+| **Trigger**                 | 플레이어가 '도감 초기화' 버튼을 클릭했을 때 |
+| **Success Post Condition**  | 도감이 아무것도 없는 상태로 초기화된다.    |
+| **Failed Post Condition**   | 실패 조건 없음                  |
 
-| **MAIN SUCCESS SCENARIO** |                                                  |
-|:--------------------------|:-------------------------------------------------|
-| **Step**                  | **Action**                                       |
-| S                         | 플레이어가 도감을 초기화한다.                             |
-| 1                         | 이 Use case는 플레이어가 '도감 초기화' 버튼을 눌렀을때 시작된다.            |
-| 2                         | 시스템이 도감을 초기화한다.            |
-| 3                         |이 Use case는 '도감 초기화' 버튼을 누르면 종료된다.    |
+| **MAIN SUCCESS SCENARIO** |                                           |
+|:--------------------------|:------------------------------------------|
+| **Step**                  | **Action**                                |
+| S                         | 플레이어가 도감을 초기화한다.                          |
+| 1                         | 이 Use case는 플레이어가 '도감 초기화' 버튼을 눌렀을때 시작된다. |
+| 2                         | 시스템이 도감을 초기화한다.                           |
+| 3                         | 이 Use case는 '도감 초기화' 버튼을 누르면 종료된다.        |
 
-
-| **EXTENSION SCENARIOS** |                                                                               |
-|:------------------------|:------------------------------------------------------------------------------|
-| **Step**                | **Branching Action**                                                          |
-| -                     | -
-
-| **RELATED INFORMATION** |                      |
-|:------------------------|:---------------------|
-| **Performance**         | 도감 초기화 시간 ≤ 5초        |
-| **Frequency**           | 플레이어 당 평균 1번 |
-| **Concurrency**         | 제한 없음                |
-| **Due Date**            |                      |
+| **RELATED INFORMATION** |                         |
+|:------------------------|:------------------------|
+| **Performance**         | 도감 초기화 시간 ≤ 1초          |
+| **Frequency**           | 플레이어가 '도감 초기화' 버튼을 누를 때 |
+| **Concurrency**         | 제한 없음                   |
+| **Due Date**            |                         |
 
 
 #### Use case #[11] : 아이템을 사용한다.
@@ -583,40 +576,6 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 ## 3. Class diagram
 
-> * Draw class diagrams.
-> * Describe each class in detail (attributes, methods, others) (table type).
-
-### 3.1 Class Diagram
-
-![Class Diagram](imgs/classDiagram.jpg)
-
-설명
-
-### 3.2 Class Descriptions
-
-**(클래스 템플릿 - 이 템플릿을 복사해서 클래스별로 작성!)**
-
-#### Class: [ClassName]
-* **Description:** (클래스에 대한 상세 설명, 예: 예약 정보 DB)
-
-**Attributes (속성)**
-
-| Name            | Description            | Type            | Visibility       |
-|:----------------|:-----------------------|:----------------|:-----------------|
-| `[FieldName]`   | (필드에 대한 설명, 예: 고유 식별자) | `[FieldType]`   | `Private/Public` |
-| `currentState`  | 현재 게임 상태               | `GameState`     | `Private`        |
-| `currentTime`   | 현재 플레이 시간              | `float`         | `Private`        |
-| `playerManager` | 플레이어 매니저 참조            | `PlayerManager` | `Private`        |
-| `...`           |                        |                 |                  |
-
-**Operations (메서드)**
-
-| Name                                | Description              | Type (Return)  | Visibility       |
-|:------------------------------------|:-------------------------|:---------------|:-----------------|
-| `[MethodName]([param]: [Type])`     | (메서드에 대한 설명, 예: 게임 일시정지) | `[ReturnType]` | `Public/Private` |
-| `PauseGame()`                       | 게임을 일시정지 상태로 변경          | `void`         | `Public`         |
-| `UpdateGameState(deltaTime: float)` | 게임 상태를 매 프레임 갱신          | `void`         | `Public`         |
-| `...`                               |                          |                |                  |
 
 ### 3.2.1 Core Class
 
@@ -655,12 +614,12 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 **Attributes (속성)**
 
-| Name               | Description   | Type            | Visibility |
-|:-------------------|:--------------|:----------------|:-----------|
-| `horizontalInput` | 수평 입력 값       | `float`         | `Private`  |
-| `verticalInput`    | 수직 입력 값       | `float`         | `Private`  |
-| `pauseInput`       | 일시 정지 입력 값    | `bool`          | `Private`  |
-| `itemUseInput`     | 아이템 사용 키 입력 값 | `bool` | `Private`  |
+| Name              | Description   | Type    | Visibility |
+|:------------------|:--------------|:--------|:-----------|
+| `horizontalInput` | 수평 입력 값       | `float` | `Private`  |
+| `verticalInput`   | 수직 입력 값       | `float` | `Private`  |
+| `pauseInput`      | 일시 정지 입력 값    | `bool`  | `Private`  |
+| `itemUseInput`    | 아이템 사용 키 입력 값 | `bool`  | `Private`  |
 
 **Operations (메서드)**
 
@@ -708,7 +667,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | `TryStartRandomQuest(gameTime:float)` | 돌발 이벤트 활성화 시도 | `void`        | `Public`   |
 | `StartQuest(quest: BaseQuest)`        | 돌발 이벤트 시작     | `void`        | `Public`   |
 | `UpdateCurrentQuest()`                | 이벤트 완료 여부 검사  | `void`        | `Public`   |
-| `EndQuest()`                          | 이벤트 완료 처리     | `void`     | `Public`   |
+| `EndQuest()`                          | 이벤트 완료 처리     | `void`        | `Public`   |
 
 #### Class: [AudioManager]
 * **Description:** 게임의 모든 사운드를 관리하는 매니저 클래스
@@ -762,19 +721,19 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 **Attributes (속성)**
 
-| Name                   | Description   | Type    | Visibility |
-|:-----------------------|:--------------|:--------|:-----------|
-| `Hp`                   | 체력            | `float` | `Private`  |
-| `speed`                | 이동 속도         | `float` | `Private`  |
-| `magnetRange`          | 드랍 오브젝트 획득 범위 | `float` | `Private`  |
-| `reduceDamage`         | 입는 피해 감소      | `float` | `Private`  |
-| `damageMult`           | 입히는 피해 배수     | `float` | `Private`  |
+| Name                  | Description   | Type    | Visibility |
+|:----------------------|:--------------|:--------|:-----------|
+| `Hp`                  | 체력            | `float` | `Private`  |
+| `speed`               | 이동 속도         | `float` | `Private`  |
+| `magnetRange`         | 드랍 오브젝트 획득 범위 | `float` | `Private`  |
+| `reduceDamage`        | 입는 피해 감소      | `float` | `Private`  |
+| `damageMult`          | 입히는 피해 배수     | `float` | `Private`  |
 | `criticalProbability` | 치명타 확률        | `float` | `Private`  |
-| `criticalDamageMult`   | 치명타 피해 배율     | `float` | `Private`  |
-| `expMult`              | 획득 경험치 배율     | `float` | `Private`  |
-| `goldMult`             | 획득 재화 배율      | `float` | `Private`  |
-| `reduceCooldownMult`   | 장비 쿨다운 감소 배율  | `float` | `Private`  |
-| `projectileSpeedMult`  | 투사체 속도 배율     | `float` | `Private`  |
+| `criticalDamageMult`  | 치명타 피해 배율     | `float` | `Private`  |
+| `expMult`             | 획득 경험치 배율     | `float` | `Private`  |
+| `goldMult`            | 획득 재화 배율      | `float` | `Private`  |
+| `reduceCooldownMult`  | 장비 쿨다운 감소 배율  | `float` | `Private`  |
+| `projectileSpeedMult` | 투사체 속도 배율     | `float` | `Private`  |
 
 
 #### Class: [EquipmentManager]
@@ -833,7 +792,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 | `UpdateHpBar(current: float, max: float)`          | 체력 바 갱신      | `void`        | `Public`   |
 | `UpdateExpBar(current: float, max: float)`         | 경험치 바 갱신     | `void`        | `Public`   |
 | `UpdateTimer(time: float)`                         | 시간 텍스트 갱신    | `void`        | `Public`   |
-| `UpdateGold(amount: int)`                        | 보유 재화 텍스트 갱신 | `void`        | `Public`   |
+| `UpdateGold(amount: int)`                          | 보유 재화 텍스트 갱신 | `void`        | `Public`   |
 | `ShowBossHpBar(current: float, max: float)`        | 보스 체력 바 표시   | `void`        | `Public`   |
 | `ToggleQuestInfo(show: bool, description: string)` | 돌발 이벤트 정보 표시 | `void`        | `Public`   |
 
@@ -924,11 +883,11 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 **Attributes (속성)**
 
-| Name            | Description       | Type                        | Visibility |
-|:----------------|:------------------|:----------------------------|:-----------|
-| `monsterList`   | 조우한 몬스터 리스트       | `List<MonsterData>[0..*]`   | `Private`  |
-| `equipList` | 획득 이력이 있는 장비 리스트  | `List<EquipmentData>[0..*]` | `Private`  |
-| `itemList`      | 획득 이력이 있는 아이템 리스트 | `List<ItemData>[0..*]`      | `Private`  |
+| Name          | Description       | Type                        | Visibility |
+|:--------------|:------------------|:----------------------------|:-----------|
+| `monsterList` | 조우한 몬스터 리스트       | `List<MonsterData>[0..*]`   | `Private`  |
+| `equipList`   | 획득 이력이 있는 장비 리스트  | `List<EquipmentData>[0..*]` | `Private`  |
+| `itemList`    | 획득 이력이 있는 아이템 리스트 | `List<ItemData>[0..*]`      | `Private`  |
 
 #### Class: [SettingManager]
 * **Description:** 설정 메뉴를 관리하는 클래스
@@ -1051,9 +1010,9 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 **Attributes (속성)**
 
-| Name         | Description | Type    | Visibility |
-|:-------------|:------------|:--------|:-----------|
-| `objectHp`   |  방어 대상 체력  | `float` | `Public`  |
+| Name       | Description | Type    | Visibility |
+|:-----------|:------------|:--------|:-----------|
+| `objectHp` | 방어 대상 체력    | `float` | `Public`   |
 
 
 ### 3.2.5 Monster Class
@@ -1063,22 +1022,22 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 **Attributes (속성)**
 
-| Name            | Description     | Type    | Visibility |
-|:----------------|:--------------- |:--------|:-----------|
-| `maxHp`         |  최대 체력       | `float` | `Public`   |
-| `currentHp`     |  현재 체력       | `float` | `Public`   |
-| `damage`        |  공격력          | `float` | `Public`   |
-| `moveSpeed`     |  이동 속도       | `float` | `Public`   |
-| `dropExpAmount` |  드롭할 경험치 양 | `int`   | `Public`   |
+| Name            | Description | Type    | Visibility |
+|:----------------|:------------|:--------|:-----------|
+| `maxHp`         | 최대 체력       | `float` | `Public`   |
+| `currentHp`     | 현재 체력       | `float` | `Public`   |
+| `damage`        | 공격력         | `float` | `Public`   |
+| `moveSpeed`     | 이동 속도       | `float` | `Public`   |
+| `dropExpAmount` | 드롭할 경험치 양   | `int`   | `Public`   |
 
 **Operations (메서드)**
 
-| Name                                                            | Description          | Type (Return) | Visibility |
-|:----------------------------------------------------------------|:---------------------|:--------------|:-----------|
-| `Move(targetPosition: Vector2)`                                 | 대상 위치로 이동       | `void`        | `Public`   |
-| `TakeDamage(amount: float)`                                     | 피해를 입음           | `void`        | `Public`   |
-| `Die()`                                                         | 사망 처리             | `void`        | `Public`   |
-| `PerformAttack(target: PlayerManager)`                          | 플레이어 공격          | `void`        | `Public`   |
+| Name                                                            | Description   | Type (Return) | Visibility |
+|:----------------------------------------------------------------|:--------------|:--------------|:-----------|
+| `Move(targetPosition: Vector2)`                                 | 대상 위치로 이동     | `void`        | `Public`   |
+| `TakeDamage(amount: float)`                                     | 피해를 입음        | `void`        | `Public`   |
+| `Die()`                                                         | 사망 처리         | `void`        | `Public`   |
+| `PerformAttack(target: PlayerManager)`                          | 플레이어 공격       | `void`        | `Public`   |
 | `SpawnAcquirable(object: AcquireableObject, position: Vector2)` | 획득 가능 오브젝트 생성 | `void`        | `Public`   |
 
 #### Class: [BossMonster]
@@ -1086,9 +1045,9 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 **Operations (메서드)**
 
-| Name                                   | Description                        | Type (Return) | Visibility |
-|:---------------------------------------|:-----------------------------------|:--------------|:-----------|
-| `PerformAttack(target: PlayerManager)` | 플레이어 공격                        | `void`        | `Public`   |
+| Name                                   | Description             | Type (Return) | Visibility |
+|:---------------------------------------|:------------------------|:--------------|:-----------|
+| `PerformAttack(target: PlayerManager)` | 플레이어 공격                 | `void`        | `Public`   |
 | `Die()`                                | 보물 상자를 드롭하는 등 확장된 사망 처리 | `void`        | `Public`   |
 
 #### Class: [NormalMonster]
@@ -1098,7 +1057,7 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 | Name                                   | Description | Type (Return) | Visibility |
 |:---------------------------------------|:------------|:--------------|:-----------|
-| `PerformAttack(target: PlayerManager)` | 플레이어 공격 | `void`        | `Public`   |
+| `PerformAttack(target: PlayerManager)` | 플레이어 공격     | `void`        | `Public`   |
 
 ### 3.2.6 Acquirables Class
 
@@ -1107,15 +1066,15 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 **Attributes (속성)**
 
-| Name         | Description | Type      | Visibility |
-|:-------------|:------------|:----------|:-----------|
-| `position`   | 오브젝트 위치 | `Vector2` | `Public`   |
+| Name       | Description | Type      | Visibility |
+|:-----------|:------------|:----------|:-----------|
+| `position` | 오브젝트 위치     | `Vector2` | `Public`   |
 
 **Operations (메서드)**
 
-| Name                                  | Description               | Type (Return) | Visibility |
-|:--------------------------------------|:------------------------- |:--------------|:-----------|
-| `MoveToPlayer(target: PlayerManager)` | 플레이어 방향으로 이동       | `void`        | `Public`   |
+| Name                                  | Description      | Type (Return) | Visibility |
+|:--------------------------------------|:-----------------|:--------------|:-----------|
+| `MoveToPlayer(target: PlayerManager)` | 플레이어 방향으로 이동     | `void`        | `Public`   |
 | `OnAcquire(player: PlayerManager)`    | 플레이어에게 획득될 때의 동작 | `void`        | `Public`   |
 
 #### Class: [ExperienceOrb]
@@ -1123,24 +1082,24 @@ Use Case Analysis는 사용자 관점에서의 주요 기능 및 시나리오를
 
 **Attributes (속성)**
 
-| Name         | Description        | Type  | Visibility |
-|:-------------|:-------------------|:------|:-----------|
-| `expAmount`  | 구슬이 주는 경험치 양 | `int` | `Public`   |
+| Name        | Description  | Type  | Visibility |
+|:------------|:-------------|:------|:-----------|
+| `expAmount` | 구슬이 주는 경험치 양 | `int` | `Public`   |
 
 **Operations (메서드)**
 
-| Name                               | Description           | Type (Return) | Visibility |
-|:-----------------------------------|:--------------------- |:--------------|:-----------|
-| `OnAcquire(player: PlayerManager)` | 플레이어에게 경험치 전달  | `void`        | `Public`   |
+| Name                               | Description   | Type (Return) | Visibility |
+|:-----------------------------------|:--------------|:--------------|:-----------|
+| `OnAcquire(player: PlayerManager)` | 플레이어에게 경험치 전달 | `void`        | `Public`   |
 
 #### Class: [TreasureChest]
 * **Description:** AcquireableObject 클래스를 상속받는 보물 상자 클래스
 
 **Operations (메서드)**
 
-| Name                               | Description              | Type (Return) | Visibility |
-|:-----------------------------------|:------------------------ |:--------------|:-----------|
-| `OnAcquire(player: PlayerManager)` | 보상 패널 호출 등 획득 처리  | `void`        | `Public`   |
+| Name                               | Description      | Type (Return) | Visibility |
+|:-----------------------------------|:-----------------|:--------------|:-----------|
+| `OnAcquire(player: PlayerManager)` | 보상 패널 호출 등 획득 처리 | `void`        | `Public`   |
 
 ---
 
