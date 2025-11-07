@@ -1083,7 +1083,7 @@
 
 ![Sequence Diagram 3](imgs/Diagram_Sequance/03.jpg)
 
-'보상을 선택한다' 내용
+위 그림은 플레이어가 보상을 선택하는 상황의 sequence diagram이다. 플레이어가 게임을 하다가 레벨업(LevelUp)을 하면 PlayerManager가 OnPlayerLeveledUp 이벤트를 발생시킨다. GameManager가 이 이벤트를 구독하고 있다가 HandlePlayerLeveledUp()를 실행한다. 그리고 PauseGame(true)를 호출해 게임을 일시정지 시킨다. 그 후, RewardManager의 GenerateRewards를 통해 보상 목록을 생성하고, InGamePanelManager의 ShowRewardPanel(true)를 통해 보상 선택 패널을 표시한다. 플레이어가 보상 중 하나를 선택하면 RewardManage의 OnRewardSelected(data)가 호출된다. 그러면 PlayerManager가 AddEquipment(data)를 호출한다. 이 내부에서 EquipmentManager의 AddOrLevelUpEquipment(data)가 실행된다. 보상 처리가 끝나면 RewardManage는 OnRewardProcessFinished 이벤트를 발생시키고, GameManager는 HandleRewardFinished()를 호출한다. 그러면 RewardManag의 ShowRewardPanel(false)를 호출해서 보상 패널을 닫고, ResumeGame()을 호출해서 게임을 다시 시작한다.
 
 ![Sequence Diagram 4](imgs/Diagram_Sequance/04.jpg)
 
@@ -1111,11 +1111,11 @@ Player가 보상을 받지않고 건너뛰기위해 '스킵' 버튼을 누르면
 
 ![Sequence Diagram 9](imgs/Diagram_Sequance/09.jpg)
 
-'설정을 변경한다' 내용
+위 그림은 플레이어가 설정을 변경하는 상황의 sequence diagram이다. 플레이어가 '설정' 버튼을 누르면 MainMenuPanelManager의 ShowSettingPanel을 호출하여 설정 UI를 표시한다. 플레이어가 master volume을 조절하면 SettingManager의 SetMasterVolume(level)이 호출되고, 이는 AduioManager의 SetMasterVolume(level)을 호출한다. 플레이어가 sfx volume을 조절하면 SettingManager의 SetSfxVolume(level)이 호출되고, 이는 AduioManager의 SetSfxVolume(level)을 호출한다. 플레이어가 bgm volume을 조절하면 SettingManager의 SetBgmVolume(level)이 호출되고, 이는 AduioManager의 SetBgmVolume(level)을 호출한다. 플레이어가 resolution을 조절하면 SettingManager의 ApplyResoulution을 호출한다.
 
 ![Sequence Diagram 10](imgs/Diagram_Sequance/10.jpg)
 
-'도감을 초기화한다' 내용
+위 그림은 플레이어가 도감을 초기화하는 상황의 sequence diagram이다. 플레이어가 설정 화면에서 '도감 초기화' 버튼을 누르면 SettingManager의 OnResetCodexClick이 호출되고 CodexManager의 ResetCodex를 호출하여 도감을 초기화한다.
 
 ![Sequence Diagram 11](imgs/Diagram_Sequance/11.jpg)
 
