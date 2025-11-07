@@ -1073,25 +1073,25 @@
 
 ## 4.1 메인 화면
 
-![Sequence Diagram 1](imgs/Diagram_Sequance/01.jpg)
+![Sequence Diagram 1](imgs/Diagram_Sequance/01.jpg)게임 시작 일시정지 
 
 '게임을 시작한다' 내용
 
 ![Sequence Diagram 2](imgs/Diagram_Sequance/02.jpg)
 
-'영구 능력치를 강화한다' 내용
+'게임을 일시 정지한다' 내용
 
 ![Sequence Diagram 3](imgs/Diagram_Sequance/03.jpg)
 
-'설정을 변경한다' 내용
+'보상을 선택한다' 내용
 
 ![Sequence Diagram 4](imgs/Diagram_Sequance/04.jpg)
 
-'도감을 초기화한다' 내용
+'보상을 새로 고침한다' 내용
 
 ![Sequence Diagram 5](imgs/Diagram_Sequance/05.jpg)
 
-'도감을 조회한다' 내용
+'보상을 건너뛴다' 내용
 
 ## 4.2 인게임
 
@@ -1101,23 +1101,31 @@
 
 ![Sequence Diagram 7](imgs/Diagram_Sequance/07.jpg)
 
-'아이템을 사용한다' 내용
+'영구 능력치를 강화한다' 내용
 
 ![Sequence Diagram 8](imgs/Diagram_Sequance/08.jpg)
 
-'게임을 일시 정지한다' 내용
+'도감을 조회한다' 내용
 
 ![Sequence Diagram 9](imgs/Diagram_Sequance/09.jpg)
 
-'보상을 선택한다' 내용
+'설정을 변경한다' 내용
 
 ![Sequence Diagram 10](imgs/Diagram_Sequance/10.jpg)
 
-'게임을 재시작한다' 내용
+'도감을 초기화한다' 내용
 
 ![Sequence Diagram 11](imgs/Diagram_Sequance/11.jpg)
 
-'보상을 메인 화면으로 이동한다' 내용
+'아이템을 사용한다' 내용
+
+![Sequence Diagram 12](imgs/Diagram_Sequance/12.jpg)
+
+게임을 재시작한다
+
+![Sequence Diagram 13](imgs/Diagram_Sequance/13.jpg)
+
+메인화면으로 이동한다 내용
 
 ---
 
