@@ -1075,57 +1075,75 @@
 
 ![Sequence Diagram 1](imgs/Diagram_Sequance/01.jpg)게임 시작 일시정지 
 
-'게임을 시작한다' 내용
+&ensp;위 그림은 사용자가 게임을 시작하는 Use case를 나타내는 Game Start Sequence diagram이다. Player가 Main menu Panel에 'Game Start'버튼을 누르면 MainMenuPanelManager에게 이벤트가 전달된다. MainMenuPanelManager는 GameManager에게 Start Game함수를 실행하라고 한다. 그러면 GameManager는 게임 플레이 씬으로 전환하고, 점수나 플레이어 체력 같은 시스템 값들을 초기화한다.
 
 ![Sequence Diagram 2](imgs/Diagram_Sequance/02.jpg)
 
-'게임을 일시 정지한다' 내용
+&ensp; 위 그림은 게임을 pause 했을때 나타나는 sequence diagram이다. 플레이어가 ESC를 누르면 InputManager가 매 프레임 검사하는 IsPausePressed를 통해 입력을 감지, 감지시 GameManager의 PauseGame(true)를 호출해 게임 진행을 멈춘다. 
+동시에 InGamePanelManager의 ShowPausePanel(true)가 호출되어 일시정지 UI가 표시된다.
+플레이어가 계속하기 버튼을 클릭하면 OnResumeClick을 통해 GameManager의 ResumeGame이 실행되고, ShowPausePanel(false)로 일시정지 패널이 숨겨져 게임이 재개된다. 
+반대로 메인화면으로 버튼을 클릭하면 OnMainMenuClick이 GameManager의 GoToMainMenu를 호출하여 메인 화면으로 전환된다.
 
 ![Sequence Diagram 3](imgs/Diagram_Sequance/03.jpg)
 
-'보상을 선택한다' 내용
+위 그림은 플레이어가 보상을 선택하는 상황의 sequence diagram이다. 플레이어가 게임을 하다가 레벨업(LevelUp)을 하면 PlayerManager가 OnPlayerLeveledUp 이벤트를 발생시킨다. GameManager가 이 이벤트를 구독하고 있다가 HandlePlayerLeveledUp()를 실행한다. 그리고 PauseGame(true)를 호출해 게임을 일시정지 시킨다. 그 후, RewardManager의 GenerateRewards를 통해 보상 목록을 생성하고, InGamePanelManager의 ShowRewardPanel(true)를 통해 보상 선택 패널을 표시한다. 플레이어가 보상 중 하나를 선택하면 RewardManage의 OnRewardSelected(data)가 호출된다. 그러면 PlayerManager가 AddEquipment(data)를 호출한다. 이 내부에서 EquipmentManager의 AddOrLevelUpEquipment(data)가 실행된다. 보상 처리가 끝나면 RewardManage는 OnRewardProcessFinished 이벤트를 발생시키고, GameManager는 HandleRewardFinished()를 호출한다. 그러면 RewardManag의 ShowRewardPanel(false)를 호출해서 보상 패널을 닫고, ResumeGame()을 호출해서 게임을 다시 시작한다.
 
 ![Sequence Diagram 4](imgs/Diagram_Sequance/04.jpg)
 
 '보상을 새로 고침한다' 내용
+위 [그림 4-4]는 사용자가 보상을 새로 고침하는 Use case를 나타내는 Sequence diagram이다.
+Player가 보상을 받지 않고 ReRoll을 요청하면 GetRerollPrice로 굴리는 비용을 갱신한다.
+CanSpendGold(rerollPrice)로 현재 지불이 가능한지 결과를 받아오고
+현재 Player의 재화가 충분하고 지불이 가능하면 SpendGold(rerollPrice)로 주사위를 다시 굴리고 GenerateRewards로 보상을 다시 생성한다.
+
 
 ![Sequence Diagram 5](imgs/Diagram_Sequance/05.jpg)
 
-'보상을 건너뛴다' 내용
+위 [그림 4-5]는 사용자가 보상화면을 건너뛰는 Use case를 나타내는 Sequence diagram이다.
+
+Player가 보상을 받지않고 건너뛰기위해 '스킵' 버튼을 누르면 Player는 OnSikpPressed 신호를 RewardManager에게 보낸다. 신호를 받은 RewardManager에서는 InGamePanelManager에게는 ShowRewardPanel 신호를 보내 화면에 띄워진 보상 화면을 닫고 GameManager에게는 HandleRewardFinished 신호를 보내 보상 이벤트를 종료한다. 그 후 GainExp 신호를 PlayerManager에게 보내 보상을 건너뛰기 했을 때의 대체 보상으로 플레이어에게 경험치를 준다.
 
 ## 4.2 인게임
 
 ![Sequence Diagram 6](imgs/Diagram_Sequance/06.jpg)
 
-'캐릭터를 이동한다' 내용
+&ensp;위 그림은 '캐릭터를 이동한다' Use Case를 나타내는 시퀀스 다이어그램이다.
+이 상호작용은 loop(인게임 플레이 중) 프레그먼트(fragment) 내에서 발생하며, 게임 플레이 중에 지속적으로 반복된다.
+먼저 PlayerManager는 InputManager에게 direction = GetMovementInput() 메시지를 보낸다.
+
+&ensp;이를 통해 PlayerManager는 InputManager로부터 플레이어의 키보드 입력(W, A, S, D 등)에 따른 현재 이동 방향 값(direction)을 요청하고 반환받는다.
+InputManager로부터 방향 값을 전달받은 PlayerManager는 이 direction 값을 인자로 하여 자신의 Move(direction) 메서드를 호출한다. 이 Move 메서드는 PlayerStats의 speed 값을 참조하여 캐릭터의 실제 위치를 맵 상에서 이동시키는 로직을 수행한다.
 
 ![Sequence Diagram 7](imgs/Diagram_Sequance/07.jpg)
 
-'영구 능력치를 강화한다' 내용
+&ensp;위 그림은 플레이어가 영구 능력치를 강화할 때를 나타내는 Squence diagram이다. 플레이어가 특정 능력치를 강화하기 위해 UpgradeStat을 요청한다. 이 요청은 UpgradeManager에게 전달되어 활성화된다. UpgradeManager는 먼저 해당 능려기를 강화하는데 필요한 재화 비용을 계산하고, 플레이어가 충분한 재화가 있는지 확인한다. 여기서 플레이어의 재화가 충분하고 최대 레벨이 아닐 경우 UpGradeManager가 PlayerManager에게 재화를 쓰라고 한다. 이후 UpGradeManager는 선택 된 스텟의 레벨을 1 증가시키고 변경 사항을 저장한다. 재화가 부족한 경우
+UpgradeManager가 플레이어에게 재화가 부족하다는 UI를 표시하고 이미 최대 레벨일 경우 이미 최대 레벨이라는 UI표시한다.
 
 ![Sequence Diagram 8](imgs/Diagram_Sequance/08.jpg)
 
-'도감을 조회한다' 내용
+&ensp;위 그림은 플레이어가 메인 메뉴에서 도감을 조회하는 과정을 나타낸 시퀀스 다이어그램이다. 플레이어가 도감 버튼을 누르면 MainMenuPanelManager가 도감 패널을 표시하고(Codex 패널 활성화), CodexManager에서 도감 데이터를 불러온다. 이후 플레이어가 뒤로가기를 누르기 전까지 카테고리와 항목 선택이 반복되며, 선택한 항목이 잠겨 있으면 실루엣과 ‘?’만 표시되고, 해금된 항목이면 상세 정보가 출력된다.
 
 ![Sequence Diagram 9](imgs/Diagram_Sequance/09.jpg)
 
-'설정을 변경한다' 내용
+위 그림은 플레이어가 설정을 변경하는 상황의 sequence diagram이다. 플레이어가 '설정' 버튼을 누르면 MainMenuPanelManager의 ShowSettingPanel을 호출하여 설정 UI를 표시한다. 플레이어가 master volume을 조절하면 SettingManager의 SetMasterVolume(level)이 호출되고, 이는 AduioManager의 SetMasterVolume(level)을 호출한다. 플레이어가 sfx volume을 조절하면 SettingManager의 SetSfxVolume(level)이 호출되고, 이는 AduioManager의 SetSfxVolume(level)을 호출한다. 플레이어가 bgm volume을 조절하면 SettingManager의 SetBgmVolume(level)이 호출되고, 이는 AduioManager의 SetBgmVolume(level)을 호출한다. 플레이어가 resolution을 조절하면 SettingManager의 ApplyResoulution을 호출한다.
 
 ![Sequence Diagram 10](imgs/Diagram_Sequance/10.jpg)
 
-'도감을 초기화한다' 내용
+위 그림은 플레이어가 도감을 초기화하는 상황의 sequence diagram이다. 플레이어가 설정 화면에서 '도감 초기화' 버튼을 누르면 SettingManager의 OnResetCodexClick이 호출되고 CodexManager의 ResetCodex를 호출하여 도감을 초기화한다.
 
 ![Sequence Diagram 11](imgs/Diagram_Sequance/11.jpg)
 
-'아이템을 사용한다' 내용
+위 [그림 4-11]은 사용자가 아이템을 사용하는 Use case를 나타내는 Sequence diagram이다.
+
+게임 플레이 중 얻은 아이템은 PlayerManager가 보낸 Additem 신호를 통해 ItemManager가 관리한다. 게임 플레이 중 사용자가 아이템을 사용하기위해 GetItemUseInput 신호를 보내면 UseItem, ActivateItem 신호로 PlayerManager를 거쳐 ItemManager가 관리하고 있던 아이템이 사용된다. 아이템 사용 신호를 받은 후 ItemManager가 Item에게 Activate 신호를 보내면 Item에서 그 아이템의 durability를 확인한다. 만약 durability가 0보다 크면 정상적으로 아이템이 사용되고, 그렇지 않으면 아이템이 사용되지 않는다. 아이템이 사용된 경우에 UpdateCooldown을 통해 아이템의 쿨타임을 적용하고 durability를 1 감소시킨 후, 사용된 아이템에 따른 효과를 PlayerManager에서 반영한다.
 
 ![Sequence Diagram 12](imgs/Diagram_Sequance/12.jpg)
 
-게임을 재시작한다
+&ensp;위 그림은 플레이어가 결과 화면에서 게임을 재시작 할 때를 나타내는 squence diagram이다. 플레이어가 InGAME Panel의 'Restart' 버튼을 누르면 InGamePanelManager가 이벤트를 받아 GameManager에게 Restart 함수를 실행 시킨다. GameManager는 열려있는 결과 화면창을 닫고 시스템을 초기화한 이후에 게임씬을 다시 시작한다.
 
 ![Sequence Diagram 13](imgs/Diagram_Sequance/13.jpg)
 
-메인화면으로 이동한다 내용
+&ensp;위 그림은 플레이어가 결과 화면에서 메인 메뉴로 넘어갈 떄를 나타내는 squence diagram이다. 플레이어가 InGamePanel의 'Main menu' 버튼을 누르면 InGamePanelManager가 이벤트를 받아 GameManager에게 GoToMain 함수를 실행시킨다.GameManager는 현재 게임씬에서 메인 화면씬으로 전환한다.
 
 ---
 
