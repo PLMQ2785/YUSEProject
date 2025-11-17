@@ -4,100 +4,54 @@ using UnityEngine.UI;
 
 public class HUDManager : MonoBehaviour
 {
-    public enum TypeInfo { hpBar, expBar, bossHpBar, timerText, goldText, killCountText }
-    public TypeInfo type;
-    public GameObject questInfoPanel;
-
-    TextMeshProUGUI text;
-    Slider slider;
-
-    private void Awake()
-    {
-        text = GetComponent<TextMeshProUGUI>();
-        slider = GetComponent<Slider>();
-    }
+    #region Serialized Fields
+    [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private Slider slider;
+    [SerializeField] private GameObject questInfoPanel;
+    [SerializeField] private PlayerManager player;
+    [SerializeField] private GameManager gameManager;
+    #endregion
 
     private void Start()
     {
-        // PlayerManager hp 이벤트 구독
-        if (type == TypeInfo.hpBar)
-            PlayerManager.Instance.OnHpChanged += UpdateHpBar;
+        player.OnHpChanged += UpdateHpBar;
     }
 
-    private void OnDestroy()
-    {
-        // 이벤트 해제
-        if (type == TypeInfo.hpBar)
-            PlayerManager.Instance.OnHpChanged -= UpdateHpBar;
-    }
 
-    // HP Bar 업데이트
     private void UpdateHpBar(float currentHp, float maxHp)
     {
         slider.value = currentHp / maxHp;
     }
 
-    private void Update()
+    private void UpdateExpBar(float currentExp, float maxExp) 
     {
-        switch (type)
-        {
-            case TypeInfo.expBar:
-                UpdateExpBar();
-                break;
-
-            case TypeInfo.timerText:
-                UpdateTimer();
-                break;
-
-            case TypeInfo.goldText:
-                UpdateGold();
-                break;
-
-            case TypeInfo.killCountText:
-                UpdateKillCount();
-                break;
-
-            case TypeInfo.bossHpBar:
-                
-                break;
-        }
-    }
-  
-    void UpdateExpBar() 
-    {
-        int currentExp = PlayerManager.Instance.currentExp;
-        int maxExp = PlayerManager.Instance.maxExp;
-        slider.value = (float)currentExp / maxExp;
+        slider.value = currentExp / maxExp;
     }
 
-    private void UpdateTimer()
+    private void UpdateTimer(float time)
     {
-        float t = GameManager.Instance.gameTime;
+        int minutes = Mathf.FloorToInt(time / 60f);
+        int seconds = Mathf.FloorToInt(time % 60f);
 
-        int minutes = Mathf.FloorToInt(t / 60f);
-        int seconds = Mathf.FloorToInt(t % 60f);
-
-        text.text = $"{minutes:00}:{seconds:00}";
+        text.text = $"{minutes:D2}:{seconds:D2}";
     }
 
-    void UpdateGold()
+    private void UpdateGold(int amount)
     {
-        int currentGold = PlayerManager.Instance.gold;
-        text.text = currentGold.ToString();
+        text.text = amount.ToString();
     }
 
-    void UpdateKillCount()
+    private void UpdateKillCount(int count)
     {
-        int currentKillcount = PlayerManager.Instance.killCount;
-        text.text = currentKillcount.ToString();
+        text.text = count.ToString();
     }
 
-    void ShowBossHpBar()
+    private void ShowBossHpBar(float currentHp, float maxHp)
     {
-    
+        slider.enabled = true;
     }
 
-    void ToggleQuestInfo() 
+    private void ToggleQuestInfo(bool show, string description) 
     {
     
     }
