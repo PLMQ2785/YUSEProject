@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+
 public class MainMenuPanelManager : MonoBehaviour
 {
     #region Panel
@@ -13,19 +14,19 @@ public class MainMenuPanelManager : MonoBehaviour
 
     public Text press_Anykey;
     #endregion
-
+    private static bool PanelShowKey = false;
 
 
     #region life Cycle
     void Start()
     {
-        
+      
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
         if (press_Anykey == null) return;
         float newAlpha = AlphaChange();
         BlinkText(newAlpha);
@@ -34,14 +35,33 @@ public class MainMenuPanelManager : MonoBehaviour
     }
     #endregion
 
+
+    private void CheckAndShowTitlePanel()
+    {
+        if (PanelShowKey == false)
+        {
+
+            MainPanel.SetActive(true);
+            PanelShowKey = true;
+        }
+        else
+        {
+       
+            MainPanel.SetActive(false);
+        
+        }
+    }
+
+
+
     #region Button Action
     //아무키나 누르면 로비로 넘어가기
     public void ShowLobbyPanel()
     {
-        if(Input.anyKeyDown && MainPanel.activeSelf && !LobbyPanel.activeSelf)
+        if(Input.anyKeyDown && MainPanel.activeSelf)
         {
             MainPanel.SetActive(false);
-            LobbyPanel.SetActive(true);
+
         }
     }
 
