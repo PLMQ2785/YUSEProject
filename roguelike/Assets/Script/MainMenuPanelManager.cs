@@ -5,7 +5,7 @@ using System.Collections;
 public class MainMenuPanelManager : MonoBehaviour
 {
     #region Panel
-    [Header("Panel ¹× text º¯¼ö")]
+    [Header("Panel ë° text ë³€ìˆ˜")]
     public GameObject MainPanel;
     public GameObject LobbyPanel;
     public GameObject UpgradePanel;
@@ -20,7 +20,7 @@ public class MainMenuPanelManager : MonoBehaviour
     #region life Cycle
     void Start()
     {
-      
+      CheckAndShowTitlePanel();
     }
 
     // Update is called once per frame
@@ -36,6 +36,13 @@ public class MainMenuPanelManager : MonoBehaviour
     #endregion
 
 
+
+
+
+
+    #region Button Action
+
+    //ì²˜ìŒ ì‹¤í–‰ì‹œë§Œ íƒ€ì´í‹€ í™”ë©´ ë³´ì—¬ì£¼ê¸°
     private void CheckAndShowTitlePanel()
     {
         if (PanelShowKey == false)
@@ -43,19 +50,17 @@ public class MainMenuPanelManager : MonoBehaviour
 
             MainPanel.SetActive(true);
             PanelShowKey = true;
+            Debug.Log(PanelShowKey);
         }
         else
         {
-       
+
             MainPanel.SetActive(false);
-        
+
         }
     }
 
-
-
-    #region Button Action
-    //¾Æ¹«Å°³ª ´©¸£¸é ·Îºñ·Î ³Ñ¾î°¡±â
+    //ì•„ë¬´í‚¤ë‚˜ ëˆ„ë¥´ë©´ ë¡œë¹„ë¡œ ë„˜ì–´ê°€ê¸°
     public void ShowLobbyPanel()
     {
         if(Input.anyKeyDown && MainPanel.activeSelf)
@@ -65,20 +70,20 @@ public class MainMenuPanelManager : MonoBehaviour
         }
     }
 
-    //°­È­ ÆĞ³Î Åä±Û
+    //ê°•í™” íŒ¨ë„ í† ê¸€
     public void ToggleUpgradePanel()
     {
        UpgradePanel.SetActive(!UpgradePanel.activeSelf);
     }
 
     
-    //¿É¼Ç ÆĞ³Î Åä±Û
+    //ì˜µì…˜ íŒ¨ë„ í† ê¸€
     public void ToggleOptionPanel()
     {
         OptionPanel.SetActive(!OptionPanel.activeSelf);  
     }
 
-    // µµ°¨ ÆĞ³Î Åä±Û
+    // ë„ê° íŒ¨ë„ í† ê¸€
     public void ToggleCodexPanel()
     {
         CodexPanel.SetActive(!CodexPanel.activeSelf);
@@ -87,14 +92,14 @@ public class MainMenuPanelManager : MonoBehaviour
 
 
     #region Title Blink method
-    //text blink ÇÔ¼ö
+    //text blink í•¨ìˆ˜
     private float AlphaChange()
     {
         float normalizedAlpha = Mathf.PingPong(Time.time * 0.5f, 1f);  
         return normalizedAlpha;
     }
 
-    //¾ËÆÄ°ª ¹Ù²ãÁÖ´Â ÇÔ¼ö
+    //ì•ŒíŒŒê°’ ë°”ê¿”ì£¼ëŠ” í•¨ìˆ˜
     private void BlinkText(float alpha)
     {
         Color newColor = press_Anykey.color;
