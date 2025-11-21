@@ -7579,7 +7579,7 @@ MonoBehaviour:
   timerText: {fileID: 1354058435}
   goldText: {fileID: 1707042557}
   killCountText: {fileID: 1081932584}
-  bossHpBarPanel: {fileID: 0}
+  bossHpBarPanel: {fileID: 1141651875}
   questInfoPanel: {fileID: 0}
 --- !u!4 &1487862261
 Transform:
