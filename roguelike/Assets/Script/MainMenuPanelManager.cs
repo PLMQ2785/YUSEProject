@@ -66,7 +66,7 @@ public class MainMenuPanelManager : MonoBehaviour
         if(Input.anyKeyDown && MainPanel.activeSelf)
         {
             MainPanel.SetActive(false);
-
+            LobbyPanel.SetActive(true);
         }
     }
 
