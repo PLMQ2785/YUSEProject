@@ -1,9 +1,8 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Reposition : MonoBehaviour
 {
-
-
+   
     private Collider2D coll;
 
     #region unity life cycle
@@ -13,7 +12,7 @@ public class Reposition : MonoBehaviour
     }
     #endregion
 
-    //collider¿¡¼­ ¹ş¾î³¯½Ã ¹ß»ıÇÏ´Â ·ÎÁ÷
+    //colliderì—ì„œ ë²—ì–´ë‚ ì‹œ ë°œìƒí•˜ëŠ” ë¡œì§
     void OnTriggerExit2D(Collider2D collision)
     {
         if(!collision.CompareTag("Area"))
@@ -27,18 +26,18 @@ public class Reposition : MonoBehaviour
         switch (transform.tag)
         {
             case "Ground":
-                //ÇÃ·¹ÀÌ¾î¶û ¸ÊÀÇ °Å¸®±¸ÇÏ±â
+                //í”Œë ˆì´ì–´ë‘ ë§µì˜ ê±°ë¦¬êµ¬í•˜ê¸°
                 float distance_x = playerPos.x - myPos.x;
                 float distance_y = playerPos.y - myPos.y;
-                //¹æÇâ ±¸ÇÏ±â
+                //ë°©í–¥ êµ¬í•˜ê¸°
                 float direction_X = distance_x < 0 ? -1:1; 
                 float direction_Y = distance_y < 0 ? -1:1;
 
-                //Àı´ë°ªÀ¸·Î ¹Ù²Ù±â
+                //ì ˆëŒ€ê°’ìœ¼ë¡œ ë°”ê¾¸ê¸°
                 distance_x = Mathf.Abs(distance_x);
                 distance_y = Mathf.Abs(distance_y);
 
-                //x y°Å¸®¿¡µû¶ó ½ºÆùÀ§Ä¡ Á¶Á¤
+                //x yê±°ë¦¬ì—ë”°ë¼ ìŠ¤í°ìœ„ì¹˜ ì¡°ì •
                 if(distance_x >distance_y)
                 {
                     transform.Translate(Vector3.right * direction_X * 40);
@@ -53,11 +52,11 @@ public class Reposition : MonoBehaviour
 
             case "Enemy":
 
-                if(coll.enabled) //Á×Àº³ğÀº ½ÇÇà x
+                if(coll.enabled) //ì£½ì€ë†ˆì€ ì‹¤í–‰ x
                 {
                     Vector3 distance_Monster = playerPos - myPos;
 
-                    // ÇÏ³ª·Î °ãÄ¡´Â°Å ¸·±âÀ§ÇÑ ·ÎÁ÷ 
+                    // í•˜ë‚˜ë¡œ ê²¹ì¹˜ëŠ”ê±° ë§‰ê¸°ìœ„í•œ ë¡œì§ 
                     Vector3 Ran_pos= new Vector3(UnityEngine.Random.Range(-3, 3), UnityEngine.Random.Range(-3, 3), 0);
 
                   
