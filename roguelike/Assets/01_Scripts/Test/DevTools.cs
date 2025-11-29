@@ -13,6 +13,11 @@ public class DevTools : MonoBehaviour
     
     [Header("UI")]
     [SerializeField] private GameObject debugPanel;
+
+    [Header("Weapon")] 
+    [SerializeField] private WeaponData testWeapon;
+    [SerializeField] private PassiveData testPassive;
+    [SerializeField] private ItemData testItem;
     #endregion
 
     #region Private Fields
@@ -112,6 +117,42 @@ public class DevTools : MonoBehaviour
         _isSpeedUp = !_isSpeedUp;
         Time.timeScale = _isSpeedUp ? 2.0f : 1.0f;
         Debug.Log($"[Dev UI] TimeScale: {Time.timeScale}");
+    }
+
+    public void OnBtnAddWeaponClicked()
+    {
+        if (CheckPlayer())
+        {
+            Debug.Log("[Dev UI] Add Weapon Test");
+            if (testWeapon != null)
+                playerManager.AddEquipment(testWeapon);
+            else
+                Debug.LogWarning("Test Weapon Data is missing!");
+        }
+    }
+
+    public void OnBtnAddPassiveClicked()
+    {
+        if (CheckPlayer())
+        {
+            Debug.Log("[Dev UI] Add Passive Test");
+            if (testPassive != null)
+                playerManager.AddEquipment(testPassive);
+            else
+                Debug.LogWarning("Test Passive Data is missing!");
+        }
+    }
+
+    public void OnBtnAddItemClicked()
+    {
+        if (CheckPlayer())
+        {
+            Debug.Log("[Dev UI] Add Consumable Item Test");
+            if (testItem != null)
+                playerManager.AddItem(testItem);
+            else
+                Debug.LogWarning("Test Item Data is missing!");
+        }
     }
     #endregion
 

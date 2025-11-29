@@ -17,7 +17,7 @@ public abstract class Equipment : MonoBehaviour
     
     [Header("Stats")]
     [SerializeField] protected float baseDamage = 10f;
-    [SerializeField] protected float baseCooldown = 2f; // (필요한 경우 사용)
+    [SerializeField] protected float baseCooldown = 5f; // (필요한 경우 사용)
     #endregion
 
     #region Protected Fields
