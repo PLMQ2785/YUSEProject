@@ -8,6 +8,7 @@ public class HUDManager : MonoBehaviour
     #region Serialized Fields
     [Header("Dependencies")]
     [SerializeField] private PlayerManager playerManager; // 인스펙터에서 연결
+    [SerializeField] private InventoryManager inventoryManager; // 획득한 장비와 아이템 띄우기 위한 참조
 
     [Header("UI Elements (S1)")]
     [SerializeField] private Slider hpSlider; // (D-1.a)
@@ -19,7 +20,7 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI killCountText; // (D-1.b)
     [SerializeField] private GameObject bossHpBarPanel; // (D-1.d)
     [SerializeField] private GameObject questInfoPanel; // (D-1.d)
-    
+
     // (S3, D-1.c) 장비/아이템 슬롯 UI 참조
     // [SerializeField] private Image[] equipmentSlots;
     // [SerializeField] private Image[] itemSlots;
@@ -139,7 +140,7 @@ public class HUDManager : MonoBehaviour
     /// <summary>
     /// HUD 초기화
     /// </summary>
-    public void InitHUD()
+    private void InitHUD()
     {
         // HP
         UpdateHpBar(playerManager.CurrentHp, playerManager.CurrentHp);
@@ -165,5 +166,10 @@ public class HUDManager : MonoBehaviour
             questInfoPanel.SetActive(false);
 
     }
+    #endregion
+
+    #region Public Methods
+    
+
     #endregion
 }
