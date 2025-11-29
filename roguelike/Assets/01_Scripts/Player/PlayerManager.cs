@@ -54,6 +54,8 @@ public class PlayerManager : MonoBehaviour
     #region Private Fields
     private Rigidbody2D _rb;
     private float _currentHp;
+    private Animator anime;
+    private SpriteRenderer spirte;
     
     // --- Sprint 2에서 사용할 변수 ---
     private int _level = 1;
@@ -66,8 +68,15 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        anime = GetComponent<Animator>();
+        spirte = GetComponent<SpriteRenderer>();
     }
 
+
+    private void Update()
+    {
+        Player_Animation();
+    }
     private void Start()
     {
         _currentHp = stats.MaxHp;
@@ -205,6 +214,35 @@ public class PlayerManager : MonoBehaviour
         gameObject.SetActive(false); 
     }
     
+
+    private void Player_Animation()
+    {
+        float input_x = inputManager.HorizontalInputValue;
+        float input_y=inputManager.VerticalInputValue;
+
+        bool isMoving;
+        Vector2 moveinput = new Vector2(input_x, input_y);
+
+        if(moveinput!=Vector2.zero)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+        }
+
+
+            anime.SetBool("IsWalk", isMoving);
+
+        if(input_x!=0)
+        {
+            spirte.flipX = input_x > 0;
+        }
+
+    }
+
+
     /// <summary>
     /// (S2, B-1.b) 레벨 업 처리
     /// </summary>

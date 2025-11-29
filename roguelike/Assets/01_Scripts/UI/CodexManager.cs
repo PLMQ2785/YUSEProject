@@ -4,6 +4,10 @@ using System.Collections;
 
 public class CodexManager : MonoBehaviour
 {
+
+    public static CodexManager instance;
+
+
     [Header("panel")]
     [SerializeField] private GameObject[] allCodexPanels;
 
