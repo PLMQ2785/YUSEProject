@@ -27,7 +27,7 @@ public class UpgradeManager : MonoBehaviour
 
     [Header("ui tooltip")]
     public TMP_Text contentText;
-    public RectTransform ToolTipRect;
+    public RectTransform TooltipRect;
     public Vector2 offset = new Vector2(150, 10);
 
 
@@ -75,21 +75,21 @@ public class UpgradeManager : MonoBehaviour
     void Update()
     {
         //툴팁 ui가 켜져잇으면 항상 마우스 쫓아가게
-        if(ToolTipRect != null && ToolTipRect.gameObject.activeSelf)
+        if(TooltipRect != null && TooltipRect.gameObject.activeSelf)
         {
-            UpdateToolTipPosition();
+            UpdateTooltipPosition();
         }
     }
 
     #endregion
 
     #region UITooltip 로직
-    private void UpdateToolTipPosition()
+    private void UpdateTooltipPosition()
     {
         Vector2 mousePos= Input.mousePosition;
 
-        float width = ToolTipRect.rect.width;
-        float height = ToolTipRect.rect.height;
+        float width = TooltipRect.rect.width;
+        float height = TooltipRect.rect.height;
 
         float finalX =mousePos.x+offset.x;
         float finalY =mousePos.y+offset.y;
@@ -105,19 +105,19 @@ public class UpgradeManager : MonoBehaviour
         }
 
 
-        ToolTipRect.position=new Vector2(finalX,finalY);
+        TooltipRect.position=new Vector2(finalX,finalY);
     }
 
-    public void ShowToolTip(string text)
+    public void ShowTooltip(string text)
     {
-        ToolTipRect.gameObject.SetActive(true);
+        TooltipRect.gameObject.SetActive(true);
         contentText.text = text;
-        UpdateToolTipPosition();
+        UpdateTooltipPosition();
     }
 
-    public void HideToolTip()
+    public void HideTooltip()
     {
-        ToolTipRect.gameObject.SetActive(false);
+        TooltipRect.gameObject.SetActive(false);
     }
 
     #endregion

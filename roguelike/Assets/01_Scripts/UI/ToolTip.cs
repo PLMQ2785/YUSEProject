@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-public class ToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 
     [TextArea]
@@ -9,12 +9,12 @@ public class ToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     //들어가면 열리고
     public void OnPointerEnter(PointerEventData eventData)
     {
-        UpgradeManager.Instance.ShowToolTip(description);
+        UpgradeManager.Instance.ShowTooltip(description);
     }
 
     //마우스가 나가면 닫히고
     public void OnPointerExit(PointerEventData eventData) 
     { 
-        UpgradeManager.Instance.HideToolTip(); 
+        UpgradeManager.Instance.HideTooltip(); 
     }
 }

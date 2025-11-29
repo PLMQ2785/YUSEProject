@@ -54,8 +54,8 @@ public class PlayerManager : MonoBehaviour
     #region Private Fields
     private Rigidbody2D _rb;
     private float _currentHp;
-    private Animator anime;
-    private SpriteRenderer spirte;
+    private Animator _anime;
+    private SpriteRenderer _sprite;
     
     // --- Sprint 2에서 사용할 변수 ---
     private int _level = 1;
@@ -68,8 +68,8 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        anime = GetComponent<Animator>();
-        spirte = GetComponent<SpriteRenderer>();
+        _anime = GetComponent<Animator>();
+        _sprite = GetComponent<SpriteRenderer>();
     }
 
 
@@ -233,11 +233,11 @@ public class PlayerManager : MonoBehaviour
         }
 
 
-            anime.SetBool("IsWalk", isMoving);
+            _anime.SetBool("IsWalk", isMoving);
 
         if(input_x!=0)
         {
-            spirte.flipX = input_x > 0;
+            _sprite.flipX = input_x > 0;
         }
 
     }
