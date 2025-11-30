@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ public class RewardManager : MonoBehaviour
 
     #region Event
     public event Action<int,int,float> OnRewardTextUIChanged;
+    public event Action<List<ScriptableObject>> OnRewardUIChanged;
     #endregion
 
     #region Private Fields
@@ -49,13 +51,14 @@ public class RewardManager : MonoBehaviour
     /// </summary>
 public void GenerateRewards()
 {
-    // rewardPanel Text UI 업데이트
+    // HUDManager에서 rewarTextUI 업데이트
     OnRewardTextUIChanged?.Invoke(_rerollPrice,_rerollCount,_skipExpRatio);
 
 
     Debug.Log("RewardManager: GenerateRewards() 호출됨");
 /*
-    HashSet<UnityEngine.Object> rewards = new HashSet<UnityEngine.Object>(3);
+    // 아이템,장비,패시브의 최상위 ScriptableObject 타입 최종 보상셋
+    HashSet<ScriptableObject> rewards = new HashSet<ScriptableObject>(3);
 
     // 무한 루프 방지용 안전 장치 (보유 아이템이 없는데 뽑으려 할 때 등 대비)
     int safetyCount = 0; 
@@ -63,7 +66,7 @@ public void GenerateRewards()
     while (rewards.Count < 3 && safetyCount < 100)
     {
         safetyCount++;
-        UnityEngine.Object select = null;
+        ScriptableObject select = null;
 
         // (장비,아이템 풀 구분) 10개 중 랜덤으로 뽑기
         int flag = UnityEngine.Random.Range(0, 10);
@@ -123,36 +126,37 @@ public void GenerateRewards()
         {
             rewards.Add(select);
         }
-    }        
+    }
 
-        // UI 표시는 InGamePanelManager에서 하는 것 고려
-        /*
-        for (int i = 0; i < rewards.Count; i++)
-        {
-            // UI 교체
-            rewardSlots[i].icon = rewards[i].Icon;
-            rewardSlots[i].nameText.text = rewards[i].EquipmentName;
-
-            // 기존 리스너 제거 후 새로 등록
-            rewardSlots[i].selectButton.onClick.RemoveAllListeners();
-            rewardSlots[i].selectButton.onClick.AddListener(() =>
-            {
-                OnRewardSelected(rewards[i]);
-            });
-        }
+    // HUDManager에서 RewardUI 업데이트
+    OnRewardUIChanged?.Invoke(rewards.ToList());
         */
-
-        
     }
 
     /// <summary>
     /// 보상 선택 시 호출
     /// </summary>
-    public void OnRewardSelected(EquipmentData data) 
+    public void OnRewardSelected(ScriptableObject data) 
     {
+        // 선택된 보상 장착 (장비, 아이템 구분)
+        switch (data)
+        {
+            case ItemData item:
+                Debug.Log("RewardManager: 아이템 선택");
 
-        // 선택된 장비 착용
-        playerManager.AddEquipment(data);
+                // 아이템 추가
+                playerManager.AddItem(item);
+                
+                break;
+
+            case EquipmentData equipment:
+                Debug.Log("RewardManager: 장비 선택");
+
+                // 장비 추가
+                playerManager.AddEquipment(equipment);
+
+                break;
+        }
 
         // 리롤 횟수 초기화
         _rerollCount = _maxRerollCount;

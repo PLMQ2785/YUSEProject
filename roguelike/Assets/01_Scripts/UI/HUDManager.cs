@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class HUDManager : MonoBehaviour
 {
@@ -28,9 +31,12 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private Image[] itemSlots; // 아이템 슬롯 (3개)
 
     [Header("RewardPanel UI")]
-    [SerializeField] private TextMeshProUGUI rerollCostText;
-    [SerializeField] private TextMeshProUGUI rerollCountText;
-    [SerializeField] private TextMeshProUGUI skipExpRatio;
+    [SerializeField] private Button[] rewardSlots; // 보상 슬롯 버튼
+    [SerializeField] private Image[] rewardsIcon; // 보상 아이콘
+    [SerializeField] private Text[] rewardsDescription; // 보상 설명 텍스트
+    [SerializeField] private TextMeshProUGUI rerollCostText; // 리롤 비용 텍스트
+    [SerializeField] private TextMeshProUGUI rerollCountText; // 리롤 횟수 텍스트
+    [SerializeField] private TextMeshProUGUI skipExpRatio; // 스킵 시 경험치 보상 텍스트
     #endregion
 
     #region Unity LifeCycle
@@ -84,6 +90,7 @@ public class HUDManager : MonoBehaviour
         else
         {
             rewardManager.OnRewardTextUIChanged += UpdateRewardTextUI;
+            rewardManager.OnRewardUIChanged += UpdateRewardUI;
         }
 
         InitHUD();
@@ -119,13 +126,9 @@ public class HUDManager : MonoBehaviour
         if (rewardManager != null) 
         { 
             rewardManager.OnRewardTextUIChanged -= UpdateRewardTextUI;
+            rewardManager.OnRewardUIChanged -= UpdateRewardUI;
         }
     }
-    #endregion
-
-    #region Public Methods
-    
-
     #endregion
 
     #region Private Methods (Event Handlers)
@@ -239,7 +242,7 @@ public class HUDManager : MonoBehaviour
     /// <summary>
     /// 슬롯 배열을 데이터 리스트에 맞춰 갱신하는 헬퍼 함수
     /// </summary>
-    private void UpdateSlots(Image[] slots, System.Collections.Generic.List<Sprite> icons)
+    private void UpdateSlots(Image[] slots, List<Sprite> icons)
     {
         if (slots == null) return;
 
@@ -304,6 +307,38 @@ public class HUDManager : MonoBehaviour
         // 스킵시 경험치 보상 비율 업데이트
         if (skipExpRatio != null)
             skipExpRatio.text = $"{ratio * 100}%";
+    }
+
+    /// <summary>
+    /// 보상창 보상카드 업데이트 함수
+    /// RewardManager.onRewardUIChanged 이벤트가 호출
+    /// </summary>
+    private void UpdateRewardUI(List<ScriptableObject> rewards)
+    {
+        for (int i = 0; i < rewards.Count; i++)
+        {
+            // UI 교체
+            switch (rewards[i])
+            {
+                case ItemData item:
+                    rewardsIcon[i].sprite = item.Icon;
+                    rewardsDescription[i].text = item.Description;
+                    break;
+
+                case EquipmentData equip:
+                    rewardsIcon[i].sprite = equip.Icon;
+                    rewardsDescription[i].text = equip.Description;
+                    break;
+
+            }
+
+            // 기존 리스너 제거 후 새로 등록
+            rewardSlots[i].onClick.RemoveAllListeners();
+            rewardSlots[i].onClick.AddListener(() =>
+            {
+                rewardManager.OnRewardSelected(rewards[i]);
+            });
+        }
     }
 
     #endregion
