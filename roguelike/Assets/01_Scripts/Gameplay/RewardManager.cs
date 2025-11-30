@@ -17,11 +17,10 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private LootDataBase lootDataBase;
     [SerializeField] private InventoryManager inventoryManager;
 
-    // 일단 rewardPanel UI는 rewardManager에서 업데이트. 나중에 위치 변경 가능
-    [Header("RewardPanel UI")]
-    [SerializeField] private TextMeshProUGUI rerollCostText;
-    [SerializeField] private TextMeshProUGUI rerollCountText;
-    [SerializeField] private TextMeshProUGUI skipExpRatio;
+    #endregion
+
+    #region Event
+    public event Action<int,int,float> OnRewardTextUIChanged;
     #endregion
 
     #region Private Fields
@@ -50,10 +49,8 @@ public class RewardManager : MonoBehaviour
     /// </summary>
 public void GenerateRewards()
 {
-    // 일단 rewardPanel UI는 rewardPanel UI는rewardManager에서 업데이트. 나중에 위치 변경 가능
-    UpdateRerollCost(_rerollPrice);
-    UpdateRerollCount(_rerollCount);
-    UpdateSkipExpRatio(_skipExpRatio);
+    // rewardPanel Text UI 업데이트
+    OnRewardTextUIChanged?.Invoke(_rerollPrice,_rerollCount,_skipExpRatio);
 
 
     Debug.Log("RewardManager: GenerateRewards() 호출됨");
@@ -189,7 +186,7 @@ public void GenerateRewards()
         // 리롤 횟수 감소
         _rerollCount--;
         // 리롤 비용 증가
-        _rerollPrice = _rerollPrice * 2;
+        _rerollPrice = _rerollPrice * 2; // 임시 2배 증가
 
         // 보상 다시 생성
         GenerateRewards();
@@ -213,52 +210,6 @@ public void GenerateRewards()
     #endregion
 
     #region Private Methods
-    // 일단 rewardPanel UI는 rewardPanel UI는rewardManager에서 업데이트. 나중에 위치 변경 가능
 
-    /// <summary>
-    /// 리롤 비용 업데이트 함수
-    /// 리롤 버튼 누를 때 호출
-    /// </summary>
-    private void UpdateRerollCost(int amount)
-    {
-        if (rerollCostText != null)
-            rerollCostText.text = amount.ToString();
-
-        // 리롤 비용 지불 불가능 시 빨간색으로 표시
-        if (_rerollPrice > playerManager.Gold)
-        {
-            rerollCostText.color = Color.red;
-        }
-        else
-        {
-            rerollCostText.color = Color.white;
-        }
-    }
-
-    /// <summary>
-    /// 리롤 횟수 업데이트 함수
-    /// 리롤 버튼 누를 때 호출
-    /// </summary>
-    private void UpdateRerollCount(int amount)
-    {
-        if (rerollCountText != null)
-            rerollCountText.text = amount.ToString();
-
-        // 리롤 횟수 부족 시 빨간색으로 표시
-        if (_rerollCount > 0)
-        {
-            rerollCountText.color = Color.white;
-        }
-        else
-        {
-            rerollCountText.color = Color.red;
-        }
-    }
-
-    private void UpdateSkipExpRatio(float amount)
-    {
-        if (skipExpRatio != null)
-            skipExpRatio.text = $"{amount*100}%";
-    }
     #endregion
 }
