@@ -10,6 +10,10 @@ public class RewardManager : MonoBehaviour
     // (컨벤션 1-3) GameManager가 구독할 이벤트
     // (SDS 3.2.1 HandleRewardFinished)
     public event Action OnRewardProcessFinished;
+
+    // rewardPanel UI 변경 이벤트
+    public event Action<int,int,float> OnRewardTextUIChanged;
+    public event Action<List<ScriptableObject>> OnRewardUIChanged;
     #endregion
 
     #region Serialized Fields
@@ -18,11 +22,6 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private LootDataBase lootDataBase;
     [SerializeField] private InventoryManager inventoryManager;
 
-    #endregion
-
-    #region Event
-    public event Action<int,int,float> OnRewardTextUIChanged;
-    public event Action<List<ScriptableObject>> OnRewardUIChanged;
     #endregion
 
     #region Private Fields
@@ -49,88 +48,88 @@ public class RewardManager : MonoBehaviour
     /// (S2, B-4) GameManager가 레벨업을 감지하면 호출
     /// 보상 3개 생성
     /// </summary>
-public void GenerateRewards()
-{
-    // HUDManager에서 rewarTextUI 업데이트
-    OnRewardTextUIChanged?.Invoke(_rerollPrice,_rerollCount,_skipExpRatio);
-
-
-    Debug.Log("RewardManager: GenerateRewards() 호출됨");
-/*
-    // 아이템,장비,패시브의 최상위 ScriptableObject 타입 최종 보상셋
-    HashSet<ScriptableObject> rewards = new HashSet<ScriptableObject>(3);
-
-    // 무한 루프 방지용 안전 장치 (보유 아이템이 없는데 뽑으려 할 때 등 대비)
-    int safetyCount = 0; 
-
-    while (rewards.Count < 3 && safetyCount < 100)
+    public void GenerateRewards()
     {
-        safetyCount++;
-        ScriptableObject select = null;
+        // HUDManager에서 rewarTextUI 업데이트
+        OnRewardTextUIChanged?.Invoke(_rerollPrice,_rerollCount,_skipExpRatio);
 
-        // (장비,아이템 풀 구분) 10개 중 랜덤으로 뽑기
-        int flag = UnityEngine.Random.Range(0, 10);
 
-        // 20% 확률로 소모품(Item) 등장
-        if (flag >= 8)
+        Debug.Log("RewardManager: GenerateRewards() 호출됨");
+    /*
+        // 아이템,장비,패시브의 최상위 ScriptableObject 타입 최종 보상셋
+        HashSet<ScriptableObject> rewards = new HashSet<ScriptableObject>(3);
+
+        // 무한 루프 방지용 안전 장치 (보유 아이템이 없는데 뽑으려 할 때 등 대비)
+        int safetyCount = 0; 
+
+        while (rewards.Count < 3 && safetyCount < 100)
         {
-            if (lootDataBase.itemPool.Count > 0)
-            {
-                 select = lootDataBase.itemPool[UnityEngine.Random.Range(0, lootDataBase.itemPool.Count)];
-            }
-        }
-        else
-        {
-            // (장비 구분) 3개 중 랜덤으로 뽑기
-            int flag2 = UnityEngine.Random.Range(0, 3);
+            safetyCount++;
+            ScriptableObject select = null;
 
-            // 40% 확률로 [현재 보유한 장비]에서 등장 (업그레이드)
-            // 수정 포인트: 보유한 장비가 있을 때만 이 로직을 타야 함
-            if (flag < 4 && (inventoryManager.Passives.Count > 0 || inventoryManager.Weapons.Count > 0))
+            // (장비,아이템 풀 구분) 10개 중 랜덤으로 뽑기
+            int flag = UnityEngine.Random.Range(0, 10);
+
+            // 20% 확률로 소모품(Item) 등장
+            if (flag >= 8)
             {
-                // 1/3 확률로 패시브 등장 (패시브가 있어야 함)
-                if (flag2 == 0 && inventoryManager.Passives.Count > 0)
+                if (lootDataBase.itemPool.Count > 0)
                 {
-                    // 수정됨: passivePool 대신 Passives 프로퍼티 사용
-                    // 컴포넌트(.Passives[i])에서 데이터(.PassiveData)를 꺼냄
-                    select = inventoryManager.Passives[UnityEngine.Random.Range(0, inventoryManager.Passives.Count)].PassiveData;
+                     select = lootDataBase.itemPool[UnityEngine.Random.Range(0, lootDataBase.itemPool.Count)];
                 }
-                // 2/3 확률로 무기 등장 (무기가 있어야 함)
-                else if (inventoryManager.Weapons.Count > 0)
-                {
-                    // 수정됨: weaponPool 대신 Weapons 프로퍼티 사용
-                    // 컴포넌트(.Weapons[i])에서 데이터(.WeaponData)를 꺼냄
-                    select = inventoryManager.Weapons[UnityEngine.Random.Range(0, inventoryManager.Weapons.Count)].WeaponData;
-                }
-                // (예외 처리) 위 조건에 안 걸리면 전체 풀에서 뽑도록 유도하거나 루프 다시 돔
             }
-            // 60% 확률 (혹은 보유 장비가 없을 때) -> 전체 풀에서 등장 (신규 획득)
             else
             {
-                // 1/3 확률로 패시브 등장
-                if (flag2 == 0)
+                // (장비 구분) 3개 중 랜덤으로 뽑기
+                int flag2 = UnityEngine.Random.Range(0, 3);
+
+                // 40% 확률로 [현재 보유한 장비]에서 등장 (업그레이드)
+                // 수정 포인트: 보유한 장비가 있을 때만 이 로직을 타야 함
+                if (flag < 4 && (inventoryManager.Passives.Count > 0 || inventoryManager.Weapons.Count > 0))
                 {
-                    if (lootDataBase.passivePool.Count > 0)
-                        select = lootDataBase.passivePool[UnityEngine.Random.Range(0, lootDataBase.passivePool.Count)];
+                    // 1/3 확률로 패시브 등장 (패시브가 있어야 함)
+                    if (flag2 == 0 && inventoryManager.Passives.Count > 0)
+                    {
+                        // 수정됨: passivePool 대신 Passives 프로퍼티 사용
+                        // 컴포넌트(.Passives[i])에서 데이터(.PassiveData)를 꺼냄
+                        select = inventoryManager.Passives[UnityEngine.Random.Range(0, inventoryManager.Passives.Count)].PassiveData;
+                    }
+                    // 2/3 확률로 무기 등장 (무기가 있어야 함)
+                    else if (inventoryManager.Weapons.Count > 0)
+                    {
+                        // 수정됨: weaponPool 대신 Weapons 프로퍼티 사용
+                        // 컴포넌트(.Weapons[i])에서 데이터(.WeaponData)를 꺼냄
+                        select = inventoryManager.Weapons[UnityEngine.Random.Range(0, inventoryManager.Weapons.Count)].WeaponData;
+                    }
+                    // (예외 처리) 위 조건에 안 걸리면 전체 풀에서 뽑도록 유도하거나 루프 다시 돔
                 }
-                // 2/3 확률로 무기 등장
+                // 60% 확률 (혹은 보유 장비가 없을 때) -> 전체 풀에서 등장 (신규 획득)
                 else
                 {
-                    if (lootDataBase.weaponPool.Count > 0)
-                        select = lootDataBase.weaponPool[UnityEngine.Random.Range(0, lootDataBase.weaponPool.Count)];
+                    // 1/3 확률로 패시브 등장
+                    if (flag2 == 0)
+                    {
+                        if (lootDataBase.passivePool.Count > 0)
+                            select = lootDataBase.passivePool[UnityEngine.Random.Range(0, lootDataBase.passivePool.Count)];
+                    }
+                    // 2/3 확률로 무기 등장
+                    else
+                    {
+                        if (lootDataBase.weaponPool.Count > 0)
+                            select = lootDataBase.weaponPool[UnityEngine.Random.Range(0, lootDataBase.weaponPool.Count)];
+                    }
                 }
+            }
+
+            if (select != null)
+            {
+                rewards.Add(select);
             }
         }
 
-        if (select != null)
-        {
-            rewards.Add(select);
-        }
-    }
-
-    // HUDManager에서 RewardUI 업데이트
-    OnRewardUIChanged?.Invoke(rewards.ToList());
-        */
+        // HUDManager에서 RewardUI 업데이트
+        OnRewardUIChanged?.Invoke(rewards.ToList());
+            */
     }
 
     /// <summary>

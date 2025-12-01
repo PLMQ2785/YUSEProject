@@ -94,6 +94,7 @@ public abstract class Monster : MonoBehaviour
         // 사망 처리 (보상 드롭 등 나중에 추가하기)
         DropExpOrb();
         UpGold(1);
+        UpKillCount(1);
 
 
         // 수정.. Destroy 대신 풀로 반환 로직 실행
@@ -123,6 +124,15 @@ public abstract class Monster : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.Player.GainGold(amount);
+        }
+    }
+
+    // 죽으면 플레이어의 킬카운트 증가
+    public void UpKillCount(int amount)
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.Player.GainKillCount(amount);
         }
     }
 

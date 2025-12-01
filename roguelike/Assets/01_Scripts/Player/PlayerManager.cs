@@ -30,11 +30,12 @@ public class PlayerManager : MonoBehaviour
     #region Properties
     // 외부에서 현재 HP를 읽을 수 있도록 프로퍼티로 노출
     public float CurrentHp { get => _currentHp; }
-    // (Sprint 2 추가) 레벨, 경험치, 골드 프로퍼티
+    // (Sprint 2 추가) 레벨, 경험치, 골드, 킬카운트 프로퍼티
     public int Level { get => _level; }
     public int CurrentExp { get => _currentExp; }
     public int MaxExp { get => _maxExp; }
     public int Gold { get => _gold; }
+    public int KillCount { get => _killCount; }
 
     //위치
     public Vector2 Player_Position =>transform.position;
@@ -67,6 +68,7 @@ public class PlayerManager : MonoBehaviour
     private int _currentExp = 0;
     private int _maxExp = 100; // 초기 최대 경험치
     private int _gold = 0;
+    private int _killCount = 0;
     #endregion
 
     #region Unity LifeCycle
@@ -213,6 +215,16 @@ public class PlayerManager : MonoBehaviour
         
         // 재화 획득 후 UI 갱신 알림
         OnGoldChanged?.Invoke(_gold);
+    }
+
+    /// <summary>
+    /// 킬카운트를 획득합니다.
+    /// </summary>
+    /// <param name="amount">획득한 킬카운트</param>
+    public void GainKillCount(int amount)
+    {
+        _killCount += amount;
+        OnKillCountChanged?.Invoke(_killCount);
     }
 
     /// <summary>

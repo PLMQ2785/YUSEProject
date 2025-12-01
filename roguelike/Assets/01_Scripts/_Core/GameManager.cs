@@ -207,9 +207,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f; // 게임 정지
         OnGameStateChanged?.Invoke(_currentState);
 
-        // (S3, D-2.c) 게임 오버 패널 표시
+        // (S3, D-2.c) 게임 오버 패널 표시(bool show, bool clear)
         if (_inGamePanelManager != null)
-            _inGamePanelManager.ShowGameOverPanel(true);
+            _inGamePanelManager.ShowGameOverPanel(true,false);
     }
 
     /// <summary>
@@ -223,9 +223,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f; // 게임 정지
         OnGameStateChanged?.Invoke(_currentState);
 
-        // (S3, D-2.c) 게임 클리어 패널 표시
+        // (S3, D-2.c) 게임 오버 패널 표시(bool show, bool clear)
         if (_inGamePanelManager != null)
-            _inGamePanelManager.ShowGameClearPanel(true);
+            //_inGamePanelManager.ShowGameClearPanel(true);
+            _inGamePanelManager.ShowGameOverPanel(true,true);
     }
 
     /// <summary>
