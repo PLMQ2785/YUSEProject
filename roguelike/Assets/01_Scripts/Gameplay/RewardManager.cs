@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -17,11 +18,11 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private LootDataBase lootDataBase;
     [SerializeField] private InventoryManager inventoryManager;
 
-    // 일단 rewardPanel UI는 rewardManager에서 업데이트. 나중에 위치 변경 가능
-    [Header("RewardPanel UI")]
-    [SerializeField] private TextMeshProUGUI rerollCostText;
-    [SerializeField] private TextMeshProUGUI rerollCountText;
-    [SerializeField] private TextMeshProUGUI skipExpRatio;
+    #endregion
+
+    #region Event
+    public event Action<int,int,float> OnRewardTextUIChanged;
+    public event Action<List<ScriptableObject>> OnRewardUIChanged;
     #endregion
 
     #region Private Fields
@@ -50,15 +51,14 @@ public class RewardManager : MonoBehaviour
     /// </summary>
 public void GenerateRewards()
 {
-    // 일단 rewardPanel UI는 rewardPanel UI는rewardManager에서 업데이트. 나중에 위치 변경 가능
-    UpdateRerollCost(_rerollPrice);
-    UpdateRerollCount(_rerollCount);
-    UpdateSkipExpRatio(_skipExpRatio);
+    // HUDManager에서 rewarTextUI 업데이트
+    OnRewardTextUIChanged?.Invoke(_rerollPrice,_rerollCount,_skipExpRatio);
 
 
     Debug.Log("RewardManager: GenerateRewards() 호출됨");
 /*
-    HashSet<UnityEngine.Object> rewards = new HashSet<UnityEngine.Object>(3);
+    // 아이템,장비,패시브의 최상위 ScriptableObject 타입 최종 보상셋
+    HashSet<ScriptableObject> rewards = new HashSet<ScriptableObject>(3);
 
     // 무한 루프 방지용 안전 장치 (보유 아이템이 없는데 뽑으려 할 때 등 대비)
     int safetyCount = 0; 
@@ -66,7 +66,7 @@ public void GenerateRewards()
     while (rewards.Count < 3 && safetyCount < 100)
     {
         safetyCount++;
-        UnityEngine.Object select = null;
+        ScriptableObject select = null;
 
         // (장비,아이템 풀 구분) 10개 중 랜덤으로 뽑기
         int flag = UnityEngine.Random.Range(0, 10);
@@ -126,36 +126,37 @@ public void GenerateRewards()
         {
             rewards.Add(select);
         }
-    }        
+    }
 
-        // UI 표시는 InGamePanelManager에서 하는 것 고려
-        /*
-        for (int i = 0; i < rewards.Count; i++)
-        {
-            // UI 교체
-            rewardSlots[i].icon = rewards[i].Icon;
-            rewardSlots[i].nameText.text = rewards[i].EquipmentName;
-
-            // 기존 리스너 제거 후 새로 등록
-            rewardSlots[i].selectButton.onClick.RemoveAllListeners();
-            rewardSlots[i].selectButton.onClick.AddListener(() =>
-            {
-                OnRewardSelected(rewards[i]);
-            });
-        }
+    // HUDManager에서 RewardUI 업데이트
+    OnRewardUIChanged?.Invoke(rewards.ToList());
         */
-
-        
     }
 
     /// <summary>
     /// 보상 선택 시 호출
     /// </summary>
-    public void OnRewardSelected(EquipmentData data) 
+    public void OnRewardSelected(ScriptableObject data) 
     {
+        // 선택된 보상 장착 (장비, 아이템 구분)
+        switch (data)
+        {
+            case ItemData item:
+                Debug.Log("RewardManager: 아이템 선택");
 
-        // 선택된 장비 착용
-        playerManager.AddEquipment(data);
+                // 아이템 추가
+                playerManager.AddItem(item);
+                
+                break;
+
+            case EquipmentData equipment:
+                Debug.Log("RewardManager: 장비 선택");
+
+                // 장비 추가
+                playerManager.AddEquipment(equipment);
+
+                break;
+        }
 
         // 리롤 횟수 초기화
         _rerollCount = _maxRerollCount;
@@ -189,7 +190,7 @@ public void GenerateRewards()
         // 리롤 횟수 감소
         _rerollCount--;
         // 리롤 비용 증가
-        _rerollPrice = _rerollPrice * 2;
+        _rerollPrice = _rerollPrice * 2; // 임시 2배 증가
 
         // 보상 다시 생성
         GenerateRewards();
@@ -213,52 +214,6 @@ public void GenerateRewards()
     #endregion
 
     #region Private Methods
-    // 일단 rewardPanel UI는 rewardPanel UI는rewardManager에서 업데이트. 나중에 위치 변경 가능
 
-    /// <summary>
-    /// 리롤 비용 업데이트 함수
-    /// 리롤 버튼 누를 때 호출
-    /// </summary>
-    private void UpdateRerollCost(int amount)
-    {
-        if (rerollCostText != null)
-            rerollCostText.text = amount.ToString();
-
-        // 리롤 비용 지불 불가능 시 빨간색으로 표시
-        if (_rerollPrice > playerManager.Gold)
-        {
-            rerollCostText.color = Color.red;
-        }
-        else
-        {
-            rerollCostText.color = Color.white;
-        }
-    }
-
-    /// <summary>
-    /// 리롤 횟수 업데이트 함수
-    /// 리롤 버튼 누를 때 호출
-    /// </summary>
-    private void UpdateRerollCount(int amount)
-    {
-        if (rerollCountText != null)
-            rerollCountText.text = amount.ToString();
-
-        // 리롤 횟수 부족 시 빨간색으로 표시
-        if (_rerollCount > 0)
-        {
-            rerollCountText.color = Color.white;
-        }
-        else
-        {
-            rerollCountText.color = Color.red;
-        }
-    }
-
-    private void UpdateSkipExpRatio(float amount)
-    {
-        if (skipExpRatio != null)
-            skipExpRatio.text = $"{amount*100}%";
-    }
     #endregion
 }
