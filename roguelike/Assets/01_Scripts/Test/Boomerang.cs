@@ -1,16 +1,16 @@
-using System.Collections;
+ï»¿using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Boomerang : Weapon
 {
-    [Header("¼³Á¤ °ª")]
+    [Header("ì„¤ì • ê°’")]
 
     [SerializeField] private float _flyDistance = 5f;
     [SerializeField] private float _flySpeed = 10f;
     [SerializeField] private float _rotateSpeed = 720f;
-    [SerializeField] private float _returnAcceleration = 20f; //µ¹¾Æ¿Ã¶§ °¡¼Ó
-    //³¯¶ó°¡°í ÀÖ´ÂÁö È®ÀÎÇÏ±â
+    [SerializeField] private float _returnAcceleration = 20f; //ëŒì•„ì˜¬ë•Œ ê°€ì†
+    //ë‚ ë¼ê°€ê³  ìˆëŠ”ì§€ í™•ì¸í•˜ê¸°
     private bool _isAttack = false;
     private Transform _parent;
     private SpriteRenderer _spriteRenderer;
@@ -26,7 +26,7 @@ public class Boomerang : Weapon
     protected override void PerformAttack()
     {
 
-        //³¯¶ó°¡°í ÀÖÀ¸¸é ½ÇÇà x
+        //ë‚ ë¼ê°€ê³  ìˆìœ¼ë©´ ì‹¤í–‰ x
         if (_isAttack)
             return;
 
@@ -41,33 +41,33 @@ public class Boomerang : Weapon
         _parent = transform.parent;
         transform.parent = null;   
       
-        //½ÃÀÛ ÁöÁ¡Àº ºÎ¸ğ ±âÁØ
+        //ì‹œì‘ ì§€ì ì€ ë¶€ëª¨ ê¸°ì¤€
         Vector3 startPos = Vector3.zero;
-        //·£´ı ¹æÇâÀ¸·Î ¹ß»ç
+        //ëœë¤ ë°©í–¥ìœ¼ë¡œ ë°œì‚¬
         Vector3 direction = Random.insideUnitCircle.normalized;
-        //µµÂø À§Ä¡
+        //ë„ì°© ìœ„ì¹˜
         Vector3 targetPos = direction * _flyDistance;
 
-        //³¯¾Æ°¥¶© º¸ÀÌ°ÔÇÏ±â
+        //ë‚ ì•„ê°ˆë• ë³´ì´ê²Œí•˜ê¸°
         if (_spriteRenderer != null)
             _spriteRenderer.enabled= true;
 
         
-        //°Å¸®°¡ 0.1º¸´Ù Å¬ÅÂ±îÁö ³¯¶ó°¡°í
+        //ê±°ë¦¬ê°€ 0.1ë³´ë‹¤ í´íƒœê¹Œì§€ ë‚ ë¼ê°€ê³ 
         while (Vector3.Distance(transform.position,targetPos)>0.1f)
         {
           
 
-            //¸ñÇ¥ ÁöÁ¡À¸·Î
+            //ëª©í‘œ ì§€ì ìœ¼ë¡œ
             transform.position = Vector3.MoveTowards(transform.position,targetPos, _flySpeed*Time.deltaTime);
 
-            //È¸Àü
+            //íšŒì „
             transform.Rotate(0,0,-_rotateSpeed*Time.deltaTime);
 
             yield return null;
         }
 
-        //°¡¼­ »ìÂ¦ ¸ØÃè´Ù°¡
+        //ê°€ì„œ ì‚´ì§ ë©ˆì·„ë‹¤ê°€
         yield return new WaitForSeconds(0.2f);
         float currentAcceleration = 0f;
 
@@ -85,7 +85,7 @@ public class Boomerang : Weapon
         transform.parent=_parent;
         transform.localPosition = Vector3.zero;
         transform.rotation= Quaternion.identity;
-        //´Ù½Ã µé¾î¿À¸é ²ô±â
+        //ë‹¤ì‹œ ë“¤ì–´ì˜¤ë©´ ë„ê¸°
         if (_spriteRenderer != null)
             _spriteRenderer.enabled = false;
         _isAttack =false;
