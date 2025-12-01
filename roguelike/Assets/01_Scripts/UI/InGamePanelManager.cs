@@ -16,12 +16,17 @@ public class InGamePanelManager : MonoBehaviour
 {
     #region Serialized Fields
     [SerializeField] private RewardManager rewardManager; // 보상 UI를 위한 참조
+    [SerializeField] private InventoryManager inventoryManager; // 획득한 장비와 아이템 띄우기 위한 참조
+    [SerializeField] private Sprite playerImage;
 
     // (컨벤션 1-1) 
     // Sprint 1에서 UI 아티스트가 만든 프리팹을 이곳에 연결합니다.
-    [Header("UI Panels")]
+    [Header("PausePanel UI")]
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private Image pausePlayerImage;
     [SerializeField] private TextMeshProUGUI pauseTimerText; // 일시정지패널 타이머 텍스트
+    [SerializeField] private Image[] pauseWeaponSlots; // 공격형 장비 슬롯 (6개)
+    [SerializeField] private Image[] pausePassiveSlots; // 패시브 장비 슬롯 (6개)
 
     [Header("RewardPanel UI")]
     [SerializeField] private GameObject rewardPanel;
@@ -32,16 +37,20 @@ public class InGamePanelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI rerollCountText; // 리롤 횟수 텍스트
     [SerializeField] private TextMeshProUGUI skipExpRatio; // 스킵 시 경험치 보상 텍스트
 
-    [Header("GameOver UI Panel")]
+    [Header("GameOverPanel UI ")]
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private Image gameOverPlayerImage;
     [SerializeField] private TextMeshProUGUI gameOverTitleText; // 게임오버패널 제목 텍스트
     [SerializeField] private TextMeshProUGUI gameOverTimerText; // 게임오버패널 타이머 텍스트
     [SerializeField] private TextMeshProUGUI gameOverGoldText; // 게임오버패널 골드 텍스트
     [SerializeField] private TextMeshProUGUI gameOverKillCountText; // 게임오버패널 킬카운트 텍스트
+    [SerializeField] private Image[] gameOverWeaponSlots; // 공격형 장비 슬롯 (6개)
+    [SerializeField] private Image[] gameOverPassiveSlots; // 패시브 장비 슬롯 (6개)
 
     // [SerializeField] private GameObject gameClearPanel;
 
     // (Sprint 2)
+    [Header("SettingPanel UI ")]
     [SerializeField] private GameObject settingPanel;
     #endregion
 
@@ -78,6 +87,8 @@ public class InGamePanelManager : MonoBehaviour
         Debug.Log("InGamePanelManager: 일시정지 패널 " + (show ? "표시" : "숨김"));
         if (pausePanel != null)
         {
+            UpdatePausePanel();
+
             pausePanel.SetActive(show);
         }
     }
@@ -217,6 +228,32 @@ public class InGamePanelManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 일시정지패널 업데이트 함수
+    /// GameManager가 ShowPausePanel()호출 시 업데이트
+    /// </summary>
+    private void UpdatePausePanel()
+    {
+        if (!pauseTimerText)
+        {
+            Debug.LogError("[InGamePanelManager] PausePanel's UI is NULL");
+            return;
+        }
+
+        // 일시정지패널 플레이어 이미지
+        pausePlayerImage.sprite = playerImage;
+        pausePlayerImage.preserveAspect = true;
+
+        // 일시정지패널 타이머 텍스트
+        float time = GameManager.Instance.GameTime;
+        int minutes = Mathf.FloorToInt(time / 60f);
+        int seconds = Mathf.FloorToInt(time % 60f);
+        pauseTimerText.text = $"{minutes:00}:{seconds:00}";
+
+        // 일시정지패널 인벤토리 이미지
+        UpdateInventoryUI(pauseWeaponSlots, pausePassiveSlots);
+    }
+
+    /// <summary>
     /// 게임오버패널 업데이트 함수
     /// GameManager가 ShowGameOverPanel(bool show, bool clear)호출 시 clear 여부에 따라 업데이트
     /// </summary>
@@ -224,9 +261,13 @@ public class InGamePanelManager : MonoBehaviour
     {
         if (!gameOverTitleText || !gameOverTimerText || !gameOverGoldText || !gameOverKillCountText) 
         {
-            Debug.LogError("[InGamePanelManager] GameOverPanel's Text is NULL");
+            Debug.LogError("[InGamePanelManager] GameOverPanel's UI is NULL");
             return; 
         }
+
+        // 게임오버패널 플레이어 이미지
+        gameOverPlayerImage.sprite = playerImage;
+        gameOverPlayerImage.preserveAspect = true;
 
         // 게임오버패널 제목 텍스트
         gameOverTitleText.text = clear ? "클리어" : "죽었습니다..";
@@ -242,6 +283,58 @@ public class InGamePanelManager : MonoBehaviour
 
         // 게임오버패널 킬카운트 텍스트
         gameOverKillCountText.text = GameManager.Instance.Player.KillCount.ToString();
+
+        // 게임오버패널 인벤토리 이미지
+        UpdateInventoryUI(gameOverWeaponSlots, gameOverPassiveSlots);
+    }
+
+    /// <summary>
+    /// (S3, D-1.c) InventoryManager.OnInventoryChanged 이벤트가 호출
+    /// 장비 및 아이템 슬롯 UI를 갱신합니다.
+    /// </summary>
+    private void UpdateInventoryUI(Image[] weapons, Image[] passives)
+    {
+        if (inventoryManager == null) return;
+
+        Debug.Log($"[HUDManager] UpdateInventoryUI Called. Weapons: {inventoryManager.Weapons.Count}, Passives: {inventoryManager.Passives.Count}");
+
+        // 1. 무기 슬롯 갱신
+        UpdateSlots(weapons, inventoryManager.Weapons.ConvertAll(w => w.WeaponData.Icon));
+
+        // 2. 패시브 슬롯 갱신
+        UpdateSlots(passives, inventoryManager.Passives.ConvertAll(p => p.Data.Icon));
+
+    }
+
+    /// <summary>
+    /// 슬롯 배열을 데이터 리스트에 맞춰 갱신하는 헬퍼 함수
+    /// </summary>
+    private void UpdateSlots(Image[] slots, List<Sprite> icons)
+    {
+        if (slots == null) return;
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i] == null) continue;
+
+            if (i < icons.Count)
+            {
+                // 아이템이 있는 경우
+                slots[i].sprite = icons[i];
+                slots[i].enabled = true;
+
+                // 투명도가 0이 아니도록 설정 (혹시 모를 안전장치)
+                Color c = slots[i].color;
+                c.a = 1f;
+                slots[i].color = c;
+            }
+            else
+            {
+                // 아이템이 없는 경우
+                slots[i].sprite = null;
+                slots[i].enabled = false; // 이미지를 끄거나 투명하게 처리
+            }
+        }
     }
     #endregion
 }
