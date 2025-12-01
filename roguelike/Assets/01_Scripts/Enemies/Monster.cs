@@ -111,12 +111,34 @@ public abstract class Monster : MonoBehaviour
 
 
     public void DropExpOrb()
+{
+    if (expOrbPrefab == null)
+        return;
+
+    GameObject orbObj;
+
+    if (PoolManager.Instance != null)
     {
-        if (expOrbPrefab != null)
-        {
-            Instantiate(expOrbPrefab, transform.position, Quaternion.identity);
-        }
+        // 1) 풀에서 구슬 하나 꺼내오기
+        orbObj = PoolManager.Instance.Get(
+            expOrbPrefab,
+            transform.position,
+            Quaternion.identity
+        );
     }
+    else
+    {
+        // 2) 혹시 PoolManager가 없으면 그냥 Instantiate
+        orbObj = Instantiate(expOrbPrefab, transform.position, Quaternion.identity);
+    }
+
+    // 3) ExperienceOrb 컴포넌트 찾아서, 어떤 프리팹에서 나왔는지 알려주기
+    ExperienceOrb orb = orbObj.GetComponent<ExperienceOrb>();
+    if (orb != null)
+    {
+        orb.Init(expOrbPrefab);
+    }
+}
 
     //일단 죽으면 플레이어의 골드 증가
     public void UpGold(int amount)
