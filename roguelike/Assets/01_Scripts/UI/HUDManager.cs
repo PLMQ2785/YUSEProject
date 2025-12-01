@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class HUDManager : MonoBehaviour
 {
@@ -9,6 +12,7 @@ public class HUDManager : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] private PlayerManager playerManager; // 인스펙터에서 연결
     [SerializeField] private InventoryManager inventoryManager; // 획득한 장비와 아이템 띄우기 위한 참조
+    [SerializeField] private RewardManager rewardManager; // 보상 UI를 위한 참조
 
     [Header("UI Elements (S1)")]
     [SerializeField] private Slider hpSlider; // (D-1.a)
@@ -25,6 +29,14 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private Image[] weaponSlots; // 공격형 장비 슬롯 (6개)
     [SerializeField] private Image[] passiveSlots; // 패시브 장비 슬롯 (6개)
     [SerializeField] private Image[] itemSlots; // 아이템 슬롯 (3개)
+
+    [Header("RewardPanel UI")]
+    [SerializeField] private Button[] rewardSlots; // 보상 슬롯 버튼
+    [SerializeField] private Image[] rewardsIcon; // 보상 아이콘
+    [SerializeField] private Text[] rewardsDescription; // 보상 설명 텍스트
+    [SerializeField] private TextMeshProUGUI rerollCostText; // 리롤 비용 텍스트
+    [SerializeField] private TextMeshProUGUI rerollCountText; // 리롤 횟수 텍스트
+    [SerializeField] private TextMeshProUGUI skipExpRatio; // 스킵 시 경험치 보상 텍스트
     #endregion
 
     #region Unity LifeCycle
@@ -70,13 +82,24 @@ public class HUDManager : MonoBehaviour
             Debug.LogError("[HUDManager] InventoryManager is NULL in Start!");
         }
 
+        // RewardUI
+        if (rewardManager == null)
+        {
+            Debug.LogError("[HUDManager] RewardManager is NULL");
+        }
+        else
+        {
+            rewardManager.OnRewardTextUIChanged += UpdateRewardTextUI;
+            rewardManager.OnRewardUIChanged += UpdateRewardUI;
+        }
+
         InitHUD();
     }
 
     private void OnDestroy()
     {
         // --- (컨벤션 1-3) 이벤트 구독 해제 (메모리 누수 방지) ---
-        
+
         // GameManager가 null이 아닌지 확인 (게임 종료 시 Instance가 먼저 파괴될 수 있음)
         if (GameManager.Instance != null)
         {
@@ -90,7 +113,7 @@ public class HUDManager : MonoBehaviour
             playerManager.OnGoldChanged -= UpdateGoldText;
             playerManager.OnKillCountChanged -= UpdateKillCountText;
         }
-        
+
         // (S3) [패키지 3] 이벤트 구독 해제
         // SpawnManager.OnBossSpawned -= ShowBossHpBar;
         // QuestManager.OnQuestStarted -= ToggleQuestInfo;
@@ -98,6 +121,12 @@ public class HUDManager : MonoBehaviour
         if (inventoryManager != null)
         {
             inventoryManager.OnInventoryChanged -= UpdateInventoryUI;
+        }
+
+        if (rewardManager != null) 
+        { 
+            rewardManager.OnRewardTextUIChanged -= UpdateRewardTextUI;
+            rewardManager.OnRewardUIChanged -= UpdateRewardUI;
         }
     }
     #endregion
@@ -213,7 +242,7 @@ public class HUDManager : MonoBehaviour
     /// <summary>
     /// 슬롯 배열을 데이터 리스트에 맞춰 갱신하는 헬퍼 함수
     /// </summary>
-    private void UpdateSlots(Image[] slots, System.Collections.Generic.List<Sprite> icons)
+    private void UpdateSlots(Image[] slots, List<Sprite> icons)
     {
         if (slots == null) return;
 
@@ -240,5 +269,77 @@ public class HUDManager : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// 보상창 텍스트 업데이트 함수
+    /// RewardManager.onRewardTextUIChanged 이벤트가 호출
+    /// </summary>
+    private void UpdateRewardTextUI(int cost, int count, float ratio)
+    {
+        // 리롤 비용 업데이트
+        if (rerollCostText != null)
+            rerollCostText.text = cost.ToString();
+
+        // 리롤 비용 지불 불가능 시 빨간색으로 표시
+        if (cost > playerManager.Gold)
+        {
+            rerollCostText.color = Color.red;
+        }
+        else
+        {
+            rerollCostText.color = Color.white;
+        }
+
+        // 리롤 횟수 업데이트
+        if (rerollCountText != null)
+            rerollCountText.text = count.ToString();
+
+        // 리롤 횟수 부족 시 빨간색으로 표시
+        if (count > 0)
+        {
+            rerollCountText.color = Color.white;
+        }
+        else
+        {
+            rerollCountText.color = Color.red;
+        }
+
+        // 스킵시 경험치 보상 비율 업데이트
+        if (skipExpRatio != null)
+            skipExpRatio.text = $"{ratio * 100}%";
+    }
+
+    /// <summary>
+    /// 보상창 보상카드 업데이트 함수
+    /// RewardManager.onRewardUIChanged 이벤트가 호출
+    /// </summary>
+    private void UpdateRewardUI(List<ScriptableObject> rewards)
+    {
+        for (int i = 0; i < rewards.Count; i++)
+        {
+            // UI 교체
+            switch (rewards[i])
+            {
+                case ItemData item:
+                    rewardsIcon[i].sprite = item.Icon;
+                    rewardsDescription[i].text = item.Description;
+                    break;
+
+                case EquipmentData equip:
+                    rewardsIcon[i].sprite = equip.Icon;
+                    rewardsDescription[i].text = equip.Description;
+                    break;
+
+            }
+
+            // 기존 리스너 제거 후 새로 등록
+            rewardSlots[i].onClick.RemoveAllListeners();
+            rewardSlots[i].onClick.AddListener(() =>
+            {
+                rewardManager.OnRewardSelected(rewards[i]);
+            });
+        }
+    }
+
     #endregion
 }
