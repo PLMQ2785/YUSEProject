@@ -1,34 +1,39 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public abstract class AcquireableObject : MonoBehaviour
 {
     
     public Vector2 Position =>transform.position;
-    private PlayerManager currentTarget = null;
+    protected PlayerManager currentTarget = null;  
+    private bool _isMovingToPlayer = false;        
 
     #region life Cycle
 
     private void Update()
     {
-        if (currentTarget != null)
+        if (_isMovingToPlayer && currentTarget != null)
         {
             MoveToPlayer(currentTarget);
         }
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
+    // private void OnTriggerEnter2D(Collider2D collision)
+    // {
 
       
-        PlayerManager player = collision.GetComponent<PlayerManager>();
+    //     PlayerManager player = collision.GetComponent<PlayerManager>();
+        
+    //     if (player == null)
+    //     {
+    //         player = collision.GetComponentInParent<PlayerManager>();
+    //     }
 
-        if(player != null)
-        {
-            currentTarget = player;
-            Debug.Log("감지");
-        }
-    }
+    //     if(player != null)
+    //     {
+    //         OnAcquire(player);
+    //     }
+    // }`
 
 
     #endregion
@@ -38,11 +43,26 @@ public abstract class AcquireableObject : MonoBehaviour
     #region public method
     [Header("Settings")]
     public float moveSpeed = 3.0f; //날라가는 속도
+
+    public void StartMoveTo(PlayerManager target)
+    {
+        currentTarget = target;
+        _isMovingToPlayer = true;
+    }
+
+    public void StopMove()
+    {
+        _isMovingToPlayer = false;
+        currentTarget = null;
+    }
     
     public void MoveToPlayer(PlayerManager target)
     {
-        if (target == null) return;
-
+        if (target == null)
+        {
+            StopMove();
+            return;
+        }
 
         transform.position = Vector2.MoveTowards(transform.position, target.Player_Position, moveSpeed*Time.deltaTime); //플레이어쪽으로
 
