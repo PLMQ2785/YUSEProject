@@ -133,7 +133,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputManager: {fileID: 4324634685302692466, guid: d5306122b12066b48b32c3bb4de803aa, type: 3}
   inventoryManager: {fileID: 2395662797616988758, guid: 8d17b1f4642f49f40ab4efdf929e5afa, type: 3}
-  upgradeManager: {fileID: 0}
   stats:
     maxHp: 100
     speed: 5
@@ -280,5 +279,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 20, y: 20}
+  m_Size: {x: 15, y: 15}
   m_EdgeRadius: 0
