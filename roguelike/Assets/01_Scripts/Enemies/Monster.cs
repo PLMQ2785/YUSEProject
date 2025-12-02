@@ -9,6 +9,7 @@ public abstract class Monster : MonoBehaviour
 
     [Header("Stats")] [SerializeField] protected float maxHp = 10f;
     [SerializeField] protected float moveSpeed = 2f;
+    [SerializeField] protected float contactDamage = 5f; // 플레이어와 충돌 시 데미지
 
     #endregion
 
@@ -159,5 +160,22 @@ public abstract class Monster : MonoBehaviour
     }
 
     #endregion
-   
+    
+    #region Collision
+    
+    /// <summary>
+    /// 플레이어와 충돌 중일 때 데미지를 줍니다.
+    /// </summary>
+    protected virtual void OnCollisionStay2D(Collision2D collision)
+    {
+        // 플레이어와 충돌 확인
+        PlayerManager player = collision.gameObject.GetComponent<PlayerManager>();
+        if (player != null)
+        {
+            // 충돌 데미지 적용 (무적 시스템이 자동으로 처리)
+            player.TakeDamage(contactDamage, true);
+        }
+    }
+    
+    #endregion
 }
