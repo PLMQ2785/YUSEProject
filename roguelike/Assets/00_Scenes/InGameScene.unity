@@ -994,6 +994,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7785942013742884472, guid: add9547ef5c3cb7429136267e8c282bf, type: 3}
   m_PrefabInstance: {fileID: 9127470290560610871}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1174135668 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
+  m_PrefabInstance: {fileID: 6697377776466563929}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4da8b7105c2f83e418f98cf9e276531d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1354058435 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1082986962246826540, guid: add9547ef5c3cb7429136267e8c282bf, type: 3}
@@ -1359,6 +1370,10 @@ PrefabInstance:
       propertyPath: skipExpRatio
       value: 
       objectReference: {fileID: 1590743651}
+    - target: {fileID: 455124095117590339, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
+      propertyPath: spawnManager
+      value: 
+      objectReference: {fileID: 1174135668}
     - target: {fileID: 455124095117590339, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
       propertyPath: killCountText
       value: 
