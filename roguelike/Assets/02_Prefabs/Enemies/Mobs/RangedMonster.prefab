@@ -50,8 +50,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 7
   moveSpeed: 1.5
+  contactDamage: 5
   expOrbPrefab: {fileID: 622782962632113181, guid: e0f17047d092c564ba65b11d0ea8c20b, type: 3}
-  attackRange: 3
+  attackRange: 5
   fireRate: 3
   projectilePrefab: {fileID: 128703109899176301, guid: 206f4a7f6b9e9414a8c909c3499a36eb, type: 3}
 --- !u!212 &1239617161806971552
@@ -167,7 +168,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1000
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
