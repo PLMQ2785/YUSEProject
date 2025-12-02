@@ -32,7 +32,8 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private Slider bossHpBarSlider; // 보스 체력
 
     [Header("QuestPanel")]
-    [SerializeField] private GameObject questInfoPanel; // (D-1.d)
+    [SerializeField] private GameObject questInfo; // (D-1.d)
+    [SerializeField] private TextMeshProUGUI questInfoText; // 퀘스트 텍스트
     #endregion
 
     #region Unity LifeCycle
@@ -192,8 +193,8 @@ public class HUDManager : MonoBehaviour
             bossHpBarPanel.SetActive(false);
 
         // Quest 패널 숨김
-        if (questInfoPanel != null)
-            questInfoPanel.SetActive(false);
+        if (questInfo != null)
+            questInfo.SetActive(false);
 
         // 인벤토리 UI 초기화
         UpdateInventoryUI();
@@ -278,6 +279,14 @@ public class HUDManager : MonoBehaviour
     {
         if (bossHpBarSlider != null)
             bossHpBarSlider.value = currentHp / maxHp;
+    }
+
+    /// <summary>
+    /// 퀘스트매니저의 이벤트가 호출
+    /// </summary>
+    private void ToggleQuestInfo()
+    {
+        questInfo.SetActive(!questInfo.activeSelf);
     }
 
     #endregion
