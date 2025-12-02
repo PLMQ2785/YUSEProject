@@ -49,7 +49,6 @@ public abstract class Weapon : EquipmentBase
     /// <summary>
     /// 실제 공격 로직을 구현합니다.
     /// 쿨타임이 0이 되면 Update에서 자동으로 호출됩니다.
-    /// 공격 수행 후 반드시 _currentCooldown을 재설정해야 합니다.
     /// </summary>
     protected abstract void PerformAttack();
     #endregion
