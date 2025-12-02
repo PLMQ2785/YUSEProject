@@ -10,6 +10,7 @@ public class HUDManager : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] private PlayerManager playerManager; // 인스펙터에서 연결
     [SerializeField] private InventoryManager inventoryManager; // 획득한 장비와 아이템 띄우기 위한 참조
+    [SerializeField] private SpawnManager spawnManager; // 보스 몬스터 체력 띄우기 위한 참조
 
     [Header("UI Elements (S1)")]
     [SerializeField] private Slider hpSlider; // (D-1.a)
@@ -19,14 +20,19 @@ public class HUDManager : MonoBehaviour
     [Header("UI Elements (S3)")]
     [SerializeField] private TextMeshProUGUI goldText; // (D-1.b)
     [SerializeField] private TextMeshProUGUI killCountText; // (D-1.b)
-    [SerializeField] private GameObject bossHpBarPanel; // (D-1.d)
-    [SerializeField] private GameObject questInfoPanel; // (D-1.d)
     
     [Header("Slots (S3, D-1.c)")]
     [SerializeField] private Image[] weaponSlots; // 공격형 장비 슬롯 (6개)
     [SerializeField] private Image[] passiveSlots; // 패시브 장비 슬롯 (6개)
     [SerializeField] private Image[] itemSlots; // 아이템 슬롯 (3개)
 
+    [Header("BossPanel")]
+    [SerializeField] private GameObject bossHpBarPanel; // (D-1.d)
+    [SerializeField] private TextMeshProUGUI bossNameText; // 보스 이름
+    [SerializeField] private Slider bossHpBarSlider; // 보스 체력
+
+    [Header("QuestPanel")]
+    [SerializeField] private GameObject questInfoPanel; // (D-1.d)
     #endregion
 
     #region Unity LifeCycle
@@ -58,7 +64,7 @@ public class HUDManager : MonoBehaviour
         playerManager.OnKillCountChanged += UpdateKillCountText;
 
         // (S3) [패키지 3]의 이벤트도 구독해야 함
-        // SpawnManager.OnBossSpawned += ShowBossHpBar;
+        spawnManager.OnBossSpawned += ShowBossHpBarPanel;
         // QuestManager.OnQuestStarted += ToggleQuestInfo;
 
         // [Inventory]
@@ -94,7 +100,7 @@ public class HUDManager : MonoBehaviour
         }
 
         // (S3) [패키지 3] 이벤트 구독 해제
-        // SpawnManager.OnBossSpawned -= ShowBossHpBar;
+        spawnManager.OnBossSpawned -= ShowBossHpBarPanel;
         // QuestManager.OnQuestStarted -= ToggleQuestInfo;
 
         if (inventoryManager != null)
@@ -244,6 +250,35 @@ public class HUDManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 보스 체력바 패널 띄우는 함수
+    /// 보스 출현 시 SpawnManager.OnBossSpawned 이벤트가 호출
+    /// </summary>
+    private void ShowBossHpBarPanel(bool show, BossMonster boss)
+    {
+        UpdateBossHpBar(boss.BossMaxHp, boss.BossMaxHp);
+
+        if (bossNameText != null)
+            bossNameText.text = boss.name;  // 프리팹 이름을 보스 이름으로 사용
+
+        if (bossHpBarPanel != null)
+            bossHpBarPanel.SetActive(show);
+
+        if(show)
+            boss.OnBossHpChanged += UpdateBossHpBar;
+        else
+            boss.OnBossHpChanged -= UpdateBossHpBar;
+
+    }
+
+    /// <summary>
+    /// BossMonster.OnBossHpChanged 이벤트가 호출
+    /// </summary>
+    private void UpdateBossHpBar(float currentHp, float maxHp)
+    {
+        if (bossHpBarSlider != null)
+            bossHpBarSlider.value = currentHp / maxHp;
+    }
 
     #endregion
 }

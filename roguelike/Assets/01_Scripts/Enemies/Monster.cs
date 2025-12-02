@@ -73,7 +73,7 @@ public abstract class Monster : MonoBehaviour
     }
 
 
-    public void TakeDamage(float amount)
+    public virtual void TakeDamage(float amount)
 
     {
         _currentHp -= amount;

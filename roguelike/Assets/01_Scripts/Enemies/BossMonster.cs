@@ -1,7 +1,15 @@
+using System;
 using UnityEngine;
 //spawnManager 동작 테스트를 위해 만들어 두었습니다!
 public class BossMonster : Monster
 {
+    // 보스 몬스터 체력 변경 시 이벤트
+    public event Action<float, float> OnBossHpChanged;
+
+    // 보스 몬스터 체력 프로퍼티
+    public float BossMaxHp { get => maxHp; }
+    public float BossCurrentHp { get => _currentHp; }
+
     protected override void Start()
     {
         base.Start();
@@ -37,5 +45,19 @@ public class BossMonster : Monster
         // base.Die()를 호출해야 SpawnManager가 넘겨준 콜백(OnBossDied)이 실행됨
         // 이 콜백이 실행되어야 타이머가 다시 돌아가고 일반 몬스터가 스폰됨
         base.Die(); 
+    }
+
+    // Monster.TakeDamage 오버라이드
+    public override void TakeDamage(float amount)
+    {
+        _currentHp -= amount;
+        // 보스 몬스터가 데미지 받으면 이벤트 방송
+        OnBossHpChanged?.Invoke(_currentHp, maxHp);
+
+        // TODO: 데미지 표시 UI 로직 추가 하기
+        if (_currentHp <= 0)
+        {
+            Die();
+        }
     }
 }

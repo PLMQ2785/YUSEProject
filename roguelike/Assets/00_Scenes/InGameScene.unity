@@ -951,6 +951,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 110736534063310268, guid: cc2333335db133f469098d8812c64c94, type: 3}
   m_PrefabInstance: {fileID: 640945942}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &753821536 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7872792057082127801, guid: add9547ef5c3cb7429136267e8c282bf, type: 3}
+  m_PrefabInstance: {fileID: 9127470290560610871}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &753821537 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2472931893443256471, guid: add9547ef5c3cb7429136267e8c282bf, type: 3}
+  m_PrefabInstance: {fileID: 9127470290560610871}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &822933727 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5964676769483876046, guid: add9547ef5c3cb7429136267e8c282bf, type: 3}
@@ -1330,6 +1352,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1354058435}
     - target: {fileID: 455124095117590339, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
+      propertyPath: bossNameText
+      value: 
+      objectReference: {fileID: 753821537}
+    - target: {fileID: 455124095117590339, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
       propertyPath: skipExpRatio
       value: 
       objectReference: {fileID: 1590743651}
@@ -1353,6 +1379,10 @@ PrefabInstance:
       propertyPath: rerollCostText
       value: 
       objectReference: {fileID: 1590743653}
+    - target: {fileID: 455124095117590339, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
+      propertyPath: bossHpBarSlider
+      value: 
+      objectReference: {fileID: 753821536}
     - target: {fileID: 455124095117590339, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
       propertyPath: rerollCountText
       value: 
