@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startTime: 0
   endTime: 8
-  spawnInterval: 2
+  spawnInterval: 1
   maxFieldMonsterCount: 30
   spawnablePrefabs:
   - {fileID: 2754266992652824033, guid: 5278036e5bebe954f95eb36d27d2683e, type: 3}

@@ -25,6 +25,10 @@ public abstract class Monster : MonoBehaviour
 
     // 몬스터가 죽었을 때 호출할 콜백 -> 풀로 복귀
     protected Action<Monster> _returnToPoolAction;
+    
+    // 피격 효과용
+    protected SpriteRenderer _spriteRenderer;
+    protected Color _originalColor;
 
     #endregion
 
@@ -33,7 +37,11 @@ public abstract class Monster : MonoBehaviour
 
     protected virtual void Awake()
     {
-        
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (_spriteRenderer != null)
+        {
+            _originalColor = _spriteRenderer.color;
+        }
     }
 
 
@@ -70,6 +78,15 @@ public abstract class Monster : MonoBehaviour
 
         // 재활용될 때 HP를 다시 채워야 합니다!
         _currentHp = maxHp;
+        
+        // 풀에서 재사용될 때 색상 리셋 (피격 효과 때문에 빨간색일 수 있음)
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.color = _originalColor;
+        }
+        
+        // 실행 중인 모든 코루틴 중지 (HitFlash 등)
+        StopAllCoroutines();
     }
 
 
@@ -77,6 +94,9 @@ public abstract class Monster : MonoBehaviour
 
     {
         _currentHp -= amount;
+        
+        // 피격 효과 실행
+        StartCoroutine(HitFlash());
 
         // TODO: 데미지 표시 UI 로직 추가 하기
         if (_currentHp <= 0)
@@ -91,6 +111,15 @@ public abstract class Monster : MonoBehaviour
     public virtual void Die()
 
     {
+        // 실행 중인 코루틴 중지 (HitFlash 등)
+        StopAllCoroutines();
+        
+        // 색상 리셋 (풀로 반환되기 전에)
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.color = _originalColor;
+        }
+        
         // 사망 처리 (보상 드롭 등 나중에 추가하기)
         DropExpOrb();
         UpGold(1);
@@ -158,6 +187,28 @@ public abstract class Monster : MonoBehaviour
         }
     }
 
+    #endregion
+    
+    #region Private Methods
+    
+    /// <summary>
+    /// 피격 시 빨간색으로 깜빡이는 효과
+    /// </summary>
+    private System.Collections.IEnumerator HitFlash()
+    {
+        if (_spriteRenderer != null)
+        {
+            // 빨간색으로 변경
+            _spriteRenderer.color = Color.red;
+            
+            // 0.1초 대기
+            yield return new WaitForSeconds(0.1f);
+            
+            // 원래 색으로 복구
+            _spriteRenderer.color = _originalColor;
+        }
+    }
+    
     #endregion
    
 }
