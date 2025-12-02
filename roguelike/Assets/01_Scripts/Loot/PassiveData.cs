@@ -23,5 +23,14 @@ public enum ItemStatType
     MaxHp,
     Speed,
     MagnetRange,
+    Attack,
+    Reduction,
+    Critical_Chance,
+    Critical_Damage,
+    CoolDown,
+    Attack_Speed,
+    Exp_Mult,
+    Gold_Mult,
+
     // 필요한 스탯 추가
 }
