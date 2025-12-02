@@ -37,7 +37,7 @@ public class InGamePanelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI rerollCountText; // 리롤 횟수 텍스트
     [SerializeField] private TextMeshProUGUI skipExpRatio; // 스킵 시 경험치 보상 텍스트
 
-    [Header("GameOverPanel UI ")]
+    [Header("GameOverPanel UI")]
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Image gameOverPlayerImage;
     [SerializeField] private TextMeshProUGUI gameOverTitleText; // 게임오버패널 제목 텍스트
@@ -50,7 +50,7 @@ public class InGamePanelManager : MonoBehaviour
     // [SerializeField] private GameObject gameClearPanel;
 
     // (Sprint 2)
-    [Header("SettingPanel UI ")]
+    [Header("SettingPanel UI")]
     [SerializeField] private GameObject settingPanel;
     #endregion
 

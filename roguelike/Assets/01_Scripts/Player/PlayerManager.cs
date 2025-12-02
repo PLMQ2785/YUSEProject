@@ -42,6 +42,9 @@ public class PlayerManager : MonoBehaviour
 
     // (Sprint 2 추가) 바라보는 방향 (기본값: 오른쪽)
     public Vector2 FacingDirection { get; private set; } = Vector2.right;
+    
+    // 충돌 데미지 무적 상태 확인
+    public bool IsInvincibleFromContact => _contactDamageTimer > 0f;
     #endregion
     
     #region Serialized Fields
@@ -54,6 +57,10 @@ public class PlayerManager : MonoBehaviour
     [Header("Stats")]
     [SerializeField]
     private PlayerStats stats;
+    
+    [Header("Contact Damage Settings")]
+    [SerializeField]
+    private float contactDamageCooldown = 1f; // 충돌 데미지 쿨다운 (무적시간)
     #endregion
 
     #region Private Fields
@@ -69,6 +76,9 @@ public class PlayerManager : MonoBehaviour
     private int _maxExp = 100; // 초기 최대 경험치
     private int _gold = 0;
     private int _killCount = 0;
+    
+    // --- 충돌 데미지 관련 ---
+    private float _contactDamageTimer = 0f; // 충돌 데미지 쿨다운 타이머
     #endregion
 
     #region Unity LifeCycle
@@ -85,6 +95,12 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         Player_Animation();
+        
+        // 충돌 데미지 쿨다운 타이머 감소
+        if (_contactDamageTimer > 0f)
+        {
+            _contactDamageTimer -= Time.deltaTime;
+        }
     }
     private void Start()
     {
@@ -174,9 +190,31 @@ public class PlayerManager : MonoBehaviour
     /// <param name="amount">받은 데미지 양</param>
     public void TakeDamage(float amount)
     {
+        TakeDamage(amount, false);
+    }
+    
+    /// <summary>
+    /// 캐릭터의 HP를 감소시킵니다. 충돌 데미지 여부를 지정할 수 있습니다.
+    /// </summary>
+    /// <param name="amount">받은 데미지 양</param>
+    /// <param name="isContactDamage">몬스터 충돌 데미지인지 여부</param>
+    public void TakeDamage(float amount, bool isContactDamage)
+    {
         if (_currentHp <= 0) return; // 이미 사망함
+        
+        // 충돌 데미지이고 무적 상태라면 무시
+        if (isContactDamage && IsInvincibleFromContact)
+        {
+            return;
+        }
 
         _currentHp -= amount;
+        
+        // 충돌 데미지를 받았다면 쿨다운 타이머 설정
+        if (isContactDamage)
+        {
+            _contactDamageTimer = contactDamageCooldown;
+        }
 
         // (Sprint 1, B-1.a) HP가 변경되었음을 모든 구독자(HUDManager 등)에게 "방송"
         OnHpChanged?.Invoke(_currentHp, stats.MaxHp);

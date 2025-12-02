@@ -47,7 +47,10 @@ public class FoxBoss : BossMonster
         indicatorObj.transform.SetParent(transform);
         indicatorObj.transform.localPosition = Vector3.zero;
         _rangeIndicator = indicatorObj.AddComponent<SpriteRenderer>();
-        Destroy(indicatorObj); 
+        // 사각형 스프라이트 생성 (원 대신 사각형 사용)
+        _rangeIndicator.sprite = CreateCircleSprite();
+        _rangeIndicator.color = new Color(1, 0, 0, 0.3f); // 빨간색 반투명
+        _rangeIndicator.enabled = false;
     }
 
     protected override void Start()
@@ -174,20 +177,7 @@ public class FoxBoss : BossMonster
         }
         transform.position = dashTargetPos;
         
-        // 대시 중 플레이어와 충돌했는지 체크 (범위 내에 있으면 데미지)
-        if (_target != null)
-        {
-            float distance = Vector2.Distance(transform.position, _target.position);
-            if (distance <= 1.5f) // 대시 충돌 범위
-            {
-                PlayerManager player = _target.GetComponent<PlayerManager>();
-                if (player != null)
-                {
-                    player.TakeDamage(dashDamage);
-                    Debug.Log($"FoxBoss: Player hit by Dash for {dashDamage} damage!");
-                }
-            }
-        }
+        // 대시 데미지는 충돌 데미지 시스템으로 처리됨 (Monster.OnCollisionStay2D)
     }
 
 
@@ -233,12 +223,12 @@ public class FoxBoss : BossMonster
     {
         Debug.Log("FoxBoss: AOE Damage Pattern Start");
 
-        // 전조: 주변 원형 범위 표시
-        DrawCircle(aoeRange);
+        // 전조: 주변 원형 범위 표시 (채워진 원)
+        ShowFilledCircle(aoeRange);
 
         yield return new WaitForSeconds(patternWarningTime);
 
-        _lineRenderer.enabled = false;
+        HideFilledCircle();
 
         // 범위 내 플레이어 체크 및 피해
         if (_target != null)
@@ -256,21 +246,50 @@ public class FoxBoss : BossMonster
         }
     }
 
-    private void DrawCircle(float radius)
+    /// <summary>
+    /// 원형 스프라이트를 생성합니다.
+    /// </summary>
+    private Sprite CreateCircleSprite()
     {
-        _lineRenderer.enabled = true;
-        int segments = 50;
-        _lineRenderer.positionCount = segments + 1;
-        float angle = 0f;
-
-        for (int i = 0; i < segments + 1; i++)
+        int resolution = 128;
+        Texture2D texture = new Texture2D(resolution, resolution);
+        Color[] pixels = new Color[resolution * resolution];
+        
+        Vector2 center = new Vector2(resolution / 2f, resolution / 2f);
+        float radius = resolution / 2f;
+        
+        for (int y = 0; y < resolution; y++)
         {
-            float x = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
-            float y = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
-
-            _lineRenderer.SetPosition(i, transform.position + new Vector3(x, y, 0));
-
-            angle += (360f / segments);
+            for (int x = 0; x < resolution; x++)
+            {
+                float distance = Vector2.Distance(new Vector2(x, y), center);
+                pixels[y * resolution + x] = distance <= radius ? Color.white : Color.clear;
+            }
         }
+        
+        texture.SetPixels(pixels);
+        texture.Apply();
+        
+        return Sprite.Create(texture, new Rect(0, 0, resolution, resolution), new Vector2(0.5f, 0.5f), resolution / 2f);
     }
+    
+    /// <summary>
+    /// 채워진 원을 표시합니다.
+    /// </summary>
+    private void ShowFilledCircle(float radius)
+    {
+        _rangeIndicator.enabled = true;
+        // 스프라이트의 기본 크기가 2 유닛(지름)이므로, 원하는 반지름에 맞게 스케일 조정
+        _rangeIndicator.transform.localScale = Vector3.one * radius;
+    }
+    
+    /// <summary>
+    /// 채워진 원을 숨깁니다.
+    /// </summary>
+    private void HideFilledCircle()
+    {
+        _rangeIndicator.enabled = false;
+    }
+    
+    // 기존 DrawCircle 메서드는 더 이상 사용하지 않음
 }

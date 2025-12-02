@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +17,11 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float spawnInterval = 5.0f; 
     [SerializeField] private float spawnRadius = 10.0f;
     [SerializeField] private float bossSpawnCycle = 300f;
-    [SerializeField] private int initialPerTypeSize = 10; 
+    [SerializeField] private int initialPerTypeSize = 10;
+    #endregion
+
+    #region Events
+    public event Action<bool,BossMonster> OnBossSpawned;
     #endregion
 
     #region Private Fields
@@ -102,7 +107,7 @@ public class SpawnManager : MonoBehaviour
     private Monster GetRandomPrefab()
     {
         if (_currentWave.spawnablePrefabs.Count == 0) return null;
-        int idx = Random.Range(0, _currentWave.spawnablePrefabs.Count);
+        int idx = UnityEngine.Random.Range(0, _currentWave.spawnablePrefabs.Count);
         return _currentWave.spawnablePrefabs[idx];
     }
 
@@ -116,6 +121,7 @@ public class SpawnManager : MonoBehaviour
         boss.Init(playerTransform, OnBossDied);
 
         Debug.Log($"BOSS APPEARED! Level: {_bossLevel}");
+        OnBossSpawned?.Invoke(_isBossActive, boss); // 보스 출현 방송
     }
 
     private void OnBossDied(Monster boss)
@@ -125,6 +131,7 @@ public class SpawnManager : MonoBehaviour
         _bossLevel++; 
         GameManager.Instance.IsTimerStopped = false;
         Destroy(boss.gameObject);
+        OnBossSpawned?.Invoke(_isBossActive, (BossMonster)boss); // 보스 처치 방송
     }
     #endregion
 
@@ -195,7 +202,7 @@ public class SpawnManager : MonoBehaviour
     
     public Vector2 CalculateSpawnPosition()
     {
-        Vector2 randomDir = Random.insideUnitCircle.normalized;
+        Vector2 randomDir = UnityEngine.Random.insideUnitCircle.normalized;
         Vector2 origin = playerTransform != null ? (Vector2)playerTransform.position : Vector2.zero;
         return origin + (randomDir * spawnRadius);
     }
