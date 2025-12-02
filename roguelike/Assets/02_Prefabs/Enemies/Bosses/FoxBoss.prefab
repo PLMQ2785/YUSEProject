@@ -57,8 +57,10 @@ MonoBehaviour:
   projectilePrefab: {fileID: 128703109899176301, guid: 206f4a7f6b9e9414a8c909c3499a36eb, type: 3}
   projectileSpeed: 15
   projectileSize: 2.5
+  projectileDamage: 5
   dashDistance: 7
   dashDuration: 0.5
+  dashDamage: 10
   aoeDamage: 10
   aoeRange: 5
 --- !u!212 &1239617161806971552
