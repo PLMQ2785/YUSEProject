@@ -26,6 +26,21 @@ public class Passive : EquipmentBase
     }
     #endregion
 
+    #region Unity LifeCycle
+    /// <summary>
+    /// GameObject 파괴 시 스탯 보너스를 제거합니다.
+    /// 이를 통해 GameObject 생명주기와 효과 생명주기를 일치시킵니다.
+    /// </summary>
+    private void OnDestroy()
+    {
+        if (_player != null && PassiveData != null)
+        {
+            _player.RemovePassiveBonus(PassiveData.StatType, this);
+            Debug.Log($"Removed Passive Bonus: {PassiveData.StatType} (Source: {PassiveData.EquipmentName})");
+        }
+    }
+    #endregion
+
     #region Private Methods
     private void ApplyStatBonus()
     {
