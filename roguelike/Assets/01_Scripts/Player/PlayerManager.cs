@@ -7,7 +7,8 @@
  * 이 스크립트는 '통합 코딩 컨벤션'을 완벽하게 준수하여 작성되었습니다.
  */
 
-using System; // event Action 사용
+using System;
+using System.Collections.Generic; // event Action 사용
 using UnityEngine;
 
 // 코딩 컨벤션 1-4 (GetComponent)를 위해 Rigidbody2D 강제
@@ -286,6 +287,31 @@ public class PlayerManager : MonoBehaviour
     }
 
     // public void SpendGold(int amount) { ... }
+    
+    // EventManager가 호출 -> 일시적 스탯 변동 적용
+    public void ApplyEventModifiers(List<StatModifier> modifiers)
+    {
+        foreach (var mod in modifiers)
+        {
+            // PlayerStats에 새로 만든 AddBonus 메서드 호출
+            stats.AddBonus(mod.statType, mod.value);
+            
+            Debug.Log($"[Event Buff] {mod.statType} += {mod.value}");
+        }
+        // 필요하면 여기서 이동속도 즉시 갱신 코드 작성!
+    }
+    
+    // EventManager가 호출함 -> 일시적 스탯 변동 해제
+    public void RemoveEventModifiers(List<StatModifier> modifiers)
+    {
+        foreach (var mod in modifiers)
+        {
+            // PlayerStats에 새로 만든 SubtractBonus 메서드 호출
+            stats.SubtractBonus(mod.statType, mod.value);
+            
+            Debug.Log($"[Event End] {mod.statType} -= {mod.value} (복구됨)");
+        }
+    }
 
     #endregion
 

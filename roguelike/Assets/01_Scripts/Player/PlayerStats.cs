@@ -72,5 +72,29 @@ public class PlayerStats
     {
         _bonuses.Clear();
     }
+    
+    // 이벤트 등으로 인한 일시적 보너스를 기존 값에 더하기
+    public void AddBonus(UpgradeType type, float value)
+    {
+        if (_bonuses.ContainsKey(type))
+        {
+            _bonuses[type] += value;
+        }
+        else
+        {
+            _bonuses[type] = value;
+        }
+    }
+    
+    // 이벤트 종료 시 일시적 보너스를 제거하기
+    public void SubtractBonus(UpgradeType type, float value)
+    {
+        if (_bonuses.ContainsKey(type))
+        {
+            _bonuses[type] -= value;
+        }
+        // 키가 없으면 뺄 것도 없으므로 무시
+    }
+    
     #endregion
 }
