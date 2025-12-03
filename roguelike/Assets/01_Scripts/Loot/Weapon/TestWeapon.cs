@@ -19,13 +19,13 @@ public class TestWeapon : Weapon
     protected override void PerformAttack()
     {
         // 1. 투사체 생성
-        if (WeaponData.Prefab != null)
+        if (WeaponData.ProjectilePrefab != null)
         {
             // 플레이어 위치에서 생성
-            GameObject projectileObj = Instantiate(WeaponData.Prefab, transform.position, Quaternion.identity);
+            GameObject projectileObj = Instantiate(WeaponData.ProjectilePrefab, transform.position, Quaternion.identity);
             
             // 2. 투사체 초기화
-            Projectile projectile = projectileObj.GetComponent<Projectile>();
+            LinearProjectile projectile = projectileObj.GetComponent<LinearProjectile>();
             if (projectile != null)
             {
                 // 플레이어가 바라보는 방향으로 발사

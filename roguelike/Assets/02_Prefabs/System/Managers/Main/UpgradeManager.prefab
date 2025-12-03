@@ -45,6 +45,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   availableUpgrades:
+  - {fileID: 11400000, guid: 748670487b71ea745bdf117277d13e79, type: 2}
+  - {fileID: 11400000, guid: 159f4447fb9e2054faa18a58e2da0c8f, type: 2}
+  - {fileID: 11400000, guid: 742279ec5c8391a48883cd1d7e28e239, type: 2}
+  - {fileID: 11400000, guid: f73bb289fcd14f1439c5b8b0f8bf9b63, type: 2}
+  - {fileID: 11400000, guid: d6e9f496e2dbb2f4c811bae973f19d72, type: 2}
+  - {fileID: 11400000, guid: 1652d13ecceb31f44a3b192c262ffb4c, type: 2}
+  - {fileID: 11400000, guid: a6c4d662231c66a40a5e6075df833079, type: 2}
+  - {fileID: 11400000, guid: 7d0a5b30bda445846a1d79b7411c30c0, type: 2}
+  - {fileID: 11400000, guid: 30d5e5f0da49bfc4abd18560f77d09b9, type: 2}
   - {fileID: 11400000, guid: 7dfc153795c3e9746a4fa4c4b98f0100, type: 2}
-  - {fileID: 11400000, guid: a9307dd768c78c546b918e280f2dc07e, type: 2}
   - {fileID: 11400000, guid: b421cac69bb27974fbffb9c21048095b, type: 2}
+  - {fileID: 11400000, guid: a9307dd768c78c546b918e280f2dc07e, type: 2}
