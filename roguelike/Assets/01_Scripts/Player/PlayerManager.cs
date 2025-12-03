@@ -284,9 +284,23 @@ public class PlayerManager : MonoBehaviour
             inventoryManager.Add(data);
         }
     }
+    
+    /// <summary>
+    /// 패시브 아이템 보너스를 추가합니다.
+    /// </summary>
+    public void AddPassiveBonus(UpgradeType type, object source, float value)
+    {
+        stats.SetPassiveBonus(type, source, value);
+    }
 
-    // public void SpendGold(int amount) { ... }
-
+    /// <summary>
+    /// 패시브 아이템 보너스를 제거합니다.
+    /// </summary>
+    public void RemovePassiveBonus(UpgradeType type, object source)
+    {
+        stats.RemovePassiveBonus(type, source);
+    }
+    
     #endregion
 
     #region Private Methods
@@ -394,7 +408,7 @@ public class PlayerManager : MonoBehaviour
             Debug.Log($"[PlayerManager] {type} 보너스 조회 결과 = {bonus}");
             if (bonus > 0)
             {
-                stats.SetBonus(type, bonus);
+                stats.SetPermanentBonus(type, bonus);
                 Debug.Log($"PlayerManager: {type} 보너스 적용 (+{bonus})");
             }
         }
