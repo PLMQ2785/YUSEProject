@@ -11,6 +11,7 @@ public class ItemData : ScriptableObject
     [SerializeField] [TextArea] private string _description;
     [SerializeField] private Sprite _icon;
     [SerializeField] private GameObject _prefab; // 아이템 로직이 담긴 프리팹 (Item 컴포넌트 포함)
+    [SerializeField] private bool unlocked;
 
     [Header("Item Stats")]
     [SerializeField] private float _cooldown = 5f;
@@ -22,4 +23,5 @@ public class ItemData : ScriptableObject
     public GameObject Prefab => _prefab;
     public float Cooldown => _cooldown;
     public int MaxDurability => _maxDurability;
+    public bool Unlocked { get => unlocked; set => unlocked = value; }
 }
