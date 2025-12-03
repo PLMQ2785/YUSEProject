@@ -31,11 +31,11 @@ public class Passive : EquipmentBase
     {
         if (PassiveData == null || _player == null) return;
 
-        // PlayerStats에 접근하여 스탯 적용
-        // 현재 PlayerStats 구조를 정확히 모르므로 주석 처리 또는 가상 코드로 작성
-        // _player.Stats.AddBonus(PassiveData.StatType, PassiveData.StatValue * _level);
+        // PlayerManager를 통해 스탯 적용 (캡슐화 유지)
+        float bonusValue = PassiveData.StatValue * _level;
+        _player.AddPassiveBonus(PassiveData.StatType, this, bonusValue);
         
-        Debug.Log($"Applied Passive Bonus: {PassiveData.StatType} + {PassiveData.StatValue * _level}");
+        Debug.Log($"Applied Passive Bonus: {PassiveData.StatType} + {bonusValue} (Source: {PassiveData.EquipmentName})");
     }
     #endregion
 }
