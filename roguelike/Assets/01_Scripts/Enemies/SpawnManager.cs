@@ -71,7 +71,6 @@ public class SpawnManager : MonoBehaviour
     #endregion
 
     #region Wave & Boss Logic
-    // ... (UpdateWaveData, ProcessWaveSpawning, GetRandomPrefab, SpawnBoss 등은 로직 변경 없음) ...
     
     private void UpdateWaveData(float time)
     {
