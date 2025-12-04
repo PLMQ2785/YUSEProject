@@ -208,7 +208,7 @@ public abstract class Monster : MonoBehaviour
     /// <summary>
     /// 피격 시 빨간색으로 깜빡이는 효과
     /// </summary>
-    private System.Collections.IEnumerator HitFlash()
+    protected System.Collections.IEnumerator HitFlash()
     {
         if (_spriteRenderer != null)
         {
