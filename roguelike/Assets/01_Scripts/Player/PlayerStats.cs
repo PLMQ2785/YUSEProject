@@ -30,6 +30,9 @@ public class PlayerStats
     
     // 패시브 장비 전용 (동적, 게임 중 추가/레벨업/제거 가능)
     private Dictionary<UpgradeType, Dictionary<object, float>> _passiveBonuses = new Dictionary<UpgradeType, Dictionary<object, float>>();
+    
+    // 3. [추가] 이벤트 버프/디버프 (동적, Source 기반)
+    private Dictionary<UpgradeType, Dictionary<object, float>> _eventBonuses = new Dictionary<UpgradeType, Dictionary<object, float>>();
     #endregion
 
     #region Properties (Final Stats)
@@ -105,6 +108,25 @@ public class PlayerStats
             {
                 total += bonus;
             }
+            total += _permanentBonuses[type];
+        }
+        
+        // 2. 모든 패시브 장비 보너스 합산
+        if (_passiveBonuses.ContainsKey(type))
+        {
+            foreach (var bonus in _passiveBonuses[type].Values)
+            {
+                total += bonus;
+            }
+        }
+        
+        // 3. (추가) 이벤트 효과
+        if (_eventBonuses.ContainsKey(type))
+        {
+            foreach (var bonus in _eventBonuses[type].Values)
+            {
+                total += bonus;
+            }
         }
         
         return total;
@@ -118,5 +140,26 @@ public class PlayerStats
         _permanentBonuses.Clear();
         _passiveBonuses.Clear();
     }
+    
+    // 이벤트 효과 적용
+    public void AddEventBonus(UpgradeType type, object source, float value)
+    {
+        if (!_eventBonuses.ContainsKey(type))
+        {
+            _eventBonuses[type] = new Dictionary<object, float>();
+        }
+        _eventBonuses[type][source] = value;
+    }
+    
+    // 이벤트 효과 제거
+    public void RemoveEventBonus(UpgradeType type, object source)
+    {
+        if (_eventBonuses.ContainsKey(type))
+        {
+            _eventBonuses[type].Remove(source);
+        }
+    }
+    
+    
     #endregion
 }
