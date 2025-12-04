@@ -7,7 +7,8 @@
  * 이 스크립트는 '통합 코딩 컨벤션'을 완벽하게 준수하여 작성되었습니다.
  */
 
-using System; // event Action 사용
+using System;
+using System.Collections.Generic; // event Action 사용
 using UnityEngine;
 
 // 코딩 컨벤션 1-4 (GetComponent)를 위해 Rigidbody2D 강제
@@ -284,9 +285,50 @@ public class PlayerManager : MonoBehaviour
             inventoryManager.Add(data);
         }
     }
+    
+    /// <summary>
+    /// 패시브 아이템 보너스를 추가합니다.
+    /// </summary>
+    public void AddPassiveBonus(UpgradeType type, object source, float value)
+    {
+        stats.SetPassiveBonus(type, source, value);
+    }
 
     // public void SpendGold(int amount) { ... }
+    
+    // EventManager가 호출 -> 일시적 스탯 변동 적용
+    public void ApplyEventModifiers(object eventSource, List<StatModifier> modifiers)
+    {
+        foreach (var mod in modifiers)
+        {
+            // PlayerStats에 새로 만든 이벤트적용 메서드 호출
+            stats.AddEventBonus(mod.statType, eventSource, mod.value);
+            
+            Debug.Log($"[Event Buff] {mod.statType} += {mod.value}");
+        }
+        // 필요하면 여기서 이동속도 즉시 갱신 코드 작성!
+    }
+    
+    // EventManager가 호출함 -> 일시적 스탯 변동 해제
+    public void RemoveEventModifiers(object eventSource, List<StatModifier> modifiers)
+    {
+        foreach (var mod in modifiers)
+        {
+            // PlayerStats에 새로 만든 이벤트제거 메서드 호출
+            stats.RemoveEventBonus(mod.statType, eventSource);
+            
+            Debug.Log($"[Event End] {mod.statType} -= {mod.value} (복구됨)");
+        }
+    }
 
+    /// <summary>
+    /// 패시브 아이템 보너스를 제거합니다.
+    /// </summary>
+    public void RemovePassiveBonus(UpgradeType type, object source)
+    {
+        stats.RemovePassiveBonus(type, source);
+    }
+    
     #endregion
 
     #region Private Methods
@@ -394,7 +436,7 @@ public class PlayerManager : MonoBehaviour
             Debug.Log($"[PlayerManager] {type} 보너스 조회 결과 = {bonus}");
             if (bonus > 0)
             {
-                stats.SetBonus(type, bonus);
+                stats.SetPermanentBonus(type, bonus);
                 Debug.Log($"PlayerManager: {type} 보너스 적용 (+{bonus})");
             }
         }

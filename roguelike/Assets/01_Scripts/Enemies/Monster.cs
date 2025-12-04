@@ -1,11 +1,17 @@
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 /// 모든 몬스터의 기본이 되는 추상 클래스
 /// SDS의 Monster 명세(HP, Move, TakeDamage, Die)대로 일단 만듬
 public abstract class Monster : MonoBehaviour
 {
     #region Serialized Fields
+    [SerializeField] protected Sprite icon;
+    [SerializeField] protected string monsterName;
+    [SerializeField][TextArea] private string description;
+    [SerializeField] protected bool unlocked;
+
 
     [Header("Stats")] [SerializeField] protected float maxHp = 10f;
     [SerializeField] protected float moveSpeed = 2f;
@@ -13,7 +19,13 @@ public abstract class Monster : MonoBehaviour
 
     #endregion
 
+    public string MonsterName => monsterName;
+    public string Description => description;
+    public Sprite Icon => icon;
+
     public GameObject expOrbPrefab;
+
+    public bool Unlocked { get => unlocked; set => unlocked = value; }
 
     #region Private Fields
 
@@ -125,6 +137,7 @@ public abstract class Monster : MonoBehaviour
         DropExpOrb();
         UpGold(1);
         UpKillCount(1);
+        unlocked = true;
 
 
         // 수정.. Destroy 대신 풀로 반환 로직 실행
@@ -195,7 +208,7 @@ public abstract class Monster : MonoBehaviour
     /// <summary>
     /// 피격 시 빨간색으로 깜빡이는 효과
     /// </summary>
-    private System.Collections.IEnumerator HitFlash()
+    protected System.Collections.IEnumerator HitFlash()
     {
         if (_spriteRenderer != null)
         {

@@ -51,6 +51,9 @@ public class BossMonster : Monster
     public override void TakeDamage(float amount)
     {
         _currentHp -= amount;
+        
+        // 피격 효과 실행
+        StartCoroutine(HitFlash());
         // 보스 몬스터가 데미지 받으면 이벤트 방송
         OnBossHpChanged?.Invoke(_currentHp, maxHp);
 
