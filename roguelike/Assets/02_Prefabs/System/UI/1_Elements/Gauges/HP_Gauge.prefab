@@ -10,7 +10,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3062602662234053434, guid: 3a63ee99aed976d4aa51ece75b51f59d, type: 3}
       propertyPath: m_Name
-      value: BasicBar_Slider
+      value: HP_Gauge
+      objectReference: {fileID: 0}
+    - target: {fileID: 3505272117568951321, guid: 3a63ee99aed976d4aa51ece75b51f59d, type: 3}
+      propertyPath: m_Color.b
+      value: 0.6622641
+      objectReference: {fileID: 0}
+    - target: {fileID: 3505272117568951321, guid: 3a63ee99aed976d4aa51ece75b51f59d, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6622641
+      objectReference: {fileID: 0}
+    - target: {fileID: 3505272117568951321, guid: 3a63ee99aed976d4aa51ece75b51f59d, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8356596768144993894, guid: 3a63ee99aed976d4aa51ece75b51f59d, type: 3}
       propertyPath: m_Pivot.x
