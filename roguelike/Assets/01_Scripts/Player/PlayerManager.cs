@@ -289,12 +289,12 @@ public class PlayerManager : MonoBehaviour
     // public void SpendGold(int amount) { ... }
     
     // EventManager가 호출 -> 일시적 스탯 변동 적용
-    public void ApplyEventModifiers(List<StatModifier> modifiers)
+    public void ApplyEventModifiers(object eventSource, List<StatModifier> modifiers)
     {
         foreach (var mod in modifiers)
         {
-            // PlayerStats에 새로 만든 AddBonus 메서드 호출
-            stats.AddBonus(mod.statType, mod.value);
+            // PlayerStats에 새로 만든 이벤트적용 메서드 호출
+            stats.AddEventBonus(mod.statType, eventSource, mod.value);
             
             Debug.Log($"[Event Buff] {mod.statType} += {mod.value}");
         }
@@ -302,12 +302,12 @@ public class PlayerManager : MonoBehaviour
     }
     
     // EventManager가 호출함 -> 일시적 스탯 변동 해제
-    public void RemoveEventModifiers(List<StatModifier> modifiers)
+    public void RemoveEventModifiers(object eventSource, List<StatModifier> modifiers)
     {
         foreach (var mod in modifiers)
         {
-            // PlayerStats에 새로 만든 SubtractBonus 메서드 호출
-            stats.SubtractBonus(mod.statType, mod.value);
+            // PlayerStats에 새로 만든 이벤트제거 메서드 호출
+            stats.RemoveEventBonus(mod.statType, eventSource);
             
             Debug.Log($"[Event End] {mod.statType} -= {mod.value} (복구됨)");
         }
@@ -420,7 +420,7 @@ public class PlayerManager : MonoBehaviour
             Debug.Log($"[PlayerManager] {type} 보너스 조회 결과 = {bonus}");
             if (bonus > 0)
             {
-                stats.SetBonus(type, bonus);
+                stats.SetPermanentBonus(type, bonus);
                 Debug.Log($"PlayerManager: {type} 보너스 적용 (+{bonus})");
             }
         }

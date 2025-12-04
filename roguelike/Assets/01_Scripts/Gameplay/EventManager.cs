@@ -83,7 +83,7 @@ public static EventManager Instance { get; private set; }
         // 1. 플레이어에게 스탯 적용
         if (playerManager != null)
         {
-            playerManager.ApplyEventModifiers(eventData.statModifiers);
+            playerManager.ApplyEventModifiers(eventData, eventData.statModifiers);
         }
 
         // 2. 지속 시간 대기
@@ -98,10 +98,10 @@ public static EventManager Instance { get; private set; }
         }
 
         // 3. 이벤트 종료
-        EndEvent();
+        EndEvent(eventData);
     }
 
-    private void EndEvent()
+    private void EndEvent(GameEventData eventData)
     {
         if (_currentEvent == null) return;
         Debug.Log($"[EVENT END] {_currentEvent.eventName} 종료");
@@ -109,7 +109,7 @@ public static EventManager Instance { get; private set; }
         // 1. 플레이어 스탯 원상복구
         if (playerManager != null)
         {
-            playerManager.RemoveEventModifiers(_currentEvent.statModifiers);
+            playerManager.RemoveEventModifiers(eventData, _currentEvent.statModifiers);
         }
 
         _currentEvent = null;
