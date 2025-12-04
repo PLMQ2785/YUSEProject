@@ -93,7 +93,7 @@ public class NearestProjectile : Weapon
 
         // 2. 투사체 생성
         if (WeaponData == null)
-        {
+        {   
             Debug.LogError("[NearestProjectile] WeaponData가 null입니다!");
             return;
         }

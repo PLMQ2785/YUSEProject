@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b1ed293a6377ad4384f7815c3184602, type: 3}
-  m_Name: LightningWeapon
+  m_Name: OribitWeapon
   m_EditorClassIdentifier: 
-  _equipmentName: Lightning
-  _description: "\uC8FC\uC704\uC5D0 \uBC88\uAC1C\uB97C \uB5A8\uC5B4\uB728\uB9B0\uB2E4."
-  _icon: {fileID: 21300000, guid: a50b1ffbc46852842b5e4f0518d16c5e, type: 3}
+  _equipmentName: "\uBBF8\uC815"
+  _description: "\uBBF8\uC815"
+  _icon: {fileID: 762804792, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
   _maxLevel: 5
-  _prefab: {fileID: 4325600549694791505, guid: d07633e6f104b834f95b62284663d5b9, type: 3}
-  _projectilePrefab: {fileID: 0}
+  _prefab: {fileID: 0}
+  _projectilePrefab: {fileID: 2388193314936908717, guid: d493758bc46ceb144857ca231c12cfe6, type: 3}
   _baseDamage: 2
-  _baseCooldown: 3
+  _baseCooldown: 1
   _projectileSpeed: 10
   _penetration: 1
