@@ -285,6 +285,14 @@ public class PlayerManager : MonoBehaviour
             inventoryManager.Add(data);
         }
     }
+    
+    /// <summary>
+    /// 패시브 아이템 보너스를 추가합니다.
+    /// </summary>
+    public void AddPassiveBonus(UpgradeType type, object source, float value)
+    {
+        stats.SetPassiveBonus(type, source, value);
+    }
 
     // public void SpendGold(int amount) { ... }
     
@@ -313,6 +321,14 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 패시브 아이템 보너스를 제거합니다.
+    /// </summary>
+    public void RemovePassiveBonus(UpgradeType type, object source)
+    {
+        stats.RemovePassiveBonus(type, source);
+    }
+    
     #endregion
 
     #region Private Methods

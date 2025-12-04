@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24387103cc51968448f5f734e660dff3, type: 3}
+  m_Name: BronzeMirror
+  m_EditorClassIdentifier: 
+  _equipmentName: "\uCCAD\uB3D9 \uAC70\uC6B8"
+  _description: "\uC81C\uC0AC \uC9C0\uB0BC\uB54C \uC4F0\uC774\uB358 \uCCAD\uB3D9
+    \uAC70\uC6B8\uC774\uB2E4."
+  _icon: {fileID: 21300000, guid: c6a0f21bf8df7ae4aa9d609ecbafe8af, type: 3}
+  _maxLevel: 5
+  statType: 4
+  statValue: 1

@@ -108,6 +108,16 @@ public class PlayerStats
             {
                 total += bonus;
             }
+            total += _permanentBonuses[type];
+        }
+        
+        // 2. 모든 패시브 장비 보너스 합산
+        if (_passiveBonuses.ContainsKey(type))
+        {
+            foreach (var bonus in _passiveBonuses[type].Values)
+            {
+                total += bonus;
+            }
         }
         
         // 3. (추가) 이벤트 효과

@@ -51,4 +51,4 @@ MonoBehaviour:
   _strikeCount: 3
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
