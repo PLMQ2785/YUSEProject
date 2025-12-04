@@ -48,6 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e729c387491944796ef7a053a8f3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icon: {fileID: 1340294905846564614, guid: 69d2a1e37560a314a9239da3e4ea2b8a, type: 3}
+  monsterName: "\uCC98\uB140\uADC0\uC2E0"
+  description: "\uC8FD\uC5B4\uC11C\uB3C4 \uCC98\uB140\uC778 \uADC0\uC2E0"
+  unlocked: 0
   maxHp: 7
   moveSpeed: 1.5
   contactDamage: 5

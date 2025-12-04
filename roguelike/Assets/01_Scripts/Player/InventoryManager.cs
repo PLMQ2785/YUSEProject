@@ -178,6 +178,8 @@ public class InventoryManager : MonoBehaviour
 
         Debug.Log($"Added Weapon: {data.EquipmentName}");
         OnInventoryChanged?.Invoke();
+
+        data.Unlocked = true;
     }
 
     private void AddPassive(PassiveData data)
@@ -198,6 +200,8 @@ public class InventoryManager : MonoBehaviour
 
         Debug.Log($"Added Passive: {data.EquipmentName}");
         OnInventoryChanged?.Invoke();
+
+        data.Unlocked = true;
     }
 
     private void AddConsumable(ItemData data)
@@ -234,6 +238,8 @@ public class InventoryManager : MonoBehaviour
 
         Debug.Log($"Added Consumable: {data.ItemName}");
         OnInventoryChanged?.Invoke();
+
+        data.Unlocked = true;
     }
 
     #endregion

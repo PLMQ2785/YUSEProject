@@ -9,8 +9,10 @@ public abstract class EquipmentData : ScriptableObject
     [SerializeField] [TextArea] private string _description;
     [SerializeField] private Sprite _icon;
     [SerializeField] private int _maxLevel = 5;
+    [SerializeField] private bool unlocked = false;
     public string EquipmentName => _equipmentName;
     public string Description => _description;
     public Sprite Icon => _icon;
     public int MaxLevel => _maxLevel;
+    public bool Unlocked { get => unlocked; set => unlocked = value; }
 }
