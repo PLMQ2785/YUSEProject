@@ -104,9 +104,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceab619e76c4c3542aa87a86463cd2aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  monsterName: 
-  description: 
+  monsterName: "\uB2EC\uAC40 \uADC0\uC2E0"
+  description: "\uC228\uC744 \uBABB \uC26C\uC5B4\uC11C \uC8FD\uC5C8\uB2E4..."
   unlocked: 0
   maxHp: 25
   moveSpeed: 1

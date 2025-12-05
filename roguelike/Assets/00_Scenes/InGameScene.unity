@@ -124,7 +124,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6711421060320007765, guid: 31f97e8783e65a640b3cdd24282d44d1, type: 3}
   m_PrefabInstance: {fileID: 1690861174107643619}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1690861174107643621}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74fcce1757d64c7db17fd79ffe3f55dd, type: 3}
@@ -192,7 +192,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1127,38 +1127,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4958927601445564574, guid: 31f97e8783e65a640b3cdd24282d44d1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 211174880}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3461281669231868799, guid: 31f97e8783e65a640b3cdd24282d44d1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1690861174107643622}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31f97e8783e65a640b3cdd24282d44d1, type: 3}
 --- !u!4 &1690861174107643620 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4958927601445564574, guid: 31f97e8783e65a640b3cdd24282d44d1, type: 3}
   m_PrefabInstance: {fileID: 1690861174107643619}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1690861174107643621 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3461281669231868799, guid: 31f97e8783e65a640b3cdd24282d44d1, type: 3}
-  m_PrefabInstance: {fileID: 1690861174107643619}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1690861174107643622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1690861174107643621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15f5411318d11914fac3a4ba28fc5ef7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  magnetRadius: 3
-  orbLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  maxTargetsPerFrame: 20
 --- !u!1001 &6697377776466563929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1652,8 +1627,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 89167197}
     - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
+      propertyPath: bossPrefab
+      value: 
+      objectReference: {fileID: -580824824227003035, guid: 721093c7e785e5b438ad80e165d569da, type: 3}
+    - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
       propertyPath: spawnInterval
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
+      propertyPath: bossSpawnCycle
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
       propertyPath: playerTransform
@@ -1665,6 +1648,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
       propertyPath: 'waves.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a80f6426081cd44dbec6d7e238e54af, type: 2}
+    - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
+      propertyPath: 'waves.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 1a80f6426081cd44dbec6d7e238e54af, type: 2}
     - target: {fileID: 5661420617346070450, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
