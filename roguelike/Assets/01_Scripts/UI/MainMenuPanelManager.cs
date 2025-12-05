@@ -1,3 +1,4 @@
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,10 @@ public class MainMenuPanelManager : MonoBehaviour
     #endregion
 
     #region Serialized Fields
+    [Header("Manager")]
+    [SerializeField] private UpgradeManager upgradeManager;
+
+
     [Header("Panels")]
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private GameObject lobbyPanel;
@@ -21,6 +26,7 @@ public class MainMenuPanelManager : MonoBehaviour
 
     [Header("UI Elements")]
     [SerializeField] private Text pressAnyKeyText;
+    [SerializeField] private TextMeshProUGUI upgradeGoldText;
     #endregion
 
     #region Private Fields
@@ -33,6 +39,8 @@ public class MainMenuPanelManager : MonoBehaviour
     {
         AudioManager.Instance.PlayBGM(BGM_NAME);
         CheckAndShowTitlePanel();
+
+        upgradeManager.OnGoldChanged += UpdateGoldText;
     }
 
     private void Update()
@@ -43,6 +51,11 @@ public class MainMenuPanelManager : MonoBehaviour
         UpdateBlinkText(newAlpha);
 
         HandleLobbyInput();
+    }
+
+    private void OnDestroy()
+    {
+        upgradeManager.OnGoldChanged -= UpdateGoldText;
     }
     #endregion
 
@@ -65,6 +78,7 @@ public class MainMenuPanelManager : MonoBehaviour
     public void ToggleUpgradePanel()
     {
         AudioManager.Instance.PlaySfx(SFX_SELECT);
+        UpdateGoldText(upgradeManager.CurrentGold); // 강화창 골드 텍스트 업데이트
         upgradePanel.SetActive(!upgradePanel.activeSelf);
     }
 
@@ -122,6 +136,14 @@ public class MainMenuPanelManager : MonoBehaviour
         Color newColor = pressAnyKeyText.color;
         newColor.a = alpha;
         pressAnyKeyText.color = newColor;
+    }
+
+    /// <summary>
+    /// 강화창 골드 텍스트 업데이트
+    /// </summary>
+    private void UpdateGoldText(int amount)
+    {
+        upgradeGoldText.text = amount.ToString();
     }
     #endregion
 }
