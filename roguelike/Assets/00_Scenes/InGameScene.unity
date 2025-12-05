@@ -1006,6 +1006,13 @@ MonoBehaviour:
   playerManager: {fileID: 89167197}
   possibleEvents:
   - {fileID: 11400000, guid: 987a7f38cd5db81449977771840fd92d, type: 2}
+  - {fileID: 11400000, guid: 9b6ddef8e1cedb949a6915a6e61f0890, type: 2}
+  - {fileID: 11400000, guid: dc263ea956b24f7458928f6405bbc902, type: 2}
+  - {fileID: 11400000, guid: fa406a05e6399d44ebf9a3b13587274f, type: 2}
+  - {fileID: 11400000, guid: d0434c9b956387e47a32cd34730a3a89, type: 2}
+  - {fileID: 11400000, guid: 61b8454fe58eda54da584cf69d34e1ba, type: 2}
+  - {fileID: 11400000, guid: e5e566e1f7c38954da829ffa65166e08, type: 2}
+  - {fileID: 11400000, guid: d2c13129bbd59774ba48e3f53954b5c7, type: 2}
   minEventInterval: 10
   maxEventInterval: 20
 --- !u!114 &1707042557 stripped
