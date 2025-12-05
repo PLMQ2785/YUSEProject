@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377575495624383983}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2123.8464, y: -140.10956, z: -3.7475958}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -58,7 +58,6 @@ MonoBehaviour:
   passivePool:
   - {fileID: 11400000, guid: 3b0d72c2e0a3b6748be2bcac359bc65b, type: 2}
   - {fileID: 11400000, guid: d5ca93d1c2e154f469adc822d9e7e1df, type: 2}
-  - {fileID: 11400000, guid: 518cbef0960cba243984fc075a619154, type: 2}
   - {fileID: 11400000, guid: 9435d1de31023de4e8ac62496c16dc5e, type: 2}
   - {fileID: 11400000, guid: 48e365fb316821541acb625390fc1b6e, type: 2}
   - {fileID: 11400000, guid: 862b44a951859454b926f6c7ebc3dd81, type: 2}
