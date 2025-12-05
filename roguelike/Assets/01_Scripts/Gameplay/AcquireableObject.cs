@@ -17,25 +17,6 @@ public abstract class AcquireableObject : MonoBehaviour
         }
     }
 
-
-    // private void OnTriggerEnter2D(Collider2D collision)
-    // {
-
-      
-    //     PlayerManager player = collision.GetComponent<PlayerManager>();
-        
-    //     if (player == null)
-    //     {
-    //         player = collision.GetComponentInParent<PlayerManager>();
-    //     }
-
-    //     if(player != null)
-    //     {
-    //         OnAcquire(player);
-    //     }
-    // }`
-
-
     #endregion
 
 

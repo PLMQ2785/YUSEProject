@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,8 @@ public static EventManager Instance { get; private set; }
     [SerializeField] private List<GameEventData> possibleEvents;
     [SerializeField] private float minEventInterval = 60f;
     [SerializeField] private float maxEventInterval = 120f;
+
+    public event Action<string> OnToggleEvent;
 
     private float _timer;
     private float _nextEventTime;
@@ -59,13 +62,13 @@ public static EventManager Instance { get; private set; }
     private void SetNextEventTime()
     {
         _timer = 0f;
-        _nextEventTime = Random.Range(minEventInterval, maxEventInterval);
+        _nextEventTime = UnityEngine.Random.Range(minEventInterval, maxEventInterval);
     }
 
     public void TriggerRandomEvent()
     {
         if (possibleEvents.Count == 0) return;
-        int idx = Random.Range(0, possibleEvents.Count);
+        int idx = UnityEngine.Random.Range(0, possibleEvents.Count);
         StartEvent(possibleEvents[idx]);
     }
 
@@ -78,7 +81,7 @@ public static EventManager Instance { get; private set; }
     {
         _currentEvent = eventData;
         Debug.Log($"[EVENT START] {eventData.notificationMessage}");
-        // 나중에 HUDManager.Instance.ShowNotice(eventData.notificationMessage); 추가
+        OnToggleEvent?.Invoke(eventData.notificationMessage);
 
         // 1. 플레이어에게 스탯 적용
         if (playerManager != null)
@@ -113,6 +116,7 @@ public static EventManager Instance { get; private set; }
         }
 
         _currentEvent = null;
+        OnToggleEvent?.Invoke(eventData.notificationMessage);
         SetNextEventTime();
     }
 }

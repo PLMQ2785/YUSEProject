@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerMagnet : MonoBehaviour
 {
     [Header("Magnet Settings")]
-    [SerializeField] private float magnetRadius = 3f;   // 자석 범위
     [SerializeField] private LayerMask orbLayer;        // 구슬 레이어
     [SerializeField] private int maxTargetsPerFrame = 20;
 
@@ -19,12 +18,19 @@ public class PlayerMagnet : MonoBehaviour
 
     private void Update()
     {
+        if (_playerManager == null || _playerManager.Stats == null)
+            return;
+
+        float radius = _playerManager.Stats.MagnetRange;
+        if (radius <= 0f)
+            return;
+
         // 플레이어 위치 기준으로 구슬 감지
         Vector2 center = _playerManager.Player_Position; // or transform.position
 
         int count = Physics2D.OverlapCircleNonAlloc(
             center,
-            magnetRadius,
+            radius,
             _results,
             orbLayer
         );
@@ -46,7 +52,16 @@ public class PlayerMagnet : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        // 에디터/플레이 둘 다에서 보이고 싶으면 GetComponent 한 번 더
+        var pm = _playerManager != null ? _playerManager : GetComponent<PlayerManager>();
+        if (pm == null || pm.Stats == null)
+            return;
+
+        float radius = pm.Stats.MagnetRange;
+        if (radius <= 0f)
+            return;
+
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, magnetRadius);
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

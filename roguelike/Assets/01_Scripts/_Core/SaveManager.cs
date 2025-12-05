@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class SaveManager
@@ -9,8 +10,22 @@ public static class SaveManager
     private const string KEY_BGM_VOLUME = "Setting_BgmVolume";
     private const string KEY_SFX_VOLUME = "Setting_SfxVolume";
     
+    
     // 업그레이드 키 접두사 미리 만들어둔것.
     private const string KEY_UPGRADE_PREFIX = "Upgrade_";
+    
+    // Codex unlock 키
+    private const string KEY_UNLOCKED_MONSTERS = "Codex_UnlockedMonsters";
+    private const string KEY_UNLOCKED_EQUIPMENT = "Codex_UnlockedEquipment";
+    
+    /// <summary>
+    /// JSON 직렬화용 래퍼 클래스
+    /// </summary>
+    [System.Serializable]
+    private class UnlockData
+    {
+        public List<string> unlockedIds = new List<string>();
+    }
     #endregion
     
     //저장부분
@@ -72,6 +87,54 @@ public static class SaveManager
     private static string GetUpgradeKey(UpgradeType upgradeType)
     {
         return $"{KEY_UPGRADE_PREFIX}{upgradeType}";
+    }
+    #endregion
+
+    #region Public Methods (Codex Unlock)
+    /// <summary>
+    /// 몬스터 unlock 목록 저장
+    /// </summary>
+    public static void SaveUnlockedMonsters(HashSet<string> unlockedIds)
+    {
+        var data = new UnlockData { unlockedIds = new List<string>(unlockedIds) };
+        string json = JsonUtility.ToJson(data);
+        PlayerPrefs.SetString(KEY_UNLOCKED_MONSTERS, json);
+    }
+
+    /// <summary>
+    /// 몬스터 unlock 목록 불러오기
+    /// </summary>
+    public static HashSet<string> LoadUnlockedMonsters()
+    {
+        string json = PlayerPrefs.GetString(KEY_UNLOCKED_MONSTERS, "");
+        if (string.IsNullOrEmpty(json))
+            return new HashSet<string>();
+        
+        var data = JsonUtility.FromJson<UnlockData>(json);
+        return new HashSet<string>(data.unlockedIds);
+    }
+
+    /// <summary>
+    /// 장비 unlock 목록 저장
+    /// </summary>
+    public static void SaveUnlockedEquipment(HashSet<string> unlockedIds)
+    {
+        var data = new UnlockData { unlockedIds = new List<string>(unlockedIds) };
+        string json = JsonUtility.ToJson(data);
+        PlayerPrefs.SetString(KEY_UNLOCKED_EQUIPMENT, json);
+    }
+
+    /// <summary>
+    /// 장비 unlock 목록 불러오기
+    /// </summary>
+    public static HashSet<string> LoadUnlockedEquipment()
+    {
+        string json = PlayerPrefs.GetString(KEY_UNLOCKED_EQUIPMENT, "");
+        if (string.IsNullOrEmpty(json))
+            return new HashSet<string>();
+        
+        var data = JsonUtility.FromJson<UnlockData>(json);
+        return new HashSet<string>(data.unlockedIds);
     }
     #endregion
 
