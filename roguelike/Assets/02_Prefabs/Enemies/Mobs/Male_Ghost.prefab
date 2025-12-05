@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8880797221330917285}
-  - component: {fileID: 1239617161806971552}
   - component: {fileID: 2754266992652824033}
+  - component: {fileID: 1239617161806971552}
   - component: {fileID: 48254275233714998}
   - component: {fileID: 1737600228348484724}
   - component: {fileID: 6813797106969371374}
-  - component: {fileID: 3305980863821901834}
+  - component: {fileID: 241366940963953649}
   m_Layer: 8
-  m_Name: Enemy
+  m_Name: Male_Ghost
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,6 +37,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2754266992652824033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2355473164220929502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceab619e76c4c3542aa87a86463cd2aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  monsterName: 
+  description: 
+  unlocked: 0
+  maxHp: 10
+  moveSpeed: 2
+  contactDamage: 5
+  expOrbPrefab: {fileID: 622782962632113181, guid: e0f17047d092c564ba65b11d0ea8c20b, type: 3}
 --- !u!212 &1239617161806971552
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -92,22 +112,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2754266992652824033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2355473164220929502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceab619e76c4c3542aa87a86463cd2aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHp: 10
-  moveSpeed: 2
-  contactDamage: 5
-  expOrbPrefab: {fileID: 622782962632113181, guid: e0f17047d092c564ba65b11d0ea8c20b, type: 3}
 --- !u!61 &48254275233714998
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -193,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f94e73f83aa11bb4fa9084d8c777c3d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &3305980863821901834
+--- !u!95 &241366940963953649
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
