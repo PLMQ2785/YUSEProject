@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 48254275233714998}
   - component: {fileID: 1737600228348484724}
   - component: {fileID: 6813797106969371374}
-  - component: {fileID: 3305980863821901834}
+  - component: {fileID: 1335054024242005363}
   m_Layer: 0
   m_Name: FoxBoss
   m_TagString: Enemy
@@ -53,7 +53,7 @@ MonoBehaviour:
   moveSpeed: 1.2
   contactDamage: 20
   expOrbPrefab: {fileID: 622782962632113181, guid: e0f17047d092c564ba65b11d0ea8c20b, type: 3}
-  patternInterval: 3
+  patternInterval: 2
   patternWarningTime: 1.2
   projectilePrefab: {fileID: 128703109899176301, guid: 206f4a7f6b9e9414a8c909c3499a36eb, type: 3}
   projectileSpeed: 10
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f94e73f83aa11bb4fa9084d8c777c3d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &3305980863821901834
+--- !u!95 &1335054024242005363
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ Animator:
   m_GameObject: {fileID: 2355473164220929502}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 074f2c5e67e7d3f468d536c49ddeb9b7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 21bf812fe0421734e87b50dc9d735058, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4325600549694791505
+--- !u!1 &133916908793830248
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6062429644367798983}
-  - component: {fileID: 3793732222900267721}
+  - component: {fileID: 3389313244579352755}
+  - component: {fileID: 1768827211102462680}
   m_Layer: 0
-  m_Name: Lightning_Test
+  m_Name: OrbitWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6062429644367798983
+--- !u!4 &3389313244579352755
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4325600549694791505}
+  m_GameObject: {fileID: 133916908793830248}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3793732222900267721
+--- !u!114 &1768827211102462680
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4325600549694791505}
+  m_GameObject: {fileID: 133916908793830248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86dda06fafbab334286bd43db26ae2f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 31cd29712f4d3b048943fce50355a3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _data: {fileID: 11400000, guid: 84478a0864028384e8526a7925f1e2db, type: 2}
-  _lightningEffectPrefab: {fileID: 6743989927076389928, guid: 2e9062b0bf56cd5439405fa3f191143f, type: 3}
-  _attackRange: 5
-  _damageRange: 1.5
-  _strikeCount: 3
-  _targetLayer:
-    serializedVersion: 2
-    m_Bits: 256
+  _data: {fileID: 11400000, guid: e6a9646461d8b414fb69a5a5f81379aa, type: 2}
+  _projectileCount: 4
+  _orbitRadius: 2.5
+  _rotationSpeed: 100
