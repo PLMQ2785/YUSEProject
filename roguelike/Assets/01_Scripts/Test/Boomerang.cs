@@ -105,7 +105,9 @@ public class Boomerang : Weapon
 
             if(enemy != null)
             {
-                enemy.TakeDamage(WeaponData.BaseDamage);
+                // 플레이어 스탯을 반영한 최종 데미지 계산
+                float finalDamage = CalculateDamage(WeaponData.BaseDamage, out bool isCritical);
+                enemy.TakeDamage(finalDamage);
             }
         }
 

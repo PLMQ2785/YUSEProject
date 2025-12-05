@@ -116,9 +116,13 @@ public class NearestProjectile : Weapon
         if (projectile != null)
         {
             Debug.Log("[NearestProjectile] HomingProjectile 컴포넌트 찾음, 초기화 중...");
+            
+            // 플레이어 스탯을 반영한 최종 데미지 계산
+            float finalDamage = CalculateDamage(WeaponData.BaseDamage, out bool isCritical);
+            
             projectile.Initialize(
                 WeaponData.ProjectileSpeed,
-                WeaponData.BaseDamage,
+                finalDamage,
                 target,
                 WeaponData.Penetration
             );

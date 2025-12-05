@@ -35,7 +35,9 @@ public class Fire_Trail :Weapon
         //계속 지속되야하니 관통력 높게 설정
         if (projectile != null)
         {
-            projectile.Initialize(0, WeaponData.BaseDamage, 9999);
+            // 플레이어 스탯을 반영한 최종 데미지 계산
+            float finalDamage = CalculateDamage(WeaponData.BaseDamage, out bool isCritical);
+            projectile.Initialize(0, finalDamage, 9999);
         }
 
         _lastSpawnPos = transform.position;
