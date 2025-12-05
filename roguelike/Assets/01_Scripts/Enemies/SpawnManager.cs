@@ -14,7 +14,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private BossMonster bossPrefab; 
 
     [Header("Spawn Settings")] 
-    [SerializeField] private float spawnInterval = 5.0f; 
     [SerializeField] private float spawnRadius = 10.0f;
     [SerializeField] private float bossSpawnCycle = 300f;
     [SerializeField] private int initialPerTypeSize = 10;
@@ -25,13 +24,15 @@ public class SpawnManager : MonoBehaviour
     #endregion
 
     #region Private Fields
-    private float _spawnTimer;
     private WaveData _currentWave;
     private int _bossLevel = 1;
     private bool _isBossActive;
 
     // 현재 필드 몬스터 리스트 (마릿수 제한용)
     private List<Monster> _activeMonsters = new List<Monster>();
+    
+    // 각 MonsterSpawnInfo마다 독립적인 타이머
+    private Dictionary<MonsterSpawnInfo, float> _spawnTimers = new Dictionary<MonsterSpawnInfo, float>();
     #endregion
 
     #region Unity LifeCycle
@@ -74,12 +75,21 @@ public class SpawnManager : MonoBehaviour
     
     private void UpdateWaveData(float time)
     {
+        WaveData previousWave = _currentWave;
+        
         if (_currentWave != null && time >= _currentWave.startTime && time < _currentWave.endTime) return;
+        
         foreach (var wave in waves)
         {
             if (time >= wave.startTime && time < wave.endTime)
             {
                 _currentWave = wave;
+                
+                // 웨이브가 변경되었으면 타이머 초기화
+                if (_currentWave != previousWave)
+                {
+                    _spawnTimers.Clear();
+                }
                 return;
             }
         }
@@ -87,27 +97,39 @@ public class SpawnManager : MonoBehaviour
 
     private void ProcessWaveSpawning()
     {
-        _spawnTimer += Time.deltaTime;
-        if (_spawnTimer >= _currentWave.spawnInterval)
+        // 각 MonsterSpawnInfo마다 독립적으로 처리
+        foreach (var spawnInfo in _currentWave.monsterSpawnInfos)
         {
-            if (_activeMonsters.Count < _currentWave.maxFieldMonsterCount)
+            if (spawnInfo == null || spawnInfo.monsterPrefab == null)
+                continue;
+                
+            // 해당 몬스터의 타이머 가져오기 (없으면 0으로 초기화)
+            if (!_spawnTimers.ContainsKey(spawnInfo))
             {
-                Monster prefabToSpawn = GetRandomPrefab();
-                if (prefabToSpawn != null)
-                {
-                    Vector2 pos = CalculateSpawnPosition();
-                    SpawnMonster(prefabToSpawn, pos);
-                }
+                _spawnTimers[spawnInfo] = 0f;
             }
-            _spawnTimer = 0f;
+            
+            // 타이머 증가
+            _spawnTimers[spawnInfo] += Time.deltaTime;
+            
+            // 스폰 간격이 되었는지 체크
+            if (_spawnTimers[spawnInfo] >= spawnInfo.spawnInterval)
+            {
+                // spawnCount만큼 스폰 시도
+                for (int i = 0; i < spawnInfo.spawnCount; i++)
+                {
+                    // 필드 제한 체크
+                    if (_activeMonsters.Count >= _currentWave.maxFieldMonsterCount)
+                        break;
+                    
+                    Vector2 pos = CalculateSpawnPosition();
+                    SpawnMonster(spawnInfo.monsterPrefab, pos);
+                }
+                
+                // 타이머 리셋
+                _spawnTimers[spawnInfo] = 0f;
+            }
         }
-    }
-
-    private Monster GetRandomPrefab()
-    {
-        if (_currentWave.spawnablePrefabs.Count == 0) return null;
-        int idx = UnityEngine.Random.Range(0, _currentWave.spawnablePrefabs.Count);
-        return _currentWave.spawnablePrefabs[idx];
     }
 
     private void SpawnBoss()
@@ -174,25 +196,25 @@ public class SpawnManager : MonoBehaviour
                 continue;
             }
                 
-            // 2. spawnablePrefabs 리스트 자체가 null인지 확인합니다.
-            if (wave.spawnablePrefabs == null)
+            // 2. monsterSpawnInfos 리스트 자체가 null인지 확인합니다.
+            if (wave.monsterSpawnInfos == null)
             {
-                Debug.LogWarning($"SpawnManager: '{wave.name}' WaveData의 spawnablePrefabs 리스트가 Null입니다. 인스펙터에서 초기화하거나 몬스터를 할당해주세요. 건너뜁니다.");
+                Debug.LogWarning($"SpawnManager: '{wave.name}' WaveData의 monsterSpawnInfos 리스트가 Null입니다. 인스펙터에서 초기화하거나 몬스터를 할당해주세요. 건너뜁니다.");
                 continue;
             }
             
-            foreach (var prefab in wave.spawnablePrefabs)
+            foreach (var spawnInfo in wave.monsterSpawnInfos)
             {
-                if (prefab == null)
+                if (spawnInfo == null || spawnInfo.monsterPrefab == null)
                 {
                     continue;
                 }
                 
-                int id = prefab.gameObject.GetInstanceID();
+                int id = spawnInfo.monsterPrefab.gameObject.GetInstanceID();
                 if (processedIDs.Contains(id)) continue; 
 
                 // PoolManager에게 미리 생성 요청
-                PoolManager.Instance.Preload(prefab.gameObject, initialPerTypeSize);
+                PoolManager.Instance.Preload(spawnInfo.monsterPrefab.gameObject, initialPerTypeSize);
                 
                 processedIDs.Add(id);
             }
