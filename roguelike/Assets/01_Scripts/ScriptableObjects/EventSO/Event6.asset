@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ad27dadd3fcd8b4290016d53c34c7e9, type: 3}
-  m_Name: Event1
+  m_Name: Event6
   m_EditorClassIdentifier: 
-  eventName: "\uC774\uB3D9\uC18D\uB3C4 50% \uC99D\uAC00"
-  description: "\uC774\uB3D9\uC18D\uB3C4 50% \uC99D\uAC00"
-  notificationMessage: "\uC774\uB3D9\uC18D\uB3C4 50% \uC99D\uAC00"
+  eventName: "\uACBD\uD5D8\uCE58 \uD68D\uB4DD 50% \uC99D\uAC00"
+  description: "\uACBD\uD5D8\uCE58 \uD68D\uB4DD 50% \uC99D\uAC00"
+  notificationMessage: "\uACBD\uD5D8\uCE58 \uD68D\uB4DD 50% \uC99D\uAC00"
   duration: 10
   statModifiers:
-  - statType: 1
-    value: 2.5
+  - statType: 8
+    value: 0.5
