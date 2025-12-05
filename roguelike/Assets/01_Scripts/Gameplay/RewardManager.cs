@@ -48,7 +48,7 @@ public class RewardManager : MonoBehaviour
     /// (S2, B-4) GameManager가 레벨업을 감지하면 호출
     /// 보상 3개 생성
     /// </summary>
-public void GenerateRewards()
+    public void GenerateRewards()
     {
         // HUDManager에서 rewarTextUI 업데이트
         OnRewardTextUIChanged?.Invoke(_rerollPrice,_rerollCount,_skipExpRatio);
