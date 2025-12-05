@@ -261,7 +261,7 @@ public class HUDManager : MonoBehaviour
         UpdateBossHpBar(boss.BossMaxHp, boss.BossMaxHp);
 
         if (bossNameText != null)
-            bossNameText.text = boss.name;  // 프리팹 이름을 보스 이름으로 사용
+            bossNameText.text = boss.MonsterName;
 
         if (bossHpBarPanel != null)
             bossHpBarPanel.SetActive(show);
