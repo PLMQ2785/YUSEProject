@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8880797221330917285}
-  - component: {fileID: -580824824227003035}
+  - component: {fileID: -4255750642618637070}
   - component: {fileID: 1239617161806971552}
   - component: {fileID: 48254275233714998}
   - component: {fileID: 1737600228348484724}
   - component: {fileID: 6813797106969371374}
-  - component: {fileID: 1335054024242005363}
-  m_Layer: 0
-  m_Name: FoxBoss
+  - component: {fileID: 8837516503607011756}
+  m_Layer: 8
+  m_Name: ExplodingMonster
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +37,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-580824824227003035
+--- !u!114 &-4255750642618637070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,28 +46,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2355473164220929502}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 591af15502d307249b395eb5f77c2f76, type: 3}
+  m_Script: {fileID: 11500000, guid: 683fe4b852ca7374eb309d67b45fb2a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
   monsterName: 
   description: 
   unlocked: 0
-  maxHp: 100
-  moveSpeed: 1.2
-  contactDamage: 20
+  maxHp: 10
+  moveSpeed: 2
+  contactDamage: 5
   expOrbPrefab: {fileID: 622782962632113181, guid: e0f17047d092c564ba65b11d0ea8c20b, type: 3}
-  patternInterval: 2
-  patternWarningTime: 1.2
-  projectilePrefab: {fileID: 128703109899176301, guid: 206f4a7f6b9e9414a8c909c3499a36eb, type: 3}
-  projectileSpeed: 10
-  projectileSize: 2
-  projectileDamage: 10
-  dashDistance: 7
-  dashDuration: 0.5
-  dashDamage: 20
-  aoeDamage: 10
-  aoeRange: 2.5
+  explosionDelay: 1
+  explosionRange: 2.5
+  explosionDamage: 20
+  warningColor: {r: 0.9245283, g: 0.6401922, b: 0.6401922, a: 0.3}
+  explosionColor: {r: 0.98490566, g: 0.2880383, b: 0.2880383, a: 0.5}
 --- !u!212 &1239617161806971552
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -112,12 +106,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4702544020559098553, guid: e51173c1be343e14cb57fd08e627a7a3, type: 3}
+  m_Sprite: {fileID: 1335006490120893386, guid: a8dd937246c644e449835ee058ee1c3c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.5, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -161,8 +155,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.9375, y: 0.59375}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 0.4375, y: 0.9375}
+    newSize: {x: 0.5, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
     adaptiveTiling: 0
@@ -177,11 +171,11 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2355473164220929502}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1000
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
@@ -208,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f94e73f83aa11bb4fa9084d8c777c3d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1335054024242005363
+--- !u!95 &8837516503607011756
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
@@ -218,7 +212,7 @@ Animator:
   m_GameObject: {fileID: 2355473164220929502}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 21bf812fe0421734e87b50dc9d735058, type: 2}
+  m_Controller: {fileID: 9100000, guid: 42d9a408a535a2940acfd744b1977cc0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

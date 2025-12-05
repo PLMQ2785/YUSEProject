@@ -1,4 +1,4 @@
-﻿/*
+/*
  * [PlayerManager.cs]
  * [패키지 2] 플레이어 로직
  * Sprint 1 목표(B-1.a)에 따라 이동, HP 관리, 사망 처리,
@@ -41,6 +41,9 @@ public class PlayerManager : MonoBehaviour
     //위치
     public Vector2 Player_Position =>transform.position;
 
+    // PlayerStats에 외부에서 접근할 수 있게 노출
+    public PlayerStats Stats => stats;
+    
     // (Sprint 2 추가) 바라보는 방향 (기본값: 오른쪽)
     public Vector2 FacingDirection { get; private set; } = Vector2.right;
     
@@ -209,7 +212,7 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
-        _currentHp -= amount;
+        _currentHp -= amount * (1 - stats.DamageReductionMult);
         
         // 충돌 데미지를 받았다면 쿨다운 타이머 설정
         if (isContactDamage)
@@ -233,7 +236,7 @@ public class PlayerManager : MonoBehaviour
     /// <param name="amount">획득한 경험치 양</param>
     public void GainExp(int amount)
     {
-        _currentExp += amount;
+        _currentExp += (int)(amount * stats.ExpMult);
         
         // 경험치 획득 후 UI 갱신 알림
         OnExpChanged?.Invoke((float)_currentExp, (float)_maxExp);
@@ -250,7 +253,7 @@ public class PlayerManager : MonoBehaviour
     /// <param name="amount">획득한 재화 양</param>
     public void GainGold(int amount)
     {
-        _gold += amount;
+        _gold += (int)(amount * stats.GoldMult);
         
         // 재화 획득 후 UI 갱신 알림
         OnGoldChanged?.Invoke(_gold);

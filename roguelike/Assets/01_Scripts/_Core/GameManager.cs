@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement; // 씬 관리를 위해 필수
 
@@ -216,6 +216,8 @@ public class GameManager : MonoBehaviour
         _currentState = GameState.GameOver;
         Time.timeScale = 0f; // 게임 정지
         OnGameStateChanged?.Invoke(_currentState);
+
+        SaveManager.SaveGold(SaveManager.LoadGold() + _playerManager.Gold); // 골드 저장
 
         // (S3, D-2.c) 게임 오버 패널 표시(bool show, bool clear)
         if (_inGamePanelManager != null)

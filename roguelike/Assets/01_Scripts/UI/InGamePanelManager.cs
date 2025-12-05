@@ -1,4 +1,4 @@
-/*
+﻿/*
  * [InGamePanelManager.cs]
  * [패키지 4] 인게임 UI/UX
  * (더미 스크립트: Sprint 1~3에 걸쳐 구현)
@@ -49,9 +49,10 @@ public class InGamePanelManager : MonoBehaviour
 
     // [SerializeField] private GameObject gameClearPanel;
 
-    // (Sprint 2)
+    /* 세팅패널은 보류
     [Header("SettingPanel UI")]
     [SerializeField] private GameObject settingPanel;
+    */
     #endregion
 
     private void Start()
@@ -159,6 +160,7 @@ public class InGamePanelManager : MonoBehaviour
         GameManager.Instance.ResumeGame();
     }
 
+    /*
     /// <summary>
     /// '설정' 버튼 클릭 시 호출
     /// </summary>
@@ -166,7 +168,7 @@ public class InGamePanelManager : MonoBehaviour
     {
         if (settingPanel != null)
             settingPanel.SetActive(true);
-    }
+    }*/
     #endregion
 
     #region Private Methods
