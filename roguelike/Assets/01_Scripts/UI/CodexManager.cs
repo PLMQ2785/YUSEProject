@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -57,6 +57,7 @@ public class CodexManager : MonoBehaviour
         ClearContent(equipmentContent);
         ClearContent(itemContent);
 
+        if (monsterDataBase == null) { Debug.Log("monsterDB null"); return; }
         // 몬스터 도감 생성
         foreach (var monster in monsterDataBase.monsterPool)
         {
@@ -67,6 +68,7 @@ public class CodexManager : MonoBehaviour
             ui.SetMonster(monster, monster.Unlocked);
         }
 
+        if(lootDataBase == null) { Debug.Log("lootDB null"); return; }
         // 장비 도감 생성
         foreach (var equip in lootDataBase.weaponPool)
         {
