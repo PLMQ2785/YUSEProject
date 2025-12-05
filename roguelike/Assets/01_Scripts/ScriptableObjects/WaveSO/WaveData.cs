@@ -19,6 +19,6 @@ public class WaveData : ScriptableObject
     public int maxFieldMonsterCount = 30;
 
     [Header("Monsters")]
-    [Tooltip("등장할 몬스터 프리팹 목록 (랜덤 선택)")]
-    public List<Monster> spawnablePrefabs;
+    [Tooltip("등장할 몬스터 스폰 정보 목록 (각 몬스터마다 독립적인 스폰 설정)")]
+    public List<MonsterSpawnInfo> monsterSpawnInfos;
 }
