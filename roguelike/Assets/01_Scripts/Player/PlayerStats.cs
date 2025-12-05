@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,16 +12,16 @@ public class PlayerStats
     #region Serialized Fields (Base Stats)
     [Header("기본 스탯")]
     [SerializeField] private float maxHp = 100f;
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float speed = 5f; // ok
     [SerializeField] private float attackDamageMult = 1f;
     [SerializeField] private float attackSpeedMult = 1f;
     [SerializeField] private float cooldownMult = 1f;
     [SerializeField] private float magnetRange = 2f;
     [SerializeField] private float critChance = 5f;
     [SerializeField] private float critDamageMult = 1.5f;
-    [SerializeField] private float expMult = 1f;
-    [SerializeField] private float goldMult = 1f;
-    [SerializeField] private float damageReductionMult = 0f;
+    [SerializeField] private float expMult = 1f; // ok
+    [SerializeField] private float goldMult = 1f; // ok
+    [SerializeField] private float damageReductionMult = 0f; // ok
     #endregion
 
     #region Private Fields (Bonuses)
@@ -46,7 +46,7 @@ public class PlayerStats
     public float CritChance => critChance + GetBonus(UpgradeType.CritChance);
     public float CritDamageMult => critDamageMult + GetBonus(UpgradeType.CritDamageMult);
     public float ExpMult => expMult + (GetBonus(UpgradeType.ExpMult));
-    public float GoldMult => goldMult + (GetBonus(UpgradeType.GoldMult) / 100f);
+    public float GoldMult => goldMult + (GetBonus(UpgradeType.GoldMult));
     public float DamageReductionMult => damageReductionMult + GetBonus(UpgradeType.DamageReductionMult);
     
     #endregion
