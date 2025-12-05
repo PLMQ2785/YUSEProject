@@ -16,7 +16,8 @@ MonoBehaviour:
   _description: "\uBBF8\uC815"
   _icon: {fileID: 762804792, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
   _maxLevel: 5
-  _prefab: {fileID: 0}
+  unlocked: 0
+  _prefab: {fileID: 133916908793830248, guid: d8e1c5cbdbecbeb45a12c98460465923, type: 3}
   _projectilePrefab: {fileID: 2388193314936908717, guid: d493758bc46ceb144857ca231c12cfe6, type: 3}
   _baseDamage: 2
   _baseCooldown: 1
