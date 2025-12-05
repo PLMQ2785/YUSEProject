@@ -247,7 +247,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         // 씬을 다시 로드하기 전에 게임 상태 초기화
-        _currentState = GameState.Playing;
+        _currentState = GameState.Playing; 
         _gameTime = 0f;
         Time.timeScale = 1f;
         IsTimerStopped = false;
