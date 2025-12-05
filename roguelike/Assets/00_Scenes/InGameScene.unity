@@ -1229,6 +1229,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 753821537}
     - target: {fileID: 455124095117590339, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
+      propertyPath: eventManager
+      value: 
+      objectReference: {fileID: 1637448499}
+    - target: {fileID: 455124095117590339, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
       propertyPath: skipExpRatio
       value: 
       objectReference: {fileID: 1590743651}
