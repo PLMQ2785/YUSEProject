@@ -30,7 +30,7 @@ public abstract class Weapon : EquipmentBase
         if (_currentCooldown <= 0f)
         {
             PerformAttack();
-            _currentCooldown = WeaponData.BaseCooldown;
+            _currentCooldown = CalculateCooldown();
         }
     }
     #endregion
@@ -48,6 +48,55 @@ public abstract class Weapon : EquipmentBase
         {
             _currentCooldown -= deltaTime;
         }
+    }
+    #endregion
+
+    #region Protected Methods
+    /// <summary>
+    /// 플레이어 스탯을 반영하여 최종 데미지를 계산합니다.
+    /// AttackDamageMult와 크리티컬 시스템을 적용합니다.
+    /// </summary>
+    /// <param name="baseDamage">기본 데미지</param>
+    /// <param name="isCritical">크리티컬 히트 발생 여부</param>
+    /// <returns>최종 계산된 데미지</returns>
+    protected float CalculateDamage(float baseDamage, out bool isCritical)
+    {
+        // DEBUG: 메서드 호출 확인
+        Debug.Log($"[CalculateDamage] Called with baseDamage: {baseDamage}");
+        
+        // 1. 공격력 배율 적용
+        float damage = baseDamage * _player.Stats.AttackDamageMult;
+        Debug.Log($"[CalculateDamage] After AttackDamageMult ({_player.Stats.AttackDamageMult}): {damage}");
+        
+        // 2. 크리티컬 판정
+        float critRoll = Random.Range(0f, 100f);
+        isCritical = critRoll < _player.Stats.CritChance;
+        Debug.Log($"[CalculateDamage] CritChance: {_player.Stats.CritChance}%, Roll: {critRoll:F1}, IsCrit: {isCritical}");
+        
+        if (isCritical)
+        {
+            // 3. 크리티컬 데미지 배율 적용
+            damage *= _player.Stats.CritDamageMult;
+            Debug.Log($"[{WeaponData.EquipmentName}] Critical Hit! Damage: {damage:F1} (Base: {baseDamage:F1})");
+        }
+        
+        return damage;
+    }
+
+    /// <summary>
+    /// 플레이어 스탯을 반영하여 최종 쿨다운을 계산합니다.
+    /// AttackSpeedMult와 CooldownMult를 적용합니다.
+    /// </summary>
+    /// <returns>최종 계산된 쿨다운 (초)</returns>
+    protected float CalculateCooldown()
+    {
+        // 최종 쿨다운 = BaseCooldown × CooldownMult ÷ AttackSpeedMult
+        // AttackSpeedMult가 높을수록 쿨다운 감소 (공격 속도 증가)
+        // CooldownMult가 낮을수록 쿨다운 감소
+        float cooldown = WeaponData.BaseCooldown * _player.Stats.CooldownMult / _player.Stats.AttackSpeedMult;
+        
+        // 최소 쿨다운 보장 (너무 빠른 공격 방지)
+        return Mathf.Max(0.05f, cooldown);
     }
     #endregion
 

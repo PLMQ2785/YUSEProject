@@ -1075,11 +1075,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4290458344431738899, guid: 31f97e8783e65a640b3cdd24282d44d1, type: 3}
       propertyPath: m_Size.x
-      value: 21
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4290458344431738899, guid: 31f97e8783e65a640b3cdd24282d44d1, type: 3}
       propertyPath: m_Size.y
-      value: 21
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4958927601445564574, guid: 31f97e8783e65a640b3cdd24282d44d1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1129,6 +1129,14 @@ PrefabInstance:
       propertyPath: inventoryManager
       value: 
       objectReference: {fileID: 6697377776466563931}
+    - target: {fileID: 6711421060320007765, guid: 31f97e8783e65a640b3cdd24282d44d1, type: 3}
+      propertyPath: stats.critChance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6711421060320007765, guid: 31f97e8783e65a640b3cdd24282d44d1, type: 3}
+      propertyPath: stats.cooldownMult
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

@@ -17,9 +17,8 @@ public class ExperienceOrb : AcquireableObject
 
     public override void OnAcquire(PlayerManager player)
     {
-        // 경험치 + 골드 지급
+        // 경험치 지급
         player.GainExp(expAmount);
-        player.GainGold(expAmount);
 
         // 자석 이동 멈추기 (AcquireableObject 쪽에 구현되어 있다고 가정)
         StopMove();

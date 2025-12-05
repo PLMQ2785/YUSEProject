@@ -67,9 +67,12 @@ public class BottleWeapon : Weapon
         BottleProjectile projectile = projectileObj.GetComponent<BottleProjectile>();
         if (projectile != null)
         {
+            // 플레이어 스탯을 반영한 최종 데미지 계산
+            float finalDamage = CalculateDamage(WeaponData.BaseDamage, out bool isCritical);
+
             projectile.Initialize(
                 WeaponData.ProjectileSpeed,
-                WeaponData.BaseDamage,
+                finalDamage,
                 targetPosition,
                 WeaponData.Penetration,
                 _explosionRadius

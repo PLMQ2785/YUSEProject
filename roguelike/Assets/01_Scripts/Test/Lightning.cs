@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class Lightning : Weapon
 {
-    #region private º¯¼ö
-    [Header("¼³Á¤")]
+    #region private ë³€ìˆ˜
+    [Header("ì„¤ì •")]
     [SerializeField] private GameObject _lightningEffectPrefab;
     [SerializeField] private float _attackRange = 5f;
     [SerializeField] private float _damageRange = 1.5f;
     [SerializeField] private int _strikeCount = 3;
 
-    //Àû ·¹ÀÌ¾î ¹Ì¸® ÀúÀå
+    //ì  ë ˆì´ì–´ ë¯¸ë¦¬ ì €ì¥
     [SerializeField] private LayerMask _targetLayer; 
 
     private List<Collider2D> _targets = new List<Collider2D>();
@@ -30,9 +30,11 @@ public class Lightning : Weapon
 
     protected override void PerformAttack()
     {
-        //ÇÃ·¹ÀÌ¾î ÀÚ½ÄÀ¸·Î µé¾î°¥²¨´Ï±î
+        //í”Œë ˆì´ì–´ ìì‹ìœ¼ë¡œ ë“¤ì–´ê°ˆêº¼ë‹ˆê¹Œ
        Vector3 playerPos= transform.position;
 
+        // í”Œë ˆì´ì–´ ìŠ¤íƒ¯ì„ ë°˜ì˜í•œ ìµœì¢… ë°ë¯¸ì§€ ê³„ì‚° (ë²ˆê°œëŠ” í•œë²ˆë§Œ ê³„ì‚°)
+        float finalDamage = CalculateDamage(WeaponData.BaseDamage, out bool isCritical);
 
        for(int i=0;i<_strikeCount;i++)
         {
@@ -45,12 +47,12 @@ public class Lightning : Weapon
             {
                 foreach(var col  in _targets)
                 {
-                    Debug.Log("Àû°¨Áö");
+                    Debug.Log("ì ê°ì§€");
                     Monster enemy = col.GetComponent<Monster>();
                     
                     if(enemy != null)
                     {
-                        enemy.TakeDamage(WeaponData.BaseDamage);
+                        enemy.TakeDamage(finalDamage);
                     }
                 }
             }
