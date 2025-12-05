@@ -112,11 +112,21 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // (S1, A-2.a) 게임 시작 시 초기 상태 설정
+        // (중요) MonoBehaviour 싱글톤이 아니므로, Awake에서 DontDestroyOnLoad 하지 않음
         _currentState = GameState.MainMenu;
-        _gameTime = 0f;
+        Debug.Log("GameManager: 게임 시작 준비 완료. 현재 상태: MainMenu");
+    
+        // LootDataBase 초기화 및 unlock 상태 로드
+        if (LootDataBase.Instance != null)
+        {
+            LootDataBase.Instance.Initialize();
+            LootDataBase.Instance.LoadUnlockStates();
+        }
+        else
+        {
+            Debug.LogWarning("GameManager: LootDataBase instance not found in scene!");
+        }
     }
-
     private void Update()
     {
         // (S1, A-2.a) 게임 상태가 Playing일 때만 시간 추적
@@ -127,7 +137,7 @@ public class GameManager : MonoBehaviour
             OnTimeChanged?.Invoke(_gameTime);
         }
     }
-
+    
     // (중요) 오브젝트 파괴 시 구독한 이벤트를 해제하여 메모리 누수를 방지함
     private void OnDestroy()
     {
@@ -371,7 +381,7 @@ public class GameManager : MonoBehaviour
             _playerManager.OnPlayerLeveledUp -= HandlePlayerLeveledUp;
         }
 
-        if (_rewardManager != null)
+        if (_rewardManager != null) 
         {
             _rewardManager.OnRewardProcessFinished -= HandleRewardFinished;
         }

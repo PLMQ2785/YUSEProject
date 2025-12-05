@@ -179,7 +179,11 @@ public class InventoryManager : MonoBehaviour
         Debug.Log($"Added Weapon: {data.EquipmentName}");
         OnInventoryChanged?.Invoke();
 
-        data.Unlocked = true;
+        // Unlock 처리 - LootDataBase를 통해 중앙 관리
+        if (LootDataBase.Instance != null)
+        {
+            LootDataBase.Instance.UnlockEquipment(data.EquipmentName);
+        }
     }
 
     private void AddPassive(PassiveData data)
@@ -201,7 +205,11 @@ public class InventoryManager : MonoBehaviour
         Debug.Log($"Added Passive: {data.EquipmentName}");
         OnInventoryChanged?.Invoke();
 
-        data.Unlocked = true;
+        // Unlock 처리 - LootDataBase를 통해 중앙 관리
+        if (LootDataBase.Instance != null)
+        {
+            LootDataBase.Instance.UnlockEquipment(data.EquipmentName);
+        }
     }
 
     private void AddConsumable(ItemData data)
@@ -239,7 +247,11 @@ public class InventoryManager : MonoBehaviour
         Debug.Log($"Added Consumable: {data.ItemName}");
         OnInventoryChanged?.Invoke();
 
-        data.Unlocked = true;
+        // Unlock 처리 - LootDataBase를 통해 중앙 관리
+        if (LootDataBase.Instance != null)
+        {
+            LootDataBase.Instance.UnlockEquipment(data.ItemName);
+        }
     }
 
     #endregion

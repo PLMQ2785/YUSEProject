@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 48254275233714998}
   - component: {fileID: 1737600228348484724}
   - component: {fileID: 6813797106969371374}
-  - component: {fileID: 3631095440993862471}
   m_Layer: 8
   m_Name: RangedMonster
   m_TagString: Enemy
@@ -49,9 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e729c387491944796ef7a053a8f3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  monsterName: 
-  description: 
+  monsterName: "\uCC98\uB140\uADC0\uC2E0"
+  description: "\uD751\uD751 \uC2AC\uD504\uB2E4 \u3160\u3160"
   unlocked: 0
   maxHp: 7
   moveSpeed: 1.5
@@ -200,25 +198,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f94e73f83aa11bb4fa9084d8c777c3d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &3631095440993862471
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2355473164220929502}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 60362acd3aa4e014aa5567c4a93722ff, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
