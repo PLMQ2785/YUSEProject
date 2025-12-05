@@ -3,7 +3,7 @@ using System.Collections;
 
 /// <summary>
 /// 죽을 때 일정 시간 후 주위에 데미지를 주는 몬스터
-/// </summary>
+/// </summary> 
 public class ExplodingMonster : Monster
 {
     #region Serialized Fields
