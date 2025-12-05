@@ -1,4 +1,6 @@
+﻿using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -12,6 +14,10 @@ public class MainMenuPanelManager : MonoBehaviour
     #endregion
 
     #region Serialized Fields
+    [Header("Manager")]
+    [SerializeField] private UpgradeManager upgradeManager;
+
+
     [Header("Panels")]
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private GameObject lobbyPanel;
@@ -21,6 +27,7 @@ public class MainMenuPanelManager : MonoBehaviour
 
     [Header("UI Elements")]
     [SerializeField] private Text pressAnyKeyText;
+    [SerializeField] private TextMeshProUGUI upgradeGoldText;
     #endregion
 
     #region Private Fields
@@ -33,6 +40,8 @@ public class MainMenuPanelManager : MonoBehaviour
     {
         AudioManager.Instance.PlayBGM(BGM_NAME);
         CheckAndShowTitlePanel();
+
+        upgradeManager.OnGoldChanged += UpdateGoldText;
     }
 
     private void Update()
@@ -44,6 +53,11 @@ public class MainMenuPanelManager : MonoBehaviour
 
         HandleLobbyInput();
     }
+
+    private void OnDestroy()
+    {
+        upgradeManager.OnGoldChanged -= UpdateGoldText;
+    }
     #endregion
 
     #region Public Methods
@@ -52,10 +66,9 @@ public class MainMenuPanelManager : MonoBehaviour
     /// </summary>
     public void HandleLobbyInput() // 이름 변경: ShowLobbyPanel -> HandleLobbyInput (Update에서 호출되므로)
     {
-        if (Input.anyKeyDown && mainPanel.activeSelf && !lobbyPanel.activeSelf)
+        if (Input.anyKeyDown && mainPanel.activeSelf)
         {
             mainPanel.SetActive(false);
-            lobbyPanel.SetActive(true);
         }
     }
 
@@ -65,6 +78,7 @@ public class MainMenuPanelManager : MonoBehaviour
     public void ToggleUpgradePanel()
     {
         AudioManager.Instance.PlaySfx(SFX_SELECT);
+        UpdateGoldText(upgradeManager.CurrentGold); // 강화창 골드 텍스트 업데이트
         upgradePanel.SetActive(!upgradePanel.activeSelf);
     }
 
@@ -84,6 +98,14 @@ public class MainMenuPanelManager : MonoBehaviour
     {
         AudioManager.Instance.PlaySfx(SFX_SELECT);
         codexPanel.SetActive(!codexPanel.activeSelf);
+    }
+
+
+        
+    //게임 시작 함수
+    public void Onclick_StartGame()
+    {
+        GameManager.Instance.StartGame();
     }
     #endregion
 
@@ -122,6 +144,14 @@ public class MainMenuPanelManager : MonoBehaviour
         Color newColor = pressAnyKeyText.color;
         newColor.a = alpha;
         pressAnyKeyText.color = newColor;
+    }
+
+    /// <summary>
+    /// 강화창 골드 텍스트 업데이트
+    /// </summary>
+    private void UpdateGoldText(int amount)
+    {
+        upgradeGoldText.text = amount.ToString();
     }
     #endregion
 }

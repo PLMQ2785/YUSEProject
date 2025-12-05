@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -11,6 +11,7 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager; // 인스펙터에서 연결
     [SerializeField] private InventoryManager inventoryManager; // 획득한 장비와 아이템 띄우기 위한 참조
     [SerializeField] private SpawnManager spawnManager; // 보스 몬스터 체력 띄우기 위한 참조
+    [SerializeField] private EventManager eventManager;
 
     [Header("UI Elements (S1)")]
     [SerializeField] private Slider hpSlider; // (D-1.a)
@@ -66,7 +67,7 @@ public class HUDManager : MonoBehaviour
 
         // (S3) [패키지 3]의 이벤트도 구독해야 함
         spawnManager.OnBossSpawned += ShowBossHpBarPanel;
-        // QuestManager.OnQuestStarted += ToggleQuestInfo;
+        eventManager.OnToggleEvent+= ToggleQuestInfo;
 
         // [Inventory]
         if (inventoryManager != null)
@@ -102,7 +103,7 @@ public class HUDManager : MonoBehaviour
 
         // (S3) [패키지 3] 이벤트 구독 해제
         spawnManager.OnBossSpawned -= ShowBossHpBarPanel;
-        // QuestManager.OnQuestStarted -= ToggleQuestInfo;
+        eventManager.OnToggleEvent -= ToggleQuestInfo;
 
         if (inventoryManager != null)
         {
@@ -282,11 +283,12 @@ public class HUDManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 퀘스트매니저의 이벤트가 호출
+    /// 이벤트 매니저가 호출
     /// </summary>
-    private void ToggleQuestInfo()
+    private void ToggleQuestInfo(string notificationMessage)
     {
         questInfo.SetActive(!questInfo.activeSelf);
+        questInfoText.text = notificationMessage;
     }
 
     #endregion

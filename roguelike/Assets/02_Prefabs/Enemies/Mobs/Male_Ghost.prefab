@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6813797106969371374}
   - component: {fileID: 3305980863821901834}
   m_Layer: 8
-  m_Name: Enemy
+  m_Name: Male_Ghost
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -104,6 +104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceab619e76c4c3542aa87a86463cd2aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterName: "\uCD1D\uAC01\uADC0\uC2E0"
+  description: "\uB108\uBB34 \uC2AC\uD504\uB2E4"
+  unlocked: 0
   maxHp: 10
   moveSpeed: 2
   contactDamage: 5

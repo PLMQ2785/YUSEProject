@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b1ed293a6377ad4384f7815c3184602, type: 3}
+  m_Name: BottleWeaponData
+  m_EditorClassIdentifier: 
+  _equipmentName: "\uD638\uB9AC\uBCD1"
+  _description: "\uCE90\uB9AD\uD130 \uBA38\uB9AC \uC704\uB85C \uD638\uB9AC\uBCD1\uC744
+    \uB358\uC838 \uADFC\uCC98 \uC801\uC5D0\uAC8C \uBC94\uC704 \uD53C\uD574\uB97C
+    \uC785\uD799\uB2C8\uB2E4."
+  _icon: {fileID: 21300000, guid: 0f4dc20bf3f0a0648ab32fb57ddd9917, type: 3}
+  _maxLevel: 5
+  unlocked: 0
+  _prefab: {fileID: 341622578974357366, guid: a7548d7ac77efe04a8b1762af56225bb, type: 3}
+  _projectilePrefab: {fileID: 5451034807834037531, guid: 4c08a83b735928a4abe0f48239687f27, type: 3}
+  _baseDamage: 25
+  _baseCooldown: 2
+  _projectileSpeed: 8
+  _penetration: 1

@@ -16,7 +16,7 @@ public class PlayerStats
     [SerializeField] private float attackDamageMult = 1f;
     [SerializeField] private float attackSpeedMult = 1f;
     [SerializeField] private float cooldownMult = 1f;
-    [SerializeField] private float magnetRange = 2f;
+    [SerializeField] private float magnetRange = 0.5f;
     [SerializeField] private float critChance = 5f;
     [SerializeField] private float critDamageMult = 1.5f;
     [SerializeField] private float expMult = 1f;

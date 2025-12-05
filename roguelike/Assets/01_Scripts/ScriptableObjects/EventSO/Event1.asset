@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ad27dadd3fcd8b4290016d53c34c7e9, type: 3}
   m_Name: Event1
   m_EditorClassIdentifier: 
-  eventName: "\uC18D\uB3C4 +2 \uC774\uBCA4\uD2B8"
-  description: "\uC774\uBCA4\uD2B8 \uD14C\uC2A4\uD2B8 1"
-  notificationMessage: Evt1
+  eventName: "\uC774\uB3D9\uC18D\uB3C4 50% \uC99D\uAC00"
+  description: "\uC774\uB3D9\uC18D\uB3C4 50% \uC99D\uAC00"
+  notificationMessage: "\uC774\uB3D9\uC18D\uB3C4 50% \uC99D\uAC00"
   duration: 10
   statModifiers:
   - statType: 1
-    value: 5
+    value: 2.5
