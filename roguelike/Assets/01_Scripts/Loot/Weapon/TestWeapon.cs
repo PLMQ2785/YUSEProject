@@ -37,9 +37,12 @@ public class TestWeapon : Weapon
                     direction = Vector2.right;
                 }
 
+                // 플레이어 스탯을 반영한 최종 데미지 계산
+                float finalDamage = CalculateDamage(WeaponData.BaseDamage, out bool isCritical);
+
                 projectile.Initialize(
                     WeaponData.ProjectileSpeed,
-                    WeaponData.BaseDamage,
+                    finalDamage,
                     direction,
                     WeaponData.Penetration
                 );
