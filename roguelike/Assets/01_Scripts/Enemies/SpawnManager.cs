@@ -25,7 +25,7 @@ public class SpawnManager : MonoBehaviour
     #endregion
 
     #region Private Fields
-    private float _spawnTimer;
+    private float _spawnTimer;  
     private WaveData _currentWave;
     private int _bossLevel = 1;
     private bool _isBossActive;

@@ -19,6 +19,12 @@ public abstract class Weapon : EquipmentBase
     #region Unity LifeCycle
     protected virtual void Update()
     {
+        // 초기화되지 않았으면 리턴
+        if (_player == null || WeaponData == null)
+        {
+            return;
+        }
+
         UpdateCooldown(Time.deltaTime);
 
         if (_currentCooldown <= 0f)

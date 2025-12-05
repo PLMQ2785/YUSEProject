@@ -16,6 +16,8 @@ public class DevTools : MonoBehaviour
 
     [Header("Weapon")] 
     [SerializeField] private WeaponData testWeapon;
+    [SerializeField] private WeaponData testWeapon2;
+    [SerializeField] private WeaponData testWeapon3;
     [SerializeField] private PassiveData testPassive;
     [SerializeField] private ItemData testItem;
     #endregion
@@ -126,6 +128,30 @@ public class DevTools : MonoBehaviour
             Debug.Log("[Dev UI] Add Weapon Test");
             if (testWeapon != null)
                 playerManager.AddEquipment(testWeapon);
+            else
+                Debug.LogWarning("Test Weapon Data is missing!");
+        }
+    }
+    
+    public void OnBtnAddWeapon2Clicked()
+    {
+        if (CheckPlayer())
+        {
+            Debug.Log("[Dev UI] Add Weapon2 Test");
+            if (testWeapon != null)
+                playerManager.AddEquipment(testWeapon2);
+            else
+                Debug.LogWarning("Test Weapon Data is missing!");
+        }
+    }
+
+    public void OnBtnAddWeapon3Clicked()
+    {
+        if (CheckPlayer())
+        {
+            Debug.Log("[Dev UI] Add Weapon2 Test");
+            if (testWeapon != null)
+                playerManager.AddEquipment(testWeapon3);
             else
                 Debug.LogWarning("Test Weapon Data is missing!");
         }
