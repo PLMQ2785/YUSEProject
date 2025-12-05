@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterName: "\uAD6C\uBBF8\uD638"
-  description: 
+  description: "\uB8E8\uD2B8 \uAD6C\uBBF8\uD638"
   unlocked: 0
   maxHp: 100
   moveSpeed: 1.2
