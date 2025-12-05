@@ -220,9 +220,12 @@ public class InGamePanelManager : MonoBehaviour
 
             // 기존 리스너 제거 후 새로 등록
             rewardSlots[i].onClick.RemoveAllListeners();
+            
+            // 클로저 문제 해결: 인덱스를 지역 변수로 캡처
+            int index = i;
             rewardSlots[i].onClick.AddListener(() =>
             {
-                rewardManager.OnRewardSelected(rewards[i]);
+                rewardManager.OnRewardSelected(rewards[index]);
             });
         }
     }

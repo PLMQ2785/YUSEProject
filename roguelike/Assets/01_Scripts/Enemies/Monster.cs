@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public abstract class Monster : MonoBehaviour
 {
     #region Serialized Fields
-    [SerializeField] protected Sprite icon;
     [SerializeField] protected string monsterName;
     [SerializeField][TextArea] private string description;
     [SerializeField] protected bool unlocked;
@@ -21,7 +20,15 @@ public abstract class Monster : MonoBehaviour
 
     public string MonsterName => monsterName;
     public string Description => description;
-    public Sprite Icon => icon;
+    // SpriteRenderer의 sprite를 직접 가져오기 (프리펛 상태에서도 동작)
+    public Sprite Icon
+    {
+        get
+        {
+            var renderer = GetComponent<SpriteRenderer>();
+            return renderer != null ? renderer.sprite : null;
+        }
+    }
 
     public GameObject expOrbPrefab;
 
@@ -137,7 +144,17 @@ public abstract class Monster : MonoBehaviour
         DropExpOrb();
         UpGold(1);
         UpKillCount(1);
-        unlocked = true;
+        
+        // Unlock 처리 - LootDataBase를 통해 중앙 관리
+        if (LootDataBase.Instance != null)
+        {
+            Debug.Log($"Monster.Die(): Attempting to unlock monster: {monsterName}");
+            LootDataBase.Instance.UnlockMonster(monsterName);
+        }
+        else
+        {
+            Debug.LogError("Monster.Die(): LootDataBase.Instance is null!");
+        }
 
 
         // 수정.. Destroy 대신 풀로 반환 로직 실행
