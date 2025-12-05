@@ -246,8 +246,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        // 씬을 다시 로드하기 전에 TimeScale을 원복
+        // 씬을 다시 로드하기 전에 게임 상태 초기화
+        _currentState = GameState.Playing; 
+        _gameTime = 0f;
         Time.timeScale = 1f;
+        IsTimerStopped = false;
         SceneManager.LoadScene(IN_GAME_SCENE); // (S2, A-2.c)
     }
 
@@ -256,6 +259,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void GoToMainMenu()
     {
+        _currentState = GameState.MainMenu;
         Time.timeScale = 1f;
         SceneManager.LoadScene(MAIN_MENU_SCENE); // (S2, A-2.c)
     }
@@ -333,7 +337,7 @@ public class GameManager : MonoBehaviour
         else if (scene.name == MAIN_MENU_SCENE)
         {
             // 1. 메인 메뉴 씬이 로드됨
-            _currentState = GameState.Paused;
+            _currentState = GameState.MainMenu;
         }
     }
 
