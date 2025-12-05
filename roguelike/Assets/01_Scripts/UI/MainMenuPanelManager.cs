@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -65,10 +66,9 @@ public class MainMenuPanelManager : MonoBehaviour
     /// </summary>
     public void HandleLobbyInput() // 이름 변경: ShowLobbyPanel -> HandleLobbyInput (Update에서 호출되므로)
     {
-        if (Input.anyKeyDown && mainPanel.activeSelf && !lobbyPanel.activeSelf)
+        if (Input.anyKeyDown && mainPanel.activeSelf)
         {
             mainPanel.SetActive(false);
-            lobbyPanel.SetActive(true);
         }
     }
 
@@ -98,6 +98,14 @@ public class MainMenuPanelManager : MonoBehaviour
     {
         AudioManager.Instance.PlaySfx(SFX_SELECT);
         codexPanel.SetActive(!codexPanel.activeSelf);
+    }
+
+
+        
+    //게임 시작 함수
+    public void Onclick_StartGame()
+    {
+        GameManager.Instance.StartGame();
     }
     #endregion
 
