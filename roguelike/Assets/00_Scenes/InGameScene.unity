@@ -1191,10 +1191,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15f5411318d11914fac3a4ba28fc5ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magnetRadius: 3
   orbLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   maxTargetsPerFrame: 20
 --- !u!1001 &6697377776466563929
 PrefabInstance:

@@ -2154,7 +2154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
   debugPanel: {fileID: 4529221785766884860}
-  testWeapon: {fileID: 11400000, guid: ae0983febf7b67e4789e53ea99332f75, type: 2}
+  testWeapon: {fileID: 11400000, guid: d20e3fbc688f80149962bd4581a1579c, type: 2}
   testPassive: {fileID: 11400000, guid: 3b0d72c2e0a3b6748be2bcac359bc65b, type: 2}
   testItem: {fileID: 11400000, guid: eb856391b9323f748848b2cc96f57ad2, type: 2}
 --- !u!1 &7824814089118121816
