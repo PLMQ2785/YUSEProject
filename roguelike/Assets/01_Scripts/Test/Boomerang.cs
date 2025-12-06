@@ -39,14 +39,21 @@ public class Boomerang : Weapon
         _isAttack = true;
 
         _parent = transform.parent;
+
+        if( _parent != null )
+        {
+            transform.localPosition = Vector3.zero;
+        }
+
+
+        Vector3 startWorldPos = _parent.position;
         transform.parent = null;   
       
-        //시작 지점은 부모 기준
-        Vector3 startPos = Vector3.zero;
+        
         //랜덤 방향으로 발사
         Vector3 direction = Random.insideUnitCircle.normalized;
         //도착 위치
-        Vector3 targetPos = direction * _flyDistance;
+        Vector3 targetPos = startWorldPos+ (direction * _flyDistance);
 
         //날아갈땐 보이게하기
         if (_spriteRenderer != null)
