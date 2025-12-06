@@ -112,12 +112,12 @@ public class RewardManager : MonoBehaviour
                     // 1/3 확률로 패시브 등장
                     if (flag2 == 0)
                     {
-                        select = LootDataBase.Instance.GetRandomPassive();
+                        select = inventoryManager.IsPassiveFull ? LootDataBase.Instance.GetRandomItem() : LootDataBase.Instance.GetRandomPassive();
                     }
                     // 2/3 확률로 무기 등장
                     else
                     {
-                        select = LootDataBase.Instance.GetRandomWeapon();
+                        select = inventoryManager.IsWeaponFull ? LootDataBase.Instance.GetRandomItem() : LootDataBase.Instance.GetRandomWeapon();
                     }
                 }
             }

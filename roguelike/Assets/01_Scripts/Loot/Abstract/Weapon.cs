@@ -85,15 +85,14 @@ public abstract class Weapon : EquipmentBase
 
     /// <summary>
     /// 플레이어 스탯을 반영하여 최종 쿨다운을 계산합니다.
-    /// AttackSpeedMult와 CooldownMult를 적용합니다.
+    /// AttackSpeedMult만 적용합니다. (CooldownMult는 아이템 전용)
     /// </summary>
     /// <returns>최종 계산된 쿨다운 (초)</returns>
     protected float CalculateCooldown()
     {
-        // 최종 쿨다운 = BaseCooldown × CooldownMult ÷ AttackSpeedMult
+        // 최종 쿨다운 = BaseCooldown ÷ AttackSpeedMult
         // AttackSpeedMult가 높을수록 쿨다운 감소 (공격 속도 증가)
-        // CooldownMult가 낮을수록 쿨다운 감소
-        float cooldown = WeaponData.BaseCooldown * _player.Stats.CooldownMult / _player.Stats.AttackSpeedMult;
+        float cooldown = WeaponData.BaseCooldown / _player.Stats.AttackSpeedMult;
         
         // 최소 쿨다운 보장 (너무 빠른 공격 방지)
         return Mathf.Max(0.05f, cooldown);

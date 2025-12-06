@@ -45,6 +45,9 @@ public class InventoryManager : MonoBehaviour
     public List<Passive> Passives => _passives;
     public List<Item> Consumables => _consumables;
 
+    public bool IsWeaponFull => _weapons.Count >= maxWeaponSlots;
+    public bool IsPassiveFull => _passives.Count >= maxPassiveSlots;
+
     #endregion
 
     #region Unity LifeCycle
@@ -241,7 +244,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
 
-        newItem.Initialize(data);
+        newItem.Initialize(data, playerManager);
         _consumables.Add(newItem);
 
         Debug.Log($"Added Consumable: {data.ItemName}");
