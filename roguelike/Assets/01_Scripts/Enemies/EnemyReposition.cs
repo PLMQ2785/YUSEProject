@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class EnemyReposition : MonoBehaviour
 {
@@ -20,7 +20,7 @@ public class EnemyReposition : MonoBehaviour
             return;
         }
 
-        //Á×Àº¸÷
+        //ì£½ì€ëª¹
         if(!coll.enabled)
         {
             return;
@@ -28,7 +28,7 @@ public class EnemyReposition : MonoBehaviour
 
         Vector3 playerPos = GameManager.Instance.Player.Player_Position;
 
-        //»õ·Î¿î À§Ä¡ Ã£±â
+        //ìƒˆë¡œìš´ ìœ„ì¹˜ ì°¾ê¸°
 
         float RandomAngle = Random.Range(0f,360f)*Mathf.Rad2Deg;
 
@@ -36,10 +36,10 @@ public class EnemyReposition : MonoBehaviour
 
         Vector3 newSpawnPosition = playerPos + (spawnDir * SpawnDistance);
 
-        // 4-4. ¸ó½ºÅÍ °ãÄ§ ¹æÁö¸¦ À§ÇÑ ¹Ì¼¼ ·£´ı ¿ÀÇÁ¼Â Ãß°¡
+        // 4-4. ëª¬ìŠ¤í„° ê²¹ì¹¨ ë°©ì§€ë¥¼ ìœ„í•œ ë¯¸ì„¸ ëœë¤ ì˜¤í”„ì…‹ ì¶”ê°€
         Vector3 randomOffset = new Vector3( Random.Range(-RandomOffsetRange, RandomOffsetRange),Random.Range(-RandomOffsetRange, RandomOffsetRange),0f);
 
-        // 5. ¸ó½ºÅÍ¸¦ »õ·Î¿î À§Ä¡·Î Áï½Ã ÀÌµ¿
+        // 5. ëª¬ìŠ¤í„°ë¥¼ ìƒˆë¡œìš´ ìœ„ì¹˜ë¡œ ì¦‰ì‹œ ì´ë™
         transform.position = newSpawnPosition + randomOffset;
     }
 
