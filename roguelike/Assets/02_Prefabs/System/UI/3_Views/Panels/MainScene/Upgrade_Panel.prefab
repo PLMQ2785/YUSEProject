@@ -747,7 +747,7 @@ PrefabInstance:
     - target: {fileID: 5572974221012647955, guid: 38d508fbb335dc341976ed924c10b15c, type: 3}
       propertyPath: upgradeData
       value: 
-      objectReference: {fileID: 11400000, guid: a6c4d662231c66a40a5e6075df833079, type: 2}
+      objectReference: {fileID: 11400000, guid: 1652d13ecceb31f44a3b192c262ffb4c, type: 2}
     - target: {fileID: 6044284465931888606, guid: 38d508fbb335dc341976ed924c10b15c, type: 3}
       propertyPath: m_Name
       value: Hp_Slot
@@ -891,6 +891,10 @@ PrefabInstance:
     - target: {fileID: 7931962044485662231, guid: 38d508fbb335dc341976ed924c10b15c, type: 3}
       propertyPath: m_Name
       value: Damage_Reduction_Slot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7931962044485662231, guid: 38d508fbb335dc341976ed924c10b15c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7954845106670706338, guid: 38d508fbb335dc341976ed924c10b15c, type: 3}
       propertyPath: m_Name

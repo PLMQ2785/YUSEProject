@@ -1643,33 +1643,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 89167197}
     - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
-      propertyPath: bossPrefab
-      value: 
-      objectReference: {fileID: -580824824227003035, guid: 721093c7e785e5b438ad80e165d569da, type: 3}
-    - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
-      propertyPath: spawnInterval
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
-      propertyPath: bossSpawnCycle
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 1690861174107643620}
-    - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
-      propertyPath: waves.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
-      propertyPath: 'waves.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 1a80f6426081cd44dbec6d7e238e54af, type: 2}
-    - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
-      propertyPath: 'waves.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 1a80f6426081cd44dbec6d7e238e54af, type: 2}
     - target: {fileID: 5661420617346070450, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
       propertyPath: weaponParent
       value: 
@@ -1683,7 +1659,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 89167197}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2803455519950790700, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7303470722622774724, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}

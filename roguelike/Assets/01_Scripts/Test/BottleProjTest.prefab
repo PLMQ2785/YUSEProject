@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosionEffectPrefab: {fileID: 1064867209193409781, guid: 62244e38d7433774386d800c96ed8e09, type: 3}
   _effectDuration: 1
+  _effectSizeMultiplier: 1.5
 --- !u!212 &8449279194574792825
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -93,7 +94,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0f4dc20bf3f0a0648ab32fb57ddd9917, type: 3}
+  m_Sprite: {fileID: 206080519889347711, guid: 3fbb76756a12a9643822d4053bd2b8de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

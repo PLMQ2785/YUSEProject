@@ -45,4 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
-  inGamePanelManager: {fileID: 0}
+  lootDataBase: {fileID: 5730097743372297139, guid: e810e8696a077ab4f94280d162ae2e79, type: 3}
+  inventoryManager: {fileID: 0}

@@ -47,6 +47,9 @@ MonoBehaviour:
   monsterPool:
   - {fileID: 2754266992652824033, guid: 5278036e5bebe954f95eb36d27d2683e, type: 3}
   - {fileID: 844969036950599132, guid: 581c3aab06a034b4b86f43d19c09918c, type: 3}
+  - {fileID: -4255750642618637070, guid: 7e2914e1584c9f04180eac7c881c09d4, type: 3}
+  - {fileID: 2754266992652824033, guid: a574ae0c8fc5684429fb5ff73aa41bc4, type: 3}
+  - {fileID: 2754266992652824033, guid: c874b911aa96cca41afa5a09a926ea02, type: 3}
   weaponPool:
   - {fileID: 11400000, guid: 2821e0577a5339a4aa3c5de928277df0, type: 2}
   - {fileID: 11400000, guid: 1645504df21638146b285429af146646, type: 2}
@@ -64,6 +67,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 01911204856e8884a96e05914f12d297, type: 2}
   - {fileID: 11400000, guid: 721453e5ed59bb7438ca4cbb4d7970e3, type: 2}
   - {fileID: 11400000, guid: 3a7adb4c2473b224cb36fdf989d8e5f4, type: 2}
-  - {fileID: 11400000, guid: 73ff8a83a3993e047b1ae4e413f9e128, type: 2}
   - {fileID: 11400000, guid: f08e1a8e370486345adfc2d51db270cf, type: 2}
+  - {fileID: 11400000, guid: 73ff8a83a3993e047b1ae4e413f9e128, type: 2}
+  - {fileID: 11400000, guid: 518cbef0960cba243984fc075a619154, type: 2}
   itemPool: []
