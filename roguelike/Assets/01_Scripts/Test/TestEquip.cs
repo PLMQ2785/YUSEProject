@@ -58,13 +58,15 @@ public class TestEquip : Weapon
             
             if (monster != null)
             {
-                // 데미지 입히기 (WeaponData의 BaseDamage 사용)
-                float damage = WeaponData != null ? WeaponData.BaseDamage : 10f;
-                // 레벨에 따른 데미지 증가 로직 추가 가능
-                damage += (_level - 1) * 5f; 
+                // 플레이어 스탯을 반영한 최종 데미지 계산
+                float baseDamage = WeaponData != null ? WeaponData.BaseDamage : 10f;
+                // 레벨에 따른 데미지 증가 로직
+                baseDamage += (_level - 1) * 5f;
+                
+                float finalDamage = CalculateDamage(baseDamage, out bool isCritical);
 
-                monster.TakeDamage(damage);
-                Debug.Log($"TestEquip hit {monster.name} for {damage} damage.");
+                monster.TakeDamage(finalDamage);
+                Debug.Log($"TestEquip hit {monster.name} for {finalDamage} damage.");
             }
         }
     }

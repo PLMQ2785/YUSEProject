@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +16,7 @@ public class PlayerStats
     [SerializeField] private float attackDamageMult = 1f;
     [SerializeField] private float attackSpeedMult = 1f;
     [SerializeField] private float cooldownMult = 1f;
-    [SerializeField] private float magnetRange = 0.5f;
+    [SerializeField] private float magnetRange = 2f;
     [SerializeField] private float critChance = 5f;
     [SerializeField] private float critDamageMult = 1.5f;
     [SerializeField] private float expMult = 1f;
@@ -31,12 +31,11 @@ public class PlayerStats
     // 패시브 장비 전용 (동적, 게임 중 추가/레벨업/제거 가능)
     private Dictionary<UpgradeType, Dictionary<object, float>> _passiveBonuses = new Dictionary<UpgradeType, Dictionary<object, float>>();
     
-    // 3. [추가] 이벤트 버프/디버프 (동적, Source 기반)
+    // 이벤트 버프/디버프 (동적, Source 기반)
     private Dictionary<UpgradeType, Dictionary<object, float>> _eventBonuses = new Dictionary<UpgradeType, Dictionary<object, float>>();
     #endregion
 
     #region Properties (Final Stats)
-    
     public float MaxHp => maxHp + GetBonus(UpgradeType.Hp);
     public float Speed => speed + GetBonus(UpgradeType.Speed);
     public float AttackDamageMult => attackDamageMult + GetBonus(UpgradeType.AttackDamageMult);
@@ -45,10 +44,9 @@ public class PlayerStats
     public float MagnetRange => magnetRange + GetBonus(UpgradeType.MagnetRange);
     public float CritChance => critChance + GetBonus(UpgradeType.CritChance);
     public float CritDamageMult => critDamageMult + GetBonus(UpgradeType.CritDamageMult);
-    public float ExpMult => expMult + (GetBonus(UpgradeType.ExpMult));
-    public float GoldMult => goldMult + (GetBonus(UpgradeType.GoldMult) / 100f);
+    public float ExpMult => expMult + GetBonus(UpgradeType.ExpMult);
+    public float GoldMult => goldMult + GetBonus(UpgradeType.GoldMult);
     public float DamageReductionMult => damageReductionMult + GetBonus(UpgradeType.DamageReductionMult);
-    
     #endregion
 
     #region Public Methods
@@ -64,9 +62,6 @@ public class PlayerStats
     /// 패시브 장비 보너스를 설정합니다. (Passive 전용)
     /// 각 패시브 아이템은 자신을 소스로 등록하여 여러 아이템의 보너스가 공존할 수 있습니다.
     /// </summary>
-    /// <param name="type">스탯 타입</param>
-    /// <param name="source">보너스 소스 (패시브 아이템 인스턴스)</param>
-    /// <param name="value">보너스 값</param>
     public void SetPassiveBonus(UpgradeType type, object source, float value)
     {
         if (!_passiveBonuses.ContainsKey(type))
@@ -89,7 +84,7 @@ public class PlayerStats
     }
 
     /// <summary>
-    /// 특정 타입의 총 보너스를 가져옵니다. (영구 업그레이드 + 모든 패시브 장비)
+    /// 특정 타입의 총 보너스를 가져옵니다. (영구 업그레이드 + 모든 패시브 장비 + 이벤트)
     /// </summary>
     public float GetBonus(UpgradeType type)
     {
@@ -108,19 +103,9 @@ public class PlayerStats
             {
                 total += bonus;
             }
-            total += _permanentBonuses[type];
         }
         
-        // 2. 모든 패시브 장비 보너스 합산
-        if (_passiveBonuses.ContainsKey(type))
-        {
-            foreach (var bonus in _passiveBonuses[type].Values)
-            {
-                total += bonus;
-            }
-        }
-        
-        // 3. (추가) 이벤트 효과
+        // 3. 이벤트 효과
         if (_eventBonuses.ContainsKey(type))
         {
             foreach (var bonus in _eventBonuses[type].Values)
@@ -141,7 +126,9 @@ public class PlayerStats
         _passiveBonuses.Clear();
     }
     
-    // 이벤트 효과 적용
+    /// <summary>
+    /// 이벤트 효과 적용
+    /// </summary>
     public void AddEventBonus(UpgradeType type, object source, float value)
     {
         if (!_eventBonuses.ContainsKey(type))
@@ -151,7 +138,9 @@ public class PlayerStats
         _eventBonuses[type][source] = value;
     }
     
-    // 이벤트 효과 제거
+    /// <summary>
+    /// 이벤트 효과 제거
+    /// </summary>
     public void RemoveEventBonus(UpgradeType type, object source)
     {
         if (_eventBonuses.ContainsKey(type))
@@ -159,7 +148,5 @@ public class PlayerStats
             _eventBonuses[type].Remove(source);
         }
     }
-    
-    
     #endregion
 }

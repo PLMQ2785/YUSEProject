@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 2754266992652824033}
   - component: {fileID: 48254275233714998}
   - component: {fileID: 1737600228348484724}
-  - component: {fileID: 6813797106969371374}
   - component: {fileID: 3305980863821901834}
+  - component: {fileID: 8482472506750031876}
   m_Layer: 8
-  m_Name: Enemy
+  m_Name: Male_Ghost
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -104,6 +104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceab619e76c4c3542aa87a86463cd2aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterName: "\uCD1D\uAC01\uADC0\uC2E0"
+  description: "\uB108\uBB34 \uC2AC\uD504\uB2E4"
+  unlocked: 0
   maxHp: 10
   moveSpeed: 2
   contactDamage: 5
@@ -181,18 +184,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &6813797106969371374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2355473164220929502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f94e73f83aa11bb4fa9084d8c777c3d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &3305980863821901834
 Animator:
   serializedVersion: 7
@@ -215,3 +206,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8482472506750031876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2355473164220929502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3163e4f52ac2daa43bbd1bd77d7faff7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

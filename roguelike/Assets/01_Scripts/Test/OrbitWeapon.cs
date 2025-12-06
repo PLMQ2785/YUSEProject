@@ -9,7 +9,7 @@ public class OrbitWeapon :Weapon
     [SerializeField] private float _orbitRadius = 2.5f;
     [SerializeField] private float _rotationSpeed = 100f;
 
-    //¸®½ºÆ®¾È¿¡´Ù°¡ µ¹¾Æ°¡´Â ÃÑ¾Ë ³Ö¾î³õ±â
+    //ë¦¬ìŠ¤íŠ¸ì•ˆì—ë‹¤ê°€ ëŒì•„ê°€ëŠ” ì´ì•Œ ë„£ì–´ë†“ê¸°
     private List<GameObject> _spawnProjectile = new List<GameObject>();
     private float _currentAngle = 0f;
 
@@ -22,7 +22,7 @@ public class OrbitWeapon :Weapon
 
     protected override void Update()
     {
-        //°¢µµ¸¦ ¾÷µ¥ÀÌÆ®ÇØÁà¼­ µ¹¾Æ°¡°Ô ÇØÁà¾ßÇÔ
+        //ê°ë„ë¥¼ ì—…ë°ì´íŠ¸í•´ì¤˜ì„œ ëŒì•„ê°€ê²Œ í•´ì¤˜ì•¼í•¨
         _currentAngle += _rotationSpeed * Time.deltaTime;
 
         RotateProjectile();
@@ -35,7 +35,9 @@ public class OrbitWeapon :Weapon
             GameObject orbit = Instantiate(WeaponData.ProjectilePrefab,transform.position, Quaternion.identity,transform);
             OrbitProjectile projectile = orbit.GetComponent<OrbitProjectile>();
 
-            projectile.initialize(WeaponData.BaseDamage);
+            // í”Œë ˆì´ì–´ ìŠ¤íƒ¯ì„ ë°˜ì˜í•œ ìµœì¢… ë°ë¯¸ì§€ ê³„ì‚°
+            float finalDamage = CalculateDamage(WeaponData.BaseDamage, out bool isCritical);
+            projectile.initialize(finalDamage);
             _spawnProjectile.Add(orbit);
         }
 
@@ -52,24 +54,24 @@ public class OrbitWeapon :Weapon
         {
             float finalAngle = _currentAngle + (angle_Interval * i);
 
-             //Deg2Rad´Â °¢µµ¸¦ ¶óµğ¾ÈÀ¸·Î º¯È¯
+             //Deg2RadëŠ” ê°ë„ë¥¼ ë¼ë””ì•ˆìœ¼ë¡œ ë³€í™˜
             float rad = finalAngle * Mathf.Deg2Rad;
             float x = Mathf.Cos(rad) * _orbitRadius;
             float y = Mathf.Sin(rad) * _orbitRadius;
 
-            // ÇÃ·¹ÀÌ¾î(Weapon) À§Ä¡¸¦ ±âÁØÀ¸·Î ¿ÀÇÁ¼Â Àû¿ë
+            // í”Œë ˆì´ì–´(Weapon) ìœ„ì¹˜ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì˜¤í”„ì…‹ ì ìš©
             Vector3 offset = new Vector3(x, y, 0);
 
-            // ¸®½ºÆ®¿¡ ÀÖ´Â ÃÑ¾ËÀÇ À§Ä¡¸¦ °­Á¦·Î ÀÌµ¿
+            // ë¦¬ìŠ¤íŠ¸ì— ìˆëŠ” ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ ê°•ì œë¡œ ì´ë™
             if (_spawnProjectile[i] != null)
             {
                 _spawnProjectile[i].transform.position = transform.position + offset;
 
-                //Ä®³¯ ¹Ù±ùÀ¸·Î À§Ä¡ÇÏ°Ô ÇÏ´Â ·ÎÁ÷
+                //ì¹¼ë‚  ë°”ê¹¥ìœ¼ë¡œ ìœ„ì¹˜í•˜ê²Œ í•˜ëŠ” ë¡œì§
                 Vector3 direction = _spawnProjectile[i].transform.position-transform.position;
-                //¹æÇâ º¤ÅÍ¸¦ °¢µµ·Î º¯È¯ÇÏ´Â °Í
+                //ë°©í–¥ ë²¡í„°ë¥¼ ê°ë„ë¡œ ë³€í™˜í•˜ëŠ” ê²ƒ
                 float angle = Mathf.Atan2(direction.y, direction.x)*Mathf.Rad2Deg;
-                //Ä®³¯ÀÌ ¹Ù±ùÂÊÀ¸·Î ÇâÇÏ°Ô 
+                //ì¹¼ë‚ ì´ ë°”ê¹¥ìª½ìœ¼ë¡œ í–¥í•˜ê²Œ 
                 _spawnProjectile[i].transform.rotation = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
             }
         }

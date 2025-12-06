@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement; // 씬 관리를 위해 필수
 
@@ -112,11 +112,21 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // (S1, A-2.a) 게임 시작 시 초기 상태 설정
+        // (중요) MonoBehaviour 싱글톤이 아니므로, Awake에서 DontDestroyOnLoad 하지 않음
         _currentState = GameState.MainMenu;
-        _gameTime = 0f;
+        Debug.Log("GameManager: 게임 시작 준비 완료. 현재 상태: MainMenu");
+    
+        // LootDataBase 초기화 및 unlock 상태 로드
+        if (LootDataBase.Instance != null)
+        {
+            LootDataBase.Instance.Initialize();
+            LootDataBase.Instance.LoadUnlockStates();
+        }
+        else
+        {
+            Debug.LogWarning("GameManager: LootDataBase instance not found in scene!");
+        }
     }
-
     private void Update()
     {
         // (S1, A-2.a) 게임 상태가 Playing일 때만 시간 추적
@@ -127,7 +137,7 @@ public class GameManager : MonoBehaviour
             OnTimeChanged?.Invoke(_gameTime);
         }
     }
-
+    
     // (중요) 오브젝트 파괴 시 구독한 이벤트를 해제하여 메모리 누수를 방지함
     private void OnDestroy()
     {
@@ -207,6 +217,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f; // 게임 정지
         OnGameStateChanged?.Invoke(_currentState);
 
+        SaveManager.SaveGold(SaveManager.LoadGold() + _playerManager.Gold); // 골드 저장
+
         // (S3, D-2.c) 게임 오버 패널 표시(bool show, bool clear)
         if (_inGamePanelManager != null)
             _inGamePanelManager.ShowGameOverPanel(true,false);
@@ -234,8 +246,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        // 씬을 다시 로드하기 전에 TimeScale을 원복
+        // 씬을 다시 로드하기 전에 게임 상태 초기화
+        _currentState = GameState.Playing; 
+        _gameTime = 0f;
         Time.timeScale = 1f;
+        IsTimerStopped = false;
         SceneManager.LoadScene(IN_GAME_SCENE); // (S2, A-2.c)
     }
 
@@ -244,6 +259,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void GoToMainMenu()
     {
+        _currentState = GameState.MainMenu;
         Time.timeScale = 1f;
         SceneManager.LoadScene(MAIN_MENU_SCENE); // (S2, A-2.c)
     }
@@ -321,7 +337,7 @@ public class GameManager : MonoBehaviour
         else if (scene.name == MAIN_MENU_SCENE)
         {
             // 1. 메인 메뉴 씬이 로드됨
-            _currentState = GameState.Paused;
+            _currentState = GameState.MainMenu;
         }
     }
 
@@ -369,7 +385,7 @@ public class GameManager : MonoBehaviour
             _playerManager.OnPlayerLeveledUp -= HandlePlayerLeveledUp;
         }
 
-        if (_rewardManager != null)
+        if (_rewardManager != null) 
         {
             _rewardManager.OnRewardProcessFinished -= HandleRewardFinished;
         }

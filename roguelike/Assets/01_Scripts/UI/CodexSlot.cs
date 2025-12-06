@@ -15,6 +15,7 @@ public class CodexSlot : MonoBehaviour
     // 몬스터 슬롯 설정
     public void SetMonster(Monster data, bool unlocked)
     {
+        Debug.Log($"CodexSlot.SetMonster: {data.MonsterName}, unlocked={unlocked}, icon={data.Icon?.name ?? "null"}");
         slotIcon.sprite = unlocked ? data.Icon : slotSilhouette;
 
         slot.onClick.RemoveAllListeners();
