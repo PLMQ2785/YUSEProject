@@ -54,7 +54,7 @@ public class RangedMonster : Monster
             transform.position = Vector2.MoveTowards(
                 currentPosition, 
                 targetPosition, 
-                moveSpeed * Time.deltaTime
+                CurrentMoveSpeed * Time.deltaTime
             );
         }
 
