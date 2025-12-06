@@ -65995,7 +65995,7 @@ GameObject:
   - component: {fileID: 3345317760644324014}
   - component: {fileID: 3060543796475627094}
   m_Layer: 0
-  m_Name: BackGround_Grid 1
+  m_Name: BackGroundGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
