@@ -117,6 +117,13 @@ public abstract class Monster : MonoBehaviour
         
         // 실행 중인 모든 코루틴 중지 (HitFlash 등)
         StopAllCoroutines();
+        
+        // 콜라이더 재활성화 (Die()에서 비활성화되었을 수 있음)
+        Collider2D collider = GetComponent<Collider2D>();
+        if (collider != null)
+        {
+            collider.enabled = true;
+        }
     }
 
 
@@ -125,8 +132,11 @@ public abstract class Monster : MonoBehaviour
     {
         _currentHp -= amount;
         
-        // 피격 효과 실행
-        StartCoroutine(HitFlash());
+        // GameObject가 활성화 상태일 때만 코루틴 실행 (풀링 시스템 대응)
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(HitFlash());
+        }
 
         // TODO: 데미지 표시 UI 로직 추가 하기
         if (_currentHp <= 0)
@@ -148,6 +158,13 @@ public abstract class Monster : MonoBehaviour
         if (_spriteRenderer != null)
         {
             _spriteRenderer.color = _originalColor;
+        }
+        
+        // 콜라이더 즉시 비활성화하여 추가 충돌 방지 (풀링 race condition 대응)
+        Collider2D collider = GetComponent<Collider2D>();
+        if (collider != null)
+        {
+            collider.enabled = false;
         }
         
         // 사망 처리 (보상 드롭 등 나중에 추가하기)
