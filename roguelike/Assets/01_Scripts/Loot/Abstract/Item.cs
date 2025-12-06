@@ -9,6 +9,8 @@ public class Item : MonoBehaviour
     [SerializeField]
     private ItemData data;
     
+    private PlayerManager _player;
+    
     [Header("Item State")]
     [SerializeField]
     private int durability = 1; // 현재 보유 개수 (또는 내구도)
@@ -22,9 +24,10 @@ public class Item : MonoBehaviour
     public float CurrentCooldown => currentCooldown;
     #endregion
 
-    public void Initialize(ItemData itemData)
+    public void Initialize(ItemData itemData, PlayerManager player)
     {
         data = itemData;
+        _player = player;
         durability = itemData.MaxDurability;
         currentCooldown = 0f;
     }
@@ -50,8 +53,8 @@ public class Item : MonoBehaviour
             return false;
         }
 
-        // 3. 사용 처리
-        currentCooldown = data.Cooldown;
+        // 3. 사용 처리 (CooldownMult 적용 - 낮을수록 쿨다운 감소)
+        currentCooldown = data.Cooldown * _player.Stats.CooldownMult;
         durability--;
         
         Debug.Log($"아이템 {data.ItemName} 사용! (남은 개수: {durability})");
