@@ -288,6 +288,26 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    //보물상자 보상창 전용
+    public void TriggerRewardProcess()
+    {
+        // 1. 게임 일시 정지
+        PauseGame();
+
+        // 2. 혹시 떠있을지 모르는 일시정지 패널 끄기
+        if (_inGamePanelManager != null)
+            _inGamePanelManager.ShowPausePanel(false);
+
+        // 3. 보상 생성 요청
+        if (_rewardManager != null)
+            _rewardManager.GenerateRewards();
+
+        // 4. UI 표시
+        if (_inGamePanelManager != null)
+            _inGamePanelManager.ShowRewardPanel(true);
+    }
+
+
     #region Private Methods
 
     /// <summary>
