@@ -96,8 +96,8 @@ public class CodexManager : MonoBehaviour
             var ui = slot.GetComponent<CodexSlot>();
 
             ui.SetDescriptionPanel(descriptionPanel);
-            // 아이템은 unlock 상태를 확인 (ItemData에 Unlocked 속성이 있다고 가정)
-            bool isUnlocked = LootDataBase.Instance.IsEquipmentUnlocked(item.ItemName);
+            // 아이템 unlock 상태 확인
+            bool isUnlocked = LootDataBase.Instance.IsItemUnlocked(item.ItemName);
             ui.SetItem(item, isUnlocked);
         }
     }

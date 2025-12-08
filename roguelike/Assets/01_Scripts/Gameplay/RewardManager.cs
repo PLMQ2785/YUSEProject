@@ -67,7 +67,16 @@ public class RewardManager : MonoBehaviour
             // 20% 확률로 소모품(Item) 등장
             if (flag >= 8)
             {
-                select = LootDataBase.Instance.GetRandomItem();
+                // 이미 보유한 아이템 제외
+                var allItems = LootDataBase.Instance.GetAllItems();
+                var ownedItemNames = inventoryManager.Consumables.Select(i => i.Data.ItemName).ToHashSet();
+                var availableItems = allItems.Where(item => !ownedItemNames.Contains(item.ItemName)).ToList();
+                
+                if (availableItems.Count > 0)
+                {
+                    select = availableItems[UnityEngine.Random.Range(0, availableItems.Count)];
+                }
+                // 모든 아이템을 이미 가지고 있으면 null (다른 보상 선택하도록)
             }
             else
             {
@@ -112,12 +121,42 @@ public class RewardManager : MonoBehaviour
                     // 1/3 확률로 패시브 등장
                     if (flag2 == 0)
                     {
-                        select = inventoryManager.IsPassiveFull ? LootDataBase.Instance.GetRandomItem() : LootDataBase.Instance.GetRandomPassive();
+                        if (inventoryManager.IsPassiveFull)
+                        {
+                            // 이미 보유한 아이템 제외
+                            var allItems = LootDataBase.Instance.GetAllItems();
+                            var ownedItemNames = inventoryManager.Consumables.Select(i => i.Data.ItemName).ToHashSet();
+                            var availableItems = allItems.Where(item => !ownedItemNames.Contains(item.ItemName)).ToList();
+                            
+                            if (availableItems.Count > 0)
+                            {
+                                select = availableItems[UnityEngine.Random.Range(0, availableItems.Count)];
+                            }
+                        }
+                        else
+                        {
+                            select = LootDataBase.Instance.GetRandomPassive();
+                        }
                     }
                     // 2/3 확률로 무기 등장
                     else
                     {
-                        select = inventoryManager.IsWeaponFull ? LootDataBase.Instance.GetRandomItem() : LootDataBase.Instance.GetRandomWeapon();
+                        if (inventoryManager.IsWeaponFull)
+                        {
+                            // 이미 보유한 아이템 제외
+                            var allItems = LootDataBase.Instance.GetAllItems();
+                            var ownedItemNames = inventoryManager.Consumables.Select(i => i.Data.ItemName).ToHashSet();
+                            var availableItems = allItems.Where(item => !ownedItemNames.Contains(item.ItemName)).ToList();
+                            
+                            if (availableItems.Count > 0)
+                            {
+                                select = availableItems[UnityEngine.Random.Range(0, availableItems.Count)];
+                            }
+                        }
+                        else
+                        {
+                            select = LootDataBase.Instance.GetRandomWeapon();
+                        }
                     }
                 }
             }
@@ -184,7 +223,11 @@ public class RewardManager : MonoBehaviour
         }
 
         // 골드 차감
-        playerManager.GainGold(-_rerollPrice);
+        if (!playerManager.SpendGold(_rerollPrice))
+        {
+            Debug.LogWarning("RewardManager: Failed to spend gold (this shouldn't happen as we already checked)");
+            return;
+        }
 
         // 리롤 횟수 감소
         _rerollCount--;

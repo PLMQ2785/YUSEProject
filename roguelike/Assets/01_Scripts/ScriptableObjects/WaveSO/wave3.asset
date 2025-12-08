@@ -15,7 +15,7 @@ MonoBehaviour:
   startTime: 120
   endTime: 180
   spawnInterval: 1
-  maxFieldMonsterCount: 500
+  maxFieldMonsterCount: 60
   monsterSpawnInfos:
   - monsterPrefab: {fileID: 2754266992652824033, guid: 5278036e5bebe954f95eb36d27d2683e, type: 3}
     spawnInterval: 1
@@ -25,7 +25,4 @@ MonoBehaviour:
     spawnCount: 3
   - monsterPrefab: {fileID: 2754266992652824033, guid: a574ae0c8fc5684429fb5ff73aa41bc4, type: 3}
     spawnInterval: 1
-    spawnCount: 3
-  - monsterPrefab: {fileID: -4255750642618637070, guid: 7e2914e1584c9f04180eac7c881c09d4, type: 3}
-    spawnInterval: 1
-    spawnCount: 3
+    spawnCount: 2

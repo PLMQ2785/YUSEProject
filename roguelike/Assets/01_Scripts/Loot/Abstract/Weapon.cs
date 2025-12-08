@@ -55,6 +55,7 @@ public abstract class Weapon : EquipmentBase
     /// <summary>
     /// 플레이어 스탯을 반영하여 최종 데미지를 계산합니다.
     /// AttackDamageMult와 크리티컬 시스템을 적용합니다.
+    /// 레벨당 10%씩 기본 데미지가 증가합니다.
     /// </summary>
     /// <param name="baseDamage">기본 데미지</param>
     /// <param name="isCritical">크리티컬 히트 발생 여부</param>
@@ -64,8 +65,14 @@ public abstract class Weapon : EquipmentBase
         // DEBUG: 메서드 호출 확인
         Debug.Log($"[CalculateDamage] Called with baseDamage: {baseDamage}");
         
+        // 0. 레벨 보너스 적용 (레벨당 10% 증가, 레벨 1은 보너스 없음)
+        // 레벨 1 = 100%, 레벨 2 = 110%, 레벨 3 = 120%, ... 레벨 5 = 150%
+        float levelMultiplier = 1f + ((_level - 1) * 0.1f);
+        float leveledDamage = baseDamage * levelMultiplier;
+        Debug.Log($"[CalculateDamage] Level {_level} multiplier: {levelMultiplier:F2}, Damage after level: {leveledDamage:F1}");
+        
         // 1. 공격력 배율 적용
-        float damage = baseDamage * _player.Stats.AttackDamageMult;
+        float damage = leveledDamage * _player.Stats.AttackDamageMult;
         Debug.Log($"[CalculateDamage] After AttackDamageMult ({_player.Stats.AttackDamageMult}): {damage}");
         
         // 2. 크리티컬 판정

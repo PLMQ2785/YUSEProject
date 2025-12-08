@@ -11,11 +11,8 @@ public class Item : MonoBehaviour
     
     private PlayerManager _player;
     
-    [Header("Item State")]
-    [SerializeField]
+    // 런타임 상태 (Initialize에서 ItemData 값으로 설정됨)
     private int durability = 1; // 현재 보유 개수 (또는 내구도)
-    
-    [SerializeField]
     private float currentCooldown = 0f;
 
     #region Properties
@@ -35,7 +32,7 @@ public class Item : MonoBehaviour
     /// <summary>
     /// 아이템을 사용
     /// </summary>
-    public bool Activate()
+    public virtual bool Activate()
     {
         if (data == null) return false;
 

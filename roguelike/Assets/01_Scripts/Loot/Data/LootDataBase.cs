@@ -39,7 +39,7 @@ public class LootDataBase : MonoBehaviour
     // 런타임 레지스트리 (ID → Info)
     private Dictionary<string, MonsterInfo> _monsterRegistry;
     private Dictionary<string, EquipmentInfo> _equipmentRegistry;
-    private Dictionary<string, ItemData> _itemRegistry;
+    private Dictionary<string, ItemInfo> _itemRegistry;
 
     private bool _isInitialized = false;
     #endregion
@@ -74,7 +74,7 @@ public class LootDataBase : MonoBehaviour
 
         _monsterRegistry = new Dictionary<string, MonsterInfo>();
         _equipmentRegistry = new Dictionary<string, EquipmentInfo>();
-        _itemRegistry = new Dictionary<string, ItemData>();
+        _itemRegistry = new Dictionary<string, ItemInfo>();
 
         // 몬스터 레지스트리 생성
         foreach (var monster in monsterPool)
@@ -110,14 +110,14 @@ public class LootDataBase : MonoBehaviour
             }
         }
 
-        // 아이템 레지스트리 생성 (간단히 Dictionary로 관리)
+        // 아이템 레지스트리 생성
         foreach (var item in itemPool)
         {
             if (item == null) continue;
             string id = item.ItemName;
             if (!_itemRegistry.ContainsKey(id))
             {
-                _itemRegistry[id] = item;
+                _itemRegistry[id] = new ItemInfo(id, item);
             }
             else
             {
@@ -159,8 +159,18 @@ public class LootDataBase : MonoBehaviour
                 _equipmentRegistry[id].IsUnlocked = true;
             }
         }
+        
+        // 아이템 unlock 로드
+        var unlockedItems = SaveManager.LoadUnlockedItems();
+        foreach (var id in unlockedItems)
+        {
+            if (_itemRegistry.ContainsKey(id))
+            {
+                _itemRegistry[id].IsUnlocked = true;
+            }
+        }
 
-        Debug.Log($"Loaded unlock states: {unlockedMonsters.Count} monsters, {unlockedEquipment.Count} equipment");
+        Debug.Log($"Loaded unlock states: {unlockedMonsters.Count} monsters, {unlockedEquipment.Count} equipment, {unlockedItems.Count} items");
     }
     #endregion
 
@@ -184,9 +194,17 @@ public class LootDataBase : MonoBehaviour
     /// <summary>
     /// 아이템 정보 조회
     /// </summary>
-    public ItemData GetItemData(string id)
+    public ItemInfo GetItemInfo(string id)
     {
         return _itemRegistry.ContainsKey(id) ? _itemRegistry[id] : null;
+    }
+    
+    /// <summary>
+    /// 아이템 데이터 조회 (하위 호환성)
+    /// </summary>
+    public ItemData GetItemData(string id)
+    {
+        return _itemRegistry.ContainsKey(id) ? _itemRegistry[id].Data : null;
     }
 
     /// <summary>
@@ -214,11 +232,19 @@ public class LootDataBase : MonoBehaviour
     }
 
     /// <summary>
-    /// 모든 아이템 리스트
+    /// 모든 아이템 정보 리스트
+    /// </summary>
+    public List<ItemInfo> GetAllItemInfos()
+    {
+        return _itemRegistry.Values.ToList();
+    }
+    
+    /// <summary>
+    /// 모든 아이템 데이터 리스트 (하위 호환성)
     /// </summary>
     public List<ItemData> GetAllItems()
     {
-        return _itemRegistry.Values.ToList();
+        return _itemRegistry.Values.Select(i => i.Data).ToList();
     }
 
     /// <summary>
@@ -235,6 +261,14 @@ public class LootDataBase : MonoBehaviour
     public bool IsEquipmentUnlocked(string id)
     {
         return _equipmentRegistry.ContainsKey(id) && _equipmentRegistry[id].IsUnlocked;
+    }
+    
+    /// <summary>
+    /// 아이템 unlock 여부 확인
+    /// </summary>
+    public bool IsItemUnlocked(string id)
+    {
+        return _itemRegistry.ContainsKey(id) && _itemRegistry[id].IsUnlocked;
     }
     #endregion
 
@@ -289,6 +323,26 @@ public class LootDataBase : MonoBehaviour
         else
         {
             Debug.LogWarning($"Equipment ID not found: {id}");
+        }
+    }
+    
+    /// <summary>
+    /// 아이템 unlock
+    /// </summary>
+    public void UnlockItem(string id)
+    {
+        if (_itemRegistry.ContainsKey(id))
+        {
+            if (!_itemRegistry[id].IsUnlocked)
+            {
+                _itemRegistry[id].IsUnlocked = true;
+                SaveUnlockStates();
+                Debug.Log($"Item unlocked: {id}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Item ID not found: {id}");
         }
     }
     #endregion
@@ -349,10 +403,17 @@ public class LootDataBase : MonoBehaviour
             .Where(e => e.IsUnlocked)
             .Select(e => e.Id)
             .ToHashSet();
+        
+        // 아이템 unlock ID 수집
+        var unlockedItems = _itemRegistry.Values
+            .Where(i => i.IsUnlocked)
+            .Select(i => i.Id)
+            .ToHashSet();
 
         // SaveManager를 통해 저장
         SaveManager.SaveUnlockedMonsters(unlockedMonsters);
         SaveManager.SaveUnlockedEquipment(unlockedEquipment);
+        SaveManager.SaveUnlockedItems(unlockedItems);
         SaveManager.Save();
     }
     #endregion

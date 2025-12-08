@@ -64,6 +64,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private InventoryManager inventoryManager; // (Sprint 2) 장비 관리자 추가
     
+    [Header("Starting Equipment")]
+    [SerializeField] 
+    private WeaponData startingWeapon;
+
     [Header("Stats")]
     [SerializeField]
     private PlayerStats stats;
@@ -176,6 +180,9 @@ public class PlayerManager : MonoBehaviour
         {
             inputManager.GetItemUseInput += HandleItemUseInput;
         }
+        
+        // 기본 무기 지급
+        EquipStartingWeapon();
     }
 
     private void OnDestroy()
@@ -241,6 +248,28 @@ public class PlayerManager : MonoBehaviour
     }
     
     /// <summary>
+    /// 캐릭터의 HP를 회복시킵니다.
+    /// </summary>
+    /// <param name="amount">회복할 HP 양</param>
+    public void Heal(float amount)
+    {
+        if (amount <= 0) return;
+        
+        _currentHp += amount;
+        
+        // 최대 HP를 초과하지 않도록 제한
+        if (_currentHp > stats.MaxHp)
+        {
+            _currentHp = stats.MaxHp;
+        }
+        
+        // HP 변경 이벤트 발생
+        OnHpChanged?.Invoke(_currentHp, stats.MaxHp);
+        
+        Debug.Log($"HP {amount} 회복! (현재: {_currentHp}/{stats.MaxHp})");
+    }
+    
+    /// <summary>
     /// 캐릭터의 HP를 감소시킵니다. 충돌 데미지 여부를 지정할 수 있습니다.
     /// </summary>
     /// <param name="amount">받은 데미지 양</param>
@@ -300,6 +329,23 @@ public class PlayerManager : MonoBehaviour
         
         // 재화 획득 후 UI 갱신 알림
         OnGoldChanged?.Invoke(_gold);
+    }
+    
+    /// <summary>
+    /// 골드를 소비합니다 (배수 적용 없이 정확한 금액만 차감)
+    /// </summary>
+    /// <param name="amount">소비할 골드 양</param>
+    /// <returns>성공 여부 (골드가 부족하면 false)</returns>
+    public bool SpendGold(int amount)
+    {
+        if (_gold < amount)
+        {
+            return false;
+        }
+        
+        _gold -= amount;
+        OnGoldChanged?.Invoke(_gold);
+        return true;
     }
     
     //보물상자 획득
@@ -386,6 +432,22 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region Private Methods
+    /// <summary>
+    /// 게임 시작 시 기본 무기를 지급합니다.
+    /// </summary>
+    private void EquipStartingWeapon()
+    {
+        if (startingWeapon != null && inventoryManager != null)
+        {
+            inventoryManager.Add(startingWeapon);
+            Debug.Log($"Starting weapon equipped: {startingWeapon.EquipmentName}");
+        }
+        else if (startingWeapon == null)
+        {
+            Debug.LogWarning("PlayerManager: 시작 무기가 할당되지 않았습니다. Inspector에서 Starting Weapon을 설정해주세요.");
+        }
+    }
+    
     /// <summary>
     /// (B-1.a) SDS 3.2.2에 정의된 Move 함수 (내부 로직)
     /// </summary>
