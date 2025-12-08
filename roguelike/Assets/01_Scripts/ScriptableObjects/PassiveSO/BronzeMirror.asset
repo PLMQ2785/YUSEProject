@@ -19,4 +19,4 @@ MonoBehaviour:
   _maxLevel: 5
   unlocked: 0
   statType: 10
-  statValue: 0.1
+  statValue: 0.05

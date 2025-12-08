@@ -21,7 +21,7 @@ MonoBehaviour:
   unlocked: 0
   _prefab: {fileID: 341622578974357366, guid: a7548d7ac77efe04a8b1762af56225bb, type: 3}
   _projectilePrefab: {fileID: 5451034807834037531, guid: 4c08a83b735928a4abe0f48239687f27, type: 3}
-  _baseDamage: 25
+  _baseDamage: 5
   _baseCooldown: 2
   _projectileSpeed: 8
   _penetration: 1
