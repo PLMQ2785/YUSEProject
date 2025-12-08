@@ -21,8 +21,8 @@ MonoBehaviour:
     spawnInterval: 1
     spawnCount: 3
   - monsterPrefab: {fileID: 844969036950599132, guid: 581c3aab06a034b4b86f43d19c09918c, type: 3}
-    spawnInterval: 1
+    spawnInterval: 2
     spawnCount: 3
   - monsterPrefab: {fileID: 2754266992652824033, guid: a574ae0c8fc5684429fb5ff73aa41bc4, type: 3}
-    spawnInterval: 1
+    spawnInterval: 3
     spawnCount: 2

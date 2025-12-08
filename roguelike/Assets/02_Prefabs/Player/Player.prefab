@@ -151,6 +151,9 @@ MonoBehaviour:
   dashDistance: 5
   dashDuration: 0.2
   dashCooldown: 2
+  dashDamage: 8
+  dashDamageRadius: 0.8
+  lightningEffectPrefab: {fileID: 348503544660181029, guid: 1c6ff0ef9992e0c4ea19225e1356a694, type: 3}
 --- !u!58 &5670197590616524391
 CircleCollider2D:
   m_ObjectHideFlags: 0

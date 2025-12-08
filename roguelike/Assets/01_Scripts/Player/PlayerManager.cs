@@ -83,6 +83,14 @@ public class PlayerManager : MonoBehaviour
     private float dashDuration = 0.2f; // 대시 지속 시간
     [SerializeField]
     private float dashCooldown = 2f; // 대시 쿨다운
+    
+    [Header("Dash Damage Settings")]
+    [SerializeField]
+    private float dashDamage = 10f; // 대시 데미지
+    [SerializeField]
+    private float dashDamageRadius = 0.8f; // 대시 데미지 탐지 반경
+    [SerializeField]
+    private GameObject lightningEffectPrefab; // 번개 이펙트 프리팫
     #endregion
 
     #region Private Fields
@@ -577,12 +585,15 @@ public class PlayerManager : MonoBehaviour
     }
     
     /// <summary>
-    /// 대시 코루틴: 일정 거리를 빠르게 이동하며 몬스터를 뚫고 지나갑니다.
+    /// 대시 코루틴: 일정 거리를 빠르게 이동하며 몬스터를 뚚고 지나갑니다.
     /// </summary>
     private System.Collections.IEnumerator DashCoroutine(Vector2 direction)
     {
         _isDashing = true;
         _dashCooldownTimer = dashCooldown;
+        
+        // 대시 중 피해를 입힌 적 추적 (중복 피해 방지)
+        HashSet<Monster> damagedMonsters = new HashSet<Monster>();
         
         // Rigidbody2D를 kinematic으로 전환하여 적을 밀지 않도록 함
         bool wasKinematic = _rb.isKinematic;
@@ -605,11 +616,17 @@ public class PlayerManager : MonoBehaviour
             Vector2 newPosition = Vector2.Lerp(startPosition, targetPosition, t);
             _rb.MovePosition(newPosition);
             
+            // 대시 경로의 적 탐지 및 피해 적용
+            DealDashDamage(damagedMonsters);
+            
             yield return new WaitForFixedUpdate();
         }
         
         // 대시 종료
         _rb.MovePosition(targetPosition);
+        
+        // 번개 이펙트 생성 (출발지점 -> 도착지점)
+        SpawnLightningEffect(startPosition, targetPosition);
         
         // Rigidbody2D를 원래 상태로 복구
         _rb.isKinematic = wasKinematic;
@@ -618,6 +635,72 @@ public class PlayerManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(_originalLayer, monsterLayer, false);
         
         _isDashing = false;
+    }
+    
+    /// <summary>
+    /// 대시 경로의 적에게 피해를 입힙니다.
+    /// </summary>
+    private void DealDashDamage(HashSet<Monster> damagedMonsters)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            transform.position, 
+            dashDamageRadius, 
+            LayerMask.GetMask("Enemy"));
+        
+        foreach (var hit in hits)
+        {
+            Monster monster = hit.GetComponent<Monster>();
+            if (monster != null && !damagedMonsters.Contains(monster))
+            {
+                monster.TakeDamage(dashDamage);
+                damagedMonsters.Add(monster);
+                Debug.Log($"Dash damage dealt to {monster.name}: {dashDamage}");
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 대시 경로에 번개 이펙트를 생성합니다.
+    /// </summary>
+    private void SpawnLightningEffect(Vector2 startPos, Vector2 endPos)
+    {
+        if (lightningEffectPrefab == null) return;
+        
+        // 중간 지점 계산
+        Vector2 midPoint = (startPos + endPos) / 2f;
+        
+        // 방향 및 각도 계산
+        Vector2 direction = endPos - startPos;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        
+        // 이펙트 생성 (회전 적용)
+        GameObject effect = Instantiate(
+            lightningEffectPrefab, 
+            midPoint, 
+            Quaternion.Euler(0, 0, angle));
+        
+        // 거리에 맞게 스케일 조정 (X 축으로 늘리기)
+        float distance = direction.magnitude;
+        Vector3 scale = effect.transform.localScale;
+        scale.x = distance;
+        effect.transform.localScale = scale;
+        
+        // ParticleSystem 설정 수정 (1번만 재생)
+        var particleSystem = effect.GetComponent<ParticleSystem>();
+        if (particleSystem != null)
+        {
+            var main = particleSystem.main;
+            main.loop = false; // 루프 중지
+            
+            // 이펙트 지속 시간 후 자동 삭제
+            float duration = main.duration + main.startLifetime.constantMax;
+            Destroy(effect, duration);
+        }
+        else
+        {
+            // ParticleSystem이 없으면 1초 후 삭제
+            Destroy(effect, 1f);
+        }
     }
 
  
