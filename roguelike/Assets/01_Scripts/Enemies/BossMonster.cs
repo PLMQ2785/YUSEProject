@@ -10,6 +10,8 @@ public class BossMonster : Monster
     public float BossMaxHp { get => maxHp; }
     public float BossCurrentHp { get => _currentHp; }
 
+    public GameObject TreasurePrefab;
+
     protected override void Start()
     {
         base.Start();
@@ -44,6 +46,7 @@ public class BossMonster : Monster
         
         // base.Die()를 호출해야 SpawnManager가 넘겨준 콜백(OnBossDied)이 실행됨
         // 이 콜백이 실행되어야 타이머가 다시 돌아가고 일반 몬스터가 스폰됨
+        Instantiate(TreasurePrefab,transform.position,Quaternion.identity);
         base.Die(); 
     }
 

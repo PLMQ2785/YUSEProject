@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b1ed293a6377ad4384f7815c3184602, type: 3}
   m_Name: OribitWeapon
   m_EditorClassIdentifier: 
-  _equipmentName: "\uBBF8\uC815"
-  _description: "\uBBF8\uC815"
+  _equipmentName: "\uB0AB \uBB34\uAE30"
+  _description: "\uC790\uC2E0\uC758 \uC8FC\uC704\uB97C \uB3C4\uB294 4\uAC1C\uC758
+    \uB0AB\uC774 \uC0DD\uAE34\uB2E4."
   _icon: {fileID: 762804792, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
   _maxLevel: 5
   unlocked: 0

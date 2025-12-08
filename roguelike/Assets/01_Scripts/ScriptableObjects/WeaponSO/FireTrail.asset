@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _equipmentName: "\uBD88\uAE38"
   _description: "\uC9C0\uB098\uAC00\uB294\uAE38\uC5D0 \uBD88\uC7A5\uD310\uC744 \uB9CC\uB4E0\uB2E4."
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: fef93521f239a5a42892b1bd7ad30610, type: 3}
   _maxLevel: 5
+  unlocked: 0
   _prefab: {fileID: 5444157727781833420, guid: 9b7aa70a96106874d9ac74593ed3979a, type: 3}
   _projectilePrefab: {fileID: 3332091875479307323, guid: de6262873ead4964a8c6aa5e78a98b39, type: 3}
   _baseDamage: 5

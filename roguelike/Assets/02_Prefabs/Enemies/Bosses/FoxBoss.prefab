@@ -56,6 +56,7 @@ MonoBehaviour:
   moveSpeed: 2
   contactDamage: 20
   expOrbPrefab: {fileID: 622782962632113181, guid: e0f17047d092c564ba65b11d0ea8c20b, type: 3}
+  TreasurePrefab: {fileID: 548846182116997434, guid: 714355fc6ef88ea41a8caf69f302040f, type: 3}
   patternInterval: 2
   patternWarningTime: 1.2
   projectilePrefab: {fileID: 128703109899176301, guid: 206f4a7f6b9e9414a8c909c3499a36eb, type: 3}
