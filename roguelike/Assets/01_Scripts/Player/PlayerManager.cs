@@ -163,10 +163,11 @@ public class PlayerManager : MonoBehaviour
             inputManager.VerticalInputValue
         );
 
-        // 입력이 있을 때만 바라보는 방향 업데이트
+        // 입력이 있을 때만 바라보는 방향 업데이트 및 정규화
         if (moveInput.sqrMagnitude > 0.01f)
         {
-            FacingDirection = moveInput.normalized;
+            moveInput.Normalize(); // 대각선 이동 속도 보정
+            FacingDirection = moveInput;
         }
 
         Move(moveInput);

@@ -44,8 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da8b7105c2f83e418f98cf9e276531d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalMonsterPrefab: {fileID: 2754266992652824033, guid: 5278036e5bebe954f95eb36d27d2683e, type: 3}
   playerTransform: {fileID: 0}
-  spawnInterval: 5
+  waves:
+  - {fileID: 11400000, guid: 1a80f6426081cd44dbec6d7e238e54af, type: 2}
+  - {fileID: 11400000, guid: d624f00841700e74fb3daec8dda0417a, type: 2}
+  - {fileID: 11400000, guid: 41428ced1c0265a43acba5d1ad94ec4a, type: 2}
+  - {fileID: 11400000, guid: 300dc165201c24a4780299d26ff5b08d, type: 2}
+  - {fileID: 11400000, guid: be67e6d6d637bb641a7ef42eaa91efca, type: 2}
+  bossPrefab: {fileID: -580824824227003035, guid: 721093c7e785e5b438ad80e165d569da, type: 3}
   spawnRadius: 10
-  initialPoolSize: 100
+  bossSpawnCycle: 300
+  initialPerTypeSize: 10

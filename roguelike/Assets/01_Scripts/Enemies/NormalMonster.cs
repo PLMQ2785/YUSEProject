@@ -11,7 +11,7 @@ public class NormalMonster : Monster
         transform.position = Vector2.MoveTowards(
             transform.position, 
             targetPosition, 
-            moveSpeed * Time.deltaTime
+            CurrentMoveSpeed * Time.deltaTime
         );
 
         // 스프라이트 좌우 반전 로직
