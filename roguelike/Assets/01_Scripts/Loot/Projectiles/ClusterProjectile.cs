@@ -52,7 +52,7 @@ public class ClusterProjectile : Projectile
 
     protected override void UpdateMovement()
     {
-        Debug.Log("움직임");
+        //Debug.Log("움직임");
         transform.position += transform.right * _speed * Time.deltaTime;
     }
 

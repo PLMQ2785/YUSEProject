@@ -109,6 +109,8 @@ public class PlayerManager : MonoBehaviour
     
     // --- 충돌 데미지 관련 ---
     private float _contactDamageTimer = 0f; // 충돌 데미지 쿨다운 타이머
+    private Coroutine _invincibilityFlashCoroutine; // 깜빡임 코루틴 참조
+    private Color _originalSpriteColor; // 원래 스프라이트 색상
     
     // --- 대시 관련 ---
     private bool _isDashing = false; // 현재 대시 중인지 여부
@@ -125,6 +127,12 @@ public class PlayerManager : MonoBehaviour
         _sprite = GetComponent<SpriteRenderer>();
         
         _currentHp = stats.MaxHp;
+        
+        // 원래 스프라이트 색상 저장
+        if (_sprite != null)
+        {
+            _originalSpriteColor = _sprite.color;
+        }
         
         // 원래 레이어 저장
         _originalLayer = gameObject.layer;
@@ -294,10 +302,18 @@ public class PlayerManager : MonoBehaviour
 
         _currentHp -= amount * (1 - stats.DamageReductionMult);
         
-        // 충돌 데미지를 받았다면 쿨다운 타이머 설정
+        // 충돌 데미지를 받았다면 쿨다운 타이머 설정 + 깜빡임 효과
         if (isContactDamage)
         {
             _contactDamageTimer = contactDamageCooldown;
+            
+            // 이전 깜빡임 코루틴 중지 후 새로 시작
+            if (_invincibilityFlashCoroutine != null)
+            {
+                StopCoroutine(_invincibilityFlashCoroutine);
+                _sprite.color = _originalSpriteColor; // 색상 복원
+            }
+            _invincibilityFlashCoroutine = StartCoroutine(InvincibilityFlashCoroutine());
         }
 
         // (Sprint 1, B-1.a) HP가 변경되었음을 모든 구독자(HUDManager 등)에게 "방송"
@@ -703,6 +719,35 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 무적 시간 동안 플레이어를 깜빡이게 합니다 (투명도 변경).
+    /// </summary>
+    private System.Collections.IEnumerator InvincibilityFlashCoroutine()
+    {
+        if (_sprite == null)
+        {
+            Debug.LogError("[InvincibilityFlash] _sprite is null!");
+            yield break;
+        }
+        
+        float flashInterval = 0.1f; // 깜빡임 간격
+        Color flashColor = new Color(_originalSpriteColor.r, _originalSpriteColor.g, _originalSpriteColor.b, 0.3f); // 반투명
+        
+        while (_contactDamageTimer > 0f)
+        {
+            // 반투명으로 변경
+            _sprite.color = flashColor;
+            yield return new WaitForSeconds(flashInterval);
+            
+            // 원래 색으로 복원
+            _sprite.color = _originalSpriteColor;
+            yield return new WaitForSeconds(flashInterval);
+        }
+        
+        // 최종적으로 원래 색으로 복원
+        _sprite.color = _originalSpriteColor;
+        _invincibilityFlashCoroutine = null; // 코루틴 참조 정리
+    }
  
     #endregion
 }
