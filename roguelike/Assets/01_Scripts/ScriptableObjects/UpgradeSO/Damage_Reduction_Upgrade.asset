@@ -17,4 +17,4 @@ MonoBehaviour:
   upgradeType: 10
   baseCost: 10
   maxLevel: 5
-  valuePerLevel: 4
+  valuePerLevel: 0.1

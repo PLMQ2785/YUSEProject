@@ -37,6 +37,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private float mouseYInput;
     [SerializeField] private bool jumpInput;
     [SerializeField] private bool pauseInput;
+    [SerializeField] private bool dashInput;
     [SerializeField] private int useItemInput;
     #endregion
 
@@ -47,6 +48,7 @@ public class InputManager : MonoBehaviour
     public float MouseYValue => mouseYInput;
     public bool JumpTriggered => jumpInput;
     public bool PausePressed => pauseInput;
+    public bool DashTriggered => dashInput;
     public int UseItemTriggered => useItemInput;
     #endregion
 
@@ -74,6 +76,7 @@ public class InputManager : MonoBehaviour
         mouseXInput = 0f;
         mouseYInput = 0f;
         pauseInput = false;
+        dashInput = false;
         useItemInput = 0;
     }
     
@@ -85,6 +88,7 @@ public class InputManager : MonoBehaviour
         mouseXInput = Input.GetAxis(MOUSE_X);
         mouseYInput = Input.GetAxis(MOUSE_Y);
         pauseInput = Input.GetKeyDown(KeyCode.Escape);
+        dashInput = Input.GetKeyDown(KeyCode.Space);
        
         // Item키 입력 상태 저장
         if (Input.GetKeyDown(KeyCode.Alpha1))
