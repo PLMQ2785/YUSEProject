@@ -16,6 +16,9 @@ public abstract class Monster : MonoBehaviour
     [Header("Stats")] [SerializeField] protected float maxHp = 10f;
     [SerializeField] protected float moveSpeed = 2f;
     [SerializeField] protected float contactDamage = 5f; // 플레이어와 충돌 시 데미지
+    
+    [Header("Spawn Effects")]
+    [SerializeField] protected float fadeInDuration = 0.5f; // 스폰 시 페이드인 소요 시간
 
     #endregion
 
@@ -101,7 +104,6 @@ public abstract class Monster : MonoBehaviour
 
     /// 스폰 시점에 타겟(플레이어)을 주입받는 초기화 메소드
     public void Init(Transform target, Action<Monster> returnToPoolCallback = null)
-
     {
         _target = target;
         _returnToPoolAction = returnToPoolCallback; // 콜백 저장
@@ -109,14 +111,22 @@ public abstract class Monster : MonoBehaviour
         // 재활용될 때 HP를 다시 채워야 합니다!
         _currentHp = maxHp;
         
-        // 풀에서 재사용될 때 색상 리셋 (피격 효과 때문에 빨간색일 수 있음)
-        if (_spriteRenderer != null)
-        {
-            _spriteRenderer.color = _originalColor;
-        }
-        
         // 실행 중인 모든 코루틴 중지 (HitFlash 등)
         StopAllCoroutines();
+        
+        // 스폰 시 투명도 0에서 시작하여 페이드인
+        if (_spriteRenderer != null)
+        {
+            Color startColor = _originalColor;
+            startColor.a = 0f;
+            _spriteRenderer.color = startColor;
+            
+            // 페이드인 시작
+            if (gameObject.activeInHierarchy)
+            {
+                StartCoroutine(SpawnFadeIn());
+            }
+        }
         
         // 콜라이더 재활성화 (Die()에서 비활성화되었을 수 있음)
         Collider2D collider = GetComponent<Collider2D>();
@@ -149,15 +159,16 @@ public abstract class Monster : MonoBehaviour
 
 
     public virtual void Die()
-
     {
         // 실행 중인 코루틴 중지 (HitFlash 등)
         StopAllCoroutines();
         
-        // 색상 리셋 (풀로 반환되기 전에)
+        // 풀 반환 전 투명도를 0으로 리셋 (다음 스폰 시 페이드인 준비)
         if (_spriteRenderer != null)
         {
-            _spriteRenderer.color = _originalColor;
+            Color resetColor = _originalColor;
+            resetColor.a = 0f;
+            _spriteRenderer.color = resetColor;
         }
         
         // 콜라이더 즉시 비활성화하여 추가 충돌 방지 (풀링 race condition 대응)
@@ -302,6 +313,30 @@ public abstract class Monster : MonoBehaviour
             _spriteRenderer.color = _originalColor;
         }
     }
+    
+    /// <summary>
+    /// 스폰 시 투명도 0에서 1로 페이드인하는 효과
+    /// </summary>
+    protected System.Collections.IEnumerator SpawnFadeIn()
+    {
+        if (_spriteRenderer == null) yield break;
+        
+        float elapsed = 0f;
+        Color color = _originalColor;
+        
+        while (elapsed < fadeInDuration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Clamp01(elapsed / fadeInDuration);
+            color.a = alpha;
+            _spriteRenderer.color = color;
+            yield return null;
+        }
+        
+        // 최종적으로 원래 색상(알파 포함)으로 확정
+        _spriteRenderer.color = _originalColor;
+    }
+    
      /// <summary>
     /// 감속 디버프 남은 시간을 줄이고, 만료된 디버프는 제거합니다.
     /// </summary>
