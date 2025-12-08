@@ -539,6 +539,9 @@ public class PlayerManager : MonoBehaviour
         // 다음 레벨 필요 경험치 증가 (예: 20% 증가)
         _maxExp = Mathf.RoundToInt(_maxExp * 1.2f);
         
+        // 레벨 업 시 최대 체력의 20% 회복
+        Heal(stats.MaxHp * 0.2f);
+        
         // 레벨 업 후에도 남은 경험치가 최대 경험치보다 많을 수 있으므로 재귀 호출 가능성 고려
         // (단순화를 위해 여기서는 한 번만 처리하거나 while문 사용 가능)
         
