@@ -52,6 +52,9 @@ public class PlayerManager : MonoBehaviour
     
     // 충돌 데미지 무적 상태 확인
     public bool IsInvincibleFromContact => _contactDamageTimer > 0f;
+    
+    // 대시 상태 확인
+    public bool IsDashing => _isDashing;
     #endregion
     
     #region Serialized Fields
@@ -68,6 +71,14 @@ public class PlayerManager : MonoBehaviour
     [Header("Contact Damage Settings")]
     [SerializeField]
     private float contactDamageCooldown = 1f; // 충돌 데미지 쿨다운 (무적시간)
+    
+    [Header("Dash Settings")]
+    [SerializeField]
+    private float dashDistance = 5f; // 대시 거리
+    [SerializeField]
+    private float dashDuration = 0.2f; // 대시 지속 시간
+    [SerializeField]
+    private float dashCooldown = 2f; // 대시 쿨다운
     #endregion
 
     #region Private Fields
@@ -86,6 +97,12 @@ public class PlayerManager : MonoBehaviour
     
     // --- 충돌 데미지 관련 ---
     private float _contactDamageTimer = 0f; // 충돌 데미지 쿨다운 타이머
+    
+    // --- 대시 관련 ---
+    private bool _isDashing = false; // 현재 대시 중인지 여부
+    private float _dashCooldownTimer = 0f; // 대시 쿨다운 타이머
+    private Vector2 _lastMoveDirection = Vector2.right; // 마지막 이동 방향 (정지 시 대시용)
+    private int _originalLayer; // 원래 레이어 저장
     #endregion
 
     #region Unity LifeCycle
@@ -96,6 +113,9 @@ public class PlayerManager : MonoBehaviour
         _sprite = GetComponent<SpriteRenderer>();
         
         _currentHp = stats.MaxHp;
+        
+        // 원래 레이어 저장
+        _originalLayer = gameObject.layer;
     }
 
 
@@ -107,6 +127,18 @@ public class PlayerManager : MonoBehaviour
         if (_contactDamageTimer > 0f)
         {
             _contactDamageTimer -= Time.deltaTime;
+        }
+        
+        // 대시 쿨다운 타이머 감소
+        if (_dashCooldownTimer > 0f)
+        {
+            _dashCooldownTimer -= Time.deltaTime;
+        }
+        
+        // 대시 입력 체크
+        if (!_isDashing && inputManager.DashTriggered && _dashCooldownTimer <= 0f)
+        {
+            TryDash();
         }
     }
     private void Start()
@@ -157,6 +189,12 @@ public class PlayerManager : MonoBehaviour
     // 물리 업데이트는 FixedUpdate에서 처리
     private void FixedUpdate()
     {
+        // 대시 중에는 일반 이동 중단
+        if (_isDashing)
+        {
+            return;
+        }
+        
         // (Sprint 1, B-1.a) InputManager에서 이동 값을 받아 Move 함수 호출
         Vector2 moveInput = new Vector2(
             inputManager.HorizontalInputValue,
@@ -168,6 +206,7 @@ public class PlayerManager : MonoBehaviour
         {
             moveInput.Normalize(); // 대각선 이동 속도 보정
             FacingDirection = moveInput;
+            _lastMoveDirection = moveInput; // 대시용으로 마지막 이동 방향 저장
         }
 
         Move(moveInput);
@@ -457,6 +496,66 @@ public class PlayerManager : MonoBehaviour
         }
         
         Debug.Log("[PlayerManager] ApplyUpgradeBonuses() 완료");
+    }
+    
+    /// <summary>
+    /// 대시를 시도합니다.
+    /// </summary>
+    private void TryDash()
+    {
+        if (_isDashing || _dashCooldownTimer > 0f)
+        {
+            return;
+        }
+        
+        // 대시 방향은 마지막 이동 방향 사용
+        Vector2 dashDirection = _lastMoveDirection.normalized;
+        
+        StartCoroutine(DashCoroutine(dashDirection));
+    }
+    
+    /// <summary>
+    /// 대시 코루틴: 일정 거리를 빠르게 이동하며 몬스터를 뚫고 지나갑니다.
+    /// </summary>
+    private System.Collections.IEnumerator DashCoroutine(Vector2 direction)
+    {
+        _isDashing = true;
+        _dashCooldownTimer = dashCooldown;
+        
+        // Rigidbody2D를 kinematic으로 전환하여 적을 밀지 않도록 함
+        bool wasKinematic = _rb.isKinematic;
+        _rb.isKinematic = true;
+        
+        // 몬스터 레이어와의 충돌 무시 설정
+        int monsterLayer = LayerMask.NameToLayer("Enemy");
+        Physics2D.IgnoreLayerCollision(_originalLayer, monsterLayer, true);
+        
+        float elapsedTime = 0f;
+        Vector2 startPosition = _rb.position;
+        Vector2 targetPosition = startPosition + direction * dashDistance;
+        
+        // 대시 이동
+        while (elapsedTime < dashDuration)
+        {
+            elapsedTime += Time.fixedDeltaTime;
+            float t = elapsedTime / dashDuration;
+            
+            Vector2 newPosition = Vector2.Lerp(startPosition, targetPosition, t);
+            _rb.MovePosition(newPosition);
+            
+            yield return new WaitForFixedUpdate();
+        }
+        
+        // 대시 종료
+        _rb.MovePosition(targetPosition);
+        
+        // Rigidbody2D를 원래 상태로 복구
+        _rb.isKinematic = wasKinematic;
+        
+        // 몬스터와의 충돌 무시 해제
+        Physics2D.IgnoreLayerCollision(_originalLayer, monsterLayer, false);
+        
+        _isDashing = false;
     }
 
  

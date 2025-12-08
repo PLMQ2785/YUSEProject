@@ -25,6 +25,12 @@ public class EnemyReposition : MonoBehaviour
         {
             return;
         }
+        
+        // 플레이어가 대시 중일 때는 적 재배치 방지
+        if(GameManager.Instance.Player.IsDashing)
+        {
+            return;
+        }
 
         Vector3 playerPos = GameManager.Instance.Player.Player_Position;
 
