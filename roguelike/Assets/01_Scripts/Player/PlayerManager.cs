@@ -64,6 +64,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private InventoryManager inventoryManager; // (Sprint 2) 장비 관리자 추가
     
+    [Header("Starting Equipment")]
+    [SerializeField] 
+    private WeaponData startingWeapon;
+
     [Header("Stats")]
     [SerializeField]
     private PlayerStats stats;
@@ -79,6 +83,20 @@ public class PlayerManager : MonoBehaviour
     private float dashDuration = 0.2f; // 대시 지속 시간
     [SerializeField]
     private float dashCooldown = 2f; // 대시 쿨다운
+    
+    [Header("Dash Damage Settings")]
+    [SerializeField]
+    private float dashDamage = 10f; // 대시 데미지
+    [SerializeField]
+    private float dashDamageRadius = 0.8f; // 대시 데미지 탐지 반경
+    [SerializeField]
+    private GameObject lightningEffectPrefab; // 번개 이펙트 프리팟
+    
+    [Header("Floating Text Settings")]
+    [SerializeField]
+    private GameObject floatingTextPrefab; // 플로팅 텍스트 프리팹
+    [SerializeField]
+    private Vector3 floatingTextOffset = new Vector3(0, 1.5f, 0); // 텍스트 시작 위치 오프셋
     #endregion
 
     #region Private Fields
@@ -97,6 +115,8 @@ public class PlayerManager : MonoBehaviour
     
     // --- 충돌 데미지 관련 ---
     private float _contactDamageTimer = 0f; // 충돌 데미지 쿨다운 타이머
+    private Coroutine _invincibilityFlashCoroutine; // 깜빡임 코루틴 참조
+    private Color _originalSpriteColor; // 원래 스프라이트 색상
     
     // --- 대시 관련 ---
     private bool _isDashing = false; // 현재 대시 중인지 여부
@@ -113,6 +133,12 @@ public class PlayerManager : MonoBehaviour
         _sprite = GetComponent<SpriteRenderer>();
         
         _currentHp = stats.MaxHp;
+        
+        // 원래 스프라이트 색상 저장
+        if (_sprite != null)
+        {
+            _originalSpriteColor = _sprite.color;
+        }
         
         // 원래 레이어 저장
         _originalLayer = gameObject.layer;
@@ -136,9 +162,17 @@ public class PlayerManager : MonoBehaviour
         }
         
         // 대시 입력 체크
-        if (!_isDashing && inputManager.DashTriggered && _dashCooldownTimer <= 0f)
+        if (!_isDashing && inputManager.DashTriggered)
         {
-            TryDash();
+            if (_dashCooldownTimer <= 0f)
+            {
+                TryDash();
+            }
+            else
+            {
+                // 쿨타임 중이면 플로팅 텍스트 표시
+                ShowDashCooldownText();
+            }
         }
     }
     private void Start()
@@ -176,6 +210,9 @@ public class PlayerManager : MonoBehaviour
         {
             inputManager.GetItemUseInput += HandleItemUseInput;
         }
+        
+        // 기본 무기 지급
+        EquipStartingWeapon();
     }
 
     private void OnDestroy()
@@ -241,6 +278,28 @@ public class PlayerManager : MonoBehaviour
     }
     
     /// <summary>
+    /// 캐릭터의 HP를 회복시킵니다.
+    /// </summary>
+    /// <param name="amount">회복할 HP 양</param>
+    public void Heal(float amount)
+    {
+        if (amount <= 0) return;
+        
+        _currentHp += amount;
+        
+        // 최대 HP를 초과하지 않도록 제한
+        if (_currentHp > stats.MaxHp)
+        {
+            _currentHp = stats.MaxHp;
+        }
+        
+        // HP 변경 이벤트 발생
+        OnHpChanged?.Invoke(_currentHp, stats.MaxHp);
+        
+        Debug.Log($"HP {amount} 회복! (현재: {_currentHp}/{stats.MaxHp})");
+    }
+    
+    /// <summary>
     /// 캐릭터의 HP를 감소시킵니다. 충돌 데미지 여부를 지정할 수 있습니다.
     /// </summary>
     /// <param name="amount">받은 데미지 양</param>
@@ -257,10 +316,18 @@ public class PlayerManager : MonoBehaviour
 
         _currentHp -= amount * (1 - stats.DamageReductionMult);
         
-        // 충돌 데미지를 받았다면 쿨다운 타이머 설정
+        // 충돌 데미지를 받았다면 쿨다운 타이머 설정 + 깜빡임 효과
         if (isContactDamage)
         {
             _contactDamageTimer = contactDamageCooldown;
+            
+            // 이전 깜빡임 코루틴 중지 후 새로 시작
+            if (_invincibilityFlashCoroutine != null)
+            {
+                StopCoroutine(_invincibilityFlashCoroutine);
+                _sprite.color = _originalSpriteColor; // 색상 복원
+            }
+            _invincibilityFlashCoroutine = StartCoroutine(InvincibilityFlashCoroutine());
         }
 
         // (Sprint 1, B-1.a) HP가 변경되었음을 모든 구독자(HUDManager 등)에게 "방송"
@@ -300,6 +367,23 @@ public class PlayerManager : MonoBehaviour
         
         // 재화 획득 후 UI 갱신 알림
         OnGoldChanged?.Invoke(_gold);
+    }
+    
+    /// <summary>
+    /// 골드를 소비합니다 (배수 적용 없이 정확한 금액만 차감)
+    /// </summary>
+    /// <param name="amount">소비할 골드 양</param>
+    /// <returns>성공 여부 (골드가 부족하면 false)</returns>
+    public bool SpendGold(int amount)
+    {
+        if (_gold < amount)
+        {
+            return false;
+        }
+        
+        _gold -= amount;
+        OnGoldChanged?.Invoke(_gold);
+        return true;
     }
     
     //보물상자 획득
@@ -387,6 +471,22 @@ public class PlayerManager : MonoBehaviour
 
     #region Private Methods
     /// <summary>
+    /// 게임 시작 시 기본 무기를 지급합니다.
+    /// </summary>
+    private void EquipStartingWeapon()
+    {
+        if (startingWeapon != null && inventoryManager != null)
+        {
+            inventoryManager.Add(startingWeapon);
+            Debug.Log($"Starting weapon equipped: {startingWeapon.EquipmentName}");
+        }
+        else if (startingWeapon == null)
+        {
+            Debug.LogWarning("PlayerManager: 시작 무기가 할당되지 않았습니다. Inspector에서 Starting Weapon을 설정해주세요.");
+        }
+    }
+    
+    /// <summary>
     /// (B-1.a) SDS 3.2.2에 정의된 Move 함수 (내부 로직)
     /// </summary>
     private void Move(Vector2 direction)
@@ -450,8 +550,11 @@ public class PlayerManager : MonoBehaviour
         _currentExp -= _maxExp;
         _level++;
         
-        // 다음 레벨 필요 경험치 증가 (예: 20% 증가)
-        _maxExp = Mathf.RoundToInt(_maxExp * 1.2f);
+        // 다음 레벨 필요 경험치 증가
+        _maxExp = Mathf.RoundToInt(_maxExp * 1.1f);
+        
+        // 레벨 업 시 최대 체력의 20% 회복
+        Heal(stats.MaxHp * 0.2f);
         
         // 레벨 업 후에도 남은 경험치가 최대 경험치보다 많을 수 있으므로 재귀 호출 가능성 고려
         // (단순화를 위해 여기서는 한 번만 처리하거나 while문 사용 가능)
@@ -515,12 +618,15 @@ public class PlayerManager : MonoBehaviour
     }
     
     /// <summary>
-    /// 대시 코루틴: 일정 거리를 빠르게 이동하며 몬스터를 뚫고 지나갑니다.
+    /// 대시 코루틴: 일정 거리를 빠르게 이동하며 몬스터를 뚚고 지나갑니다.
     /// </summary>
     private System.Collections.IEnumerator DashCoroutine(Vector2 direction)
     {
         _isDashing = true;
         _dashCooldownTimer = dashCooldown;
+        
+        // 대시 중 피해를 입힌 적 추적 (중복 피해 방지)
+        HashSet<Monster> damagedMonsters = new HashSet<Monster>();
         
         // Rigidbody2D를 kinematic으로 전환하여 적을 밀지 않도록 함
         bool wasKinematic = _rb.isKinematic;
@@ -543,11 +649,17 @@ public class PlayerManager : MonoBehaviour
             Vector2 newPosition = Vector2.Lerp(startPosition, targetPosition, t);
             _rb.MovePosition(newPosition);
             
+            // 대시 경로의 적 탐지 및 피해 적용
+            DealDashDamage(damagedMonsters);
+            
             yield return new WaitForFixedUpdate();
         }
         
         // 대시 종료
         _rb.MovePosition(targetPosition);
+        
+        // 번개 이펙트 생성 (출발지점 -> 도착지점)
+        SpawnLightningEffect(startPosition, targetPosition);
         
         // Rigidbody2D를 원래 상태로 복구
         _rb.isKinematic = wasKinematic;
@@ -557,7 +669,122 @@ public class PlayerManager : MonoBehaviour
         
         _isDashing = false;
     }
+    
+    /// <summary>
+    /// 대시 경로의 적에게 피해를 입힙니다.
+    /// </summary>
+    private void DealDashDamage(HashSet<Monster> damagedMonsters)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            transform.position, 
+            dashDamageRadius, 
+            LayerMask.GetMask("Enemy"));
+        
+        foreach (var hit in hits)
+        {
+            Monster monster = hit.GetComponent<Monster>();
+            if (monster != null && !damagedMonsters.Contains(monster))
+            {
+                monster.TakeDamage(dashDamage);
+                damagedMonsters.Add(monster);
+                Debug.Log($"Dash damage dealt to {monster.name}: {dashDamage}");
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 대시 경로에 번개 이펙트를 생성합니다.
+    /// </summary>
+    private void SpawnLightningEffect(Vector2 startPos, Vector2 endPos)
+    {
+        if (lightningEffectPrefab == null) return;
+        
+        // 중간 지점 계산
+        Vector2 midPoint = (startPos + endPos) / 2f;
+        
+        // 방향 및 각도 계산
+        Vector2 direction = endPos - startPos;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        
+        // 이펙트 생성 (회전 적용)
+        GameObject effect = Instantiate(
+            lightningEffectPrefab, 
+            midPoint, 
+            Quaternion.Euler(0, 0, angle));
+        
+        // 거리에 맞게 스케일 조정 (X 축으로 늘리기)
+        float distance = direction.magnitude;
+        Vector3 scale = effect.transform.localScale;
+        scale.x = distance;
+        effect.transform.localScale = scale;
+        
+        // ParticleSystem 설정 수정 (1번만 재생)
+        var particleSystem = effect.GetComponent<ParticleSystem>();
+        if (particleSystem != null)
+        {
+            var main = particleSystem.main;
+            main.loop = false; // 루프 중지
+            
+            // 이펙트 지속 시간 후 자동 삭제
+            float duration = main.duration + main.startLifetime.constantMax;
+            Destroy(effect, duration);
+        }
+        else
+        {
+            // ParticleSystem이 없으면 1초 후 삭제
+            Destroy(effect, 1f);
+        }
+    }
 
+    /// <summary>
+    /// 무적 시간 동안 플레이어를 깜빡이게 합니다 (투명도 변경).
+    /// </summary>
+    private System.Collections.IEnumerator InvincibilityFlashCoroutine()
+    {
+        if (_sprite == null)
+        {
+            Debug.LogError("[InvincibilityFlash] _sprite is null!");
+            yield break;
+        }
+        
+        float flashInterval = 0.1f; // 깜빡임 간격
+        Color flashColor = new Color(_originalSpriteColor.r, _originalSpriteColor.g, _originalSpriteColor.b, 0.3f); // 반투명
+        
+        while (_contactDamageTimer > 0f)
+        {
+            // 반투명으로 변경
+            _sprite.color = flashColor;
+            yield return new WaitForSeconds(flashInterval);
+            
+            // 원래 색으로 복원
+            _sprite.color = _originalSpriteColor;
+            yield return new WaitForSeconds(flashInterval);
+        }
+        
+        // 최종적으로 원래 색으로 복원
+        _sprite.color = _originalSpriteColor;
+        _invincibilityFlashCoroutine = null; // 코루틴 참조 정리
+    }
+    
+    /// <summary>
+    /// 대시 쿨타임 중일 때 플로팅 텍스트를 표시합니다.
+    /// </summary>
+    private void ShowDashCooldownText()
+    {
+        if (floatingTextPrefab == null) return;
+        
+        // 플로팅 텍스트 생성
+        Vector3 spawnPosition = transform.position + floatingTextOffset;
+        GameObject textObj = Instantiate(floatingTextPrefab, spawnPosition, Quaternion.identity);
+        
+        // 텍스트 초기화
+        FloatingText floatingText = textObj.GetComponent<FloatingText>();
+        if (floatingText != null)
+        {
+            string cooldownText = $"대시 충전 중: {_dashCooldownTimer:F2}초...";
+            floatingText.Initialize(cooldownText, spawnPosition);
+        }
+    }
  
     #endregion
 }

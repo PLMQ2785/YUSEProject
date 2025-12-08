@@ -17,6 +17,7 @@ public static class SaveManager
     // Codex unlock 키
     private const string KEY_UNLOCKED_MONSTERS = "Codex_UnlockedMonsters";
     private const string KEY_UNLOCKED_EQUIPMENT = "Codex_UnlockedEquipment";
+    private const string KEY_UNLOCKED_ITEMS = "Codex_UnlockedItems";
     
     /// <summary>
     /// JSON 직렬화용 래퍼 클래스
@@ -130,6 +131,29 @@ public static class SaveManager
     public static HashSet<string> LoadUnlockedEquipment()
     {
         string json = PlayerPrefs.GetString(KEY_UNLOCKED_EQUIPMENT, "");
+        if (string.IsNullOrEmpty(json))
+            return new HashSet<string>();
+        
+        var data = JsonUtility.FromJson<UnlockData>(json);
+        return new HashSet<string>(data.unlockedIds);
+    }
+    
+    /// <summary>
+    /// 아이템 unlock 목록 저장
+    /// </summary>
+    public static void SaveUnlockedItems(HashSet<string> unlockedIds)
+    {
+        var data = new UnlockData { unlockedIds = new List<string>(unlockedIds) };
+        string json = JsonUtility.ToJson(data);
+        PlayerPrefs.SetString(KEY_UNLOCKED_ITEMS, json);
+    }
+
+    /// <summary>
+    /// 아이템 unlock 목록 불러오기
+    /// </summary>
+    public static HashSet<string> LoadUnlockedItems()
+    {
+        string json = PlayerPrefs.GetString(KEY_UNLOCKED_ITEMS, "");
         if (string.IsNullOrEmpty(json))
             return new HashSet<string>();
         

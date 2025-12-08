@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Damage_Reduction_Upgrade
   m_EditorClassIdentifier: 
   upgradeName: "\uBC1B\uB294 \uD53C\uD574 \uAC10\uC18C"
-  description: "\uBC1B\uB294 \uB370\uBBF8\uC9C0\uAC00 \uAC10\uC18C\uD55C\uB2E4."
+  description: "\uD50C\uB808\uC774\uC5B4\uAC00 \uBC1B\uB294 \uD53C\uD574\uAC00 \uAC10\uC18C\uD55C\uB2E4."
   upgradeType: 10
-  baseCost: 10
-  maxLevel: 5
-  valuePerLevel: 0.1
+  baseCost: 200
+  maxLevel: 10
+  valuePerLevel: 0.01

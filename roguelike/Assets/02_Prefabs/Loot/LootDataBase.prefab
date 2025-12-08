@@ -51,15 +51,16 @@ MonoBehaviour:
   - {fileID: 2754266992652824033, guid: a574ae0c8fc5684429fb5ff73aa41bc4, type: 3}
   - {fileID: 2754266992652824033, guid: c874b911aa96cca41afa5a09a926ea02, type: 3}
   weaponPool:
-  - {fileID: 11400000, guid: 2821e0577a5339a4aa3c5de928277df0, type: 2}
   - {fileID: 11400000, guid: 1645504df21638146b285429af146646, type: 2}
   - {fileID: 11400000, guid: ab12345678901234567890123456789b, type: 2}
+  - {fileID: 11400000, guid: 991272dfca1545344a212dda7a6fe4db, type: 2}
   - {fileID: 11400000, guid: 80c74d8f7d5ed14419f5853dfcf1ce08, type: 2}
+  - {fileID: 11400000, guid: d20e3fbc688f80149962bd4581a1579c, type: 2}
   - {fileID: 11400000, guid: 84478a0864028384e8526a7925f1e2db, type: 2}
   - {fileID: 11400000, guid: e6a9646461d8b414fb69a5a5f81379aa, type: 2}
   - {fileID: 11400000, guid: ae0983febf7b67e4789e53ea99332f75, type: 2}
+  - {fileID: 11400000, guid: f1c0e4d018bad9a40b58de7c67b6845e, type: 2}
   passivePool:
-  - {fileID: 11400000, guid: 3b0d72c2e0a3b6748be2bcac359bc65b, type: 2}
   - {fileID: 11400000, guid: d5ca93d1c2e154f469adc822d9e7e1df, type: 2}
   - {fileID: 11400000, guid: 9435d1de31023de4e8ac62496c16dc5e, type: 2}
   - {fileID: 11400000, guid: 48e365fb316821541acb625390fc1b6e, type: 2}
@@ -70,4 +71,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f08e1a8e370486345adfc2d51db270cf, type: 2}
   - {fileID: 11400000, guid: 73ff8a83a3993e047b1ae4e413f9e128, type: 2}
   - {fileID: 11400000, guid: 518cbef0960cba243984fc075a619154, type: 2}
-  itemPool: []
+  itemPool:
+  - {fileID: 11400000, guid: 97ea65b44711843438949203096f6db5, type: 2}

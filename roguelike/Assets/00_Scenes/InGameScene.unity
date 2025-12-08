@@ -1646,6 +1646,10 @@ PrefabInstance:
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 1690861174107643620}
+    - target: {fileID: 5464171322958516330, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
+      propertyPath: 'waves.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d04d83900602d24194f0a45d9548da8, type: 2}
     - target: {fileID: 5661420617346070450, guid: 5dd39accac0eb714e9280a94d5e671c0, type: 3}
       propertyPath: weaponParent
       value: 

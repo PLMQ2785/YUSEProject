@@ -253,7 +253,12 @@ public class InventoryManager : MonoBehaviour
         // Unlock 처리 - LootDataBase를 통해 중앙 관리
         if (LootDataBase.Instance != null)
         {
-            LootDataBase.Instance.UnlockEquipment(data.ItemName);
+            Debug.Log($"[InventoryManager] Attempting to unlock item: '{data.ItemName}'");
+            LootDataBase.Instance.UnlockItem(data.ItemName);
+        }
+        else
+        {
+            Debug.LogWarning("[InventoryManager] LootDataBase.Instance is null!");
         }
     }
 

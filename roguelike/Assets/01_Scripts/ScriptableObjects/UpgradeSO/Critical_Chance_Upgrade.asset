@@ -15,6 +15,6 @@ MonoBehaviour:
   upgradeName: "\uCE58\uBA85\uD0C0 \uD655\uB960 \uC99D\uAC00"
   description: "\uCE58\uBA85\uD0C0 \uD655\uB960\uC774 \uC99D\uAC00\uD55C\uB2E4."
   upgradeType: 6
-  baseCost: 10
-  maxLevel: 5
-  valuePerLevel: 6
+  baseCost: 500
+  maxLevel: 10
+  valuePerLevel: 1
