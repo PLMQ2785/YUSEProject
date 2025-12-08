@@ -65,7 +65,8 @@ public class ClusterProjectile : Projectile
         // 폭발 이펙트 생성
         if (_explosionEffectPrefab != null)
         {
-            Instantiate(_explosionEffectPrefab, transform.position, Quaternion.identity);
+            GameObject effect = Instantiate(_explosionEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(effect,1.0f);
         }
 
         // ★ 1. 현재 날아가던 총알의 각도를 가져옵니다. (이게 기준점이 됩니다)
