@@ -153,6 +153,8 @@ MonoBehaviour:
   dashDamage: 8
   dashDamageRadius: 0.8
   lightningEffectPrefab: {fileID: 348503544660181029, guid: 1c6ff0ef9992e0c4ea19225e1356a694, type: 3}
+  floatingTextPrefab: {fileID: 6038155852405409809, guid: c6696d0045b0c1a4b8ea1c9889e40700, type: 3}
+  floatingTextOffset: {x: 0, y: 1.5, z: 0}
 --- !u!58 &5670197590616524391
 CircleCollider2D:
   m_ObjectHideFlags: 0

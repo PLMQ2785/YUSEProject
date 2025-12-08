@@ -90,7 +90,13 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private float dashDamageRadius = 0.8f; // 대시 데미지 탐지 반경
     [SerializeField]
-    private GameObject lightningEffectPrefab; // 번개 이펙트 프리팫
+    private GameObject lightningEffectPrefab; // 번개 이펙트 프리팟
+    
+    [Header("Floating Text Settings")]
+    [SerializeField]
+    private GameObject floatingTextPrefab; // 플로팅 텍스트 프리팹
+    [SerializeField]
+    private Vector3 floatingTextOffset = new Vector3(0, 1.5f, 0); // 텍스트 시작 위치 오프셋
     #endregion
 
     #region Private Fields
@@ -156,9 +162,17 @@ public class PlayerManager : MonoBehaviour
         }
         
         // 대시 입력 체크
-        if (!_isDashing && inputManager.DashTriggered && _dashCooldownTimer <= 0f)
+        if (!_isDashing && inputManager.DashTriggered)
         {
-            TryDash();
+            if (_dashCooldownTimer <= 0f)
+            {
+                TryDash();
+            }
+            else
+            {
+                // 쿨타임 중이면 플로팅 텍스트 표시
+                ShowDashCooldownText();
+            }
         }
     }
     private void Start()
@@ -536,8 +550,8 @@ public class PlayerManager : MonoBehaviour
         _currentExp -= _maxExp;
         _level++;
         
-        // 다음 레벨 필요 경험치 증가 (예: 20% 증가)
-        _maxExp = Mathf.RoundToInt(_maxExp * 1.2f);
+        // 다음 레벨 필요 경험치 증가
+        _maxExp = Mathf.RoundToInt(_maxExp * 1.1f);
         
         // 레벨 업 시 최대 체력의 20% 회복
         Heal(stats.MaxHp * 0.2f);
@@ -750,6 +764,26 @@ public class PlayerManager : MonoBehaviour
         // 최종적으로 원래 색으로 복원
         _sprite.color = _originalSpriteColor;
         _invincibilityFlashCoroutine = null; // 코루틴 참조 정리
+    }
+    
+    /// <summary>
+    /// 대시 쿨타임 중일 때 플로팅 텍스트를 표시합니다.
+    /// </summary>
+    private void ShowDashCooldownText()
+    {
+        if (floatingTextPrefab == null) return;
+        
+        // 플로팅 텍스트 생성
+        Vector3 spawnPosition = transform.position + floatingTextOffset;
+        GameObject textObj = Instantiate(floatingTextPrefab, spawnPosition, Quaternion.identity);
+        
+        // 텍스트 초기화
+        FloatingText floatingText = textObj.GetComponent<FloatingText>();
+        if (floatingText != null)
+        {
+            string cooldownText = $"대시 충전 중: {_dashCooldownTimer:F2}초...";
+            floatingText.Initialize(cooldownText, spawnPosition);
+        }
     }
  
     #endregion
