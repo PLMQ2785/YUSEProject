@@ -14,10 +14,6 @@ public class MainMenuPanelManager : MonoBehaviour
     #endregion
 
     #region Serialized Fields
-    [Header("Manager")]
-    [SerializeField] private UpgradeManager upgradeManager;
-
-
     [Header("Panels")]
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private GameObject lobbyPanel;
@@ -32,7 +28,10 @@ public class MainMenuPanelManager : MonoBehaviour
 
     #region Private Fields
     // static이 굳이 필요한지 점검 필요하나, 원본 유지 차원에서 static 유지
-    private static bool _isPanelShown = false; 
+    private static bool _isPanelShown = false;
+    
+    // UpgradeManager는 DontDestroyOnLoad 싱글톤이므로 Instance를 통해 접근
+    private UpgradeManager _upgradeManager;
     #endregion
 
     #region Unity LifeCycle
@@ -41,7 +40,21 @@ public class MainMenuPanelManager : MonoBehaviour
         AudioManager.Instance.PlayBGM(BGM_NAME);
         CheckAndShowTitlePanel();
 
-        upgradeManager.OnGoldChanged += UpdateGoldText;
+        // UpgradeManager.Instance를 사용하여 실제 싱글톤 인스턴스 참조
+        // (SerializeField로 참조하면 씬 재로드 시 파괴될 새 객체를 참조하게 됨)
+        _upgradeManager = UpgradeManager.Instance;
+        
+        if (_upgradeManager != null)
+        {
+            _upgradeManager.OnGoldChanged += UpdateGoldText;
+            
+            // 씬 재진입 시 현재 Gold 값으로 UI 초기화
+            UpdateGoldText(_upgradeManager.CurrentGold);
+        }
+        else
+        {
+            Debug.LogWarning("MainMenuPanelManager: UpgradeManager.Instance가 null입니다.");
+        }
     }
 
     private void Update()
@@ -56,7 +69,10 @@ public class MainMenuPanelManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        upgradeManager.OnGoldChanged -= UpdateGoldText;
+        if (_upgradeManager != null)
+        {
+            _upgradeManager.OnGoldChanged -= UpdateGoldText;
+        }
     }
     #endregion
 
@@ -78,7 +94,10 @@ public class MainMenuPanelManager : MonoBehaviour
     public void ToggleUpgradePanel()
     {
         AudioManager.Instance.PlaySfx(SFX_SELECT);
-        UpdateGoldText(upgradeManager.CurrentGold); // 강화창 골드 텍스트 업데이트
+        if (_upgradeManager != null)
+        {
+            UpdateGoldText(_upgradeManager.CurrentGold); // 강화창 골드 텍스트 업데이트
+        }
         upgradePanel.SetActive(!upgradePanel.activeSelf);
     }
 
@@ -151,7 +170,10 @@ public class MainMenuPanelManager : MonoBehaviour
     /// </summary>
     private void UpdateGoldText(int amount)
     {
-        upgradeGoldText.text = amount.ToString();
+        if (upgradeGoldText != null)
+        {
+            upgradeGoldText.text = amount.ToString();
+        }
     }
     #endregion
 }
