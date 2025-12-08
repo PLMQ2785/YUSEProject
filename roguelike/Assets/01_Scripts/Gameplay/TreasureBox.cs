@@ -1,11 +1,15 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class TreasureBox :AcquireableObject
 {
 
     private bool _isAcquired = false;
+    PlayerManager _playerManager;
 
-
+    private void Awake()
+    {
+        _playerManager= FindAnyObjectByType<PlayerManager>();
+    }
     private void Start()
     {
         moveSpeed = 5.0f;
@@ -17,23 +21,20 @@ public class TreasureBox :AcquireableObject
         if(_isAcquired) return;
         _isAcquired = true;
 
-        Debug.Log("º¸¹°»óÀÚ È¹µæ, º¸»ó Ã¢ ¿­±â");
+        Debug.Log("ë³´ë¬¼ìƒì íšë“, ë³´ìƒ ì°½ ì—´ê¸°");
 
 
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.TriggerRewardProcess();
-        }
+        _playerManager.GainTreasure();
 
         Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // ÀÌ¹Ì È¹µæÇß°Å³ª ÇÃ·¹ÀÌ¾î°¡ ¾Æ´Ï¸é ¹«½Ã
+        // ì´ë¯¸ íšë“í–ˆê±°ë‚˜ í”Œë ˆì´ì–´ê°€ ì•„ë‹ˆë©´ ë¬´ì‹œ
         if (_isAcquired) return;
 
-        // Ãæµ¹ÇÑ ´ë»óÀÌ ÇÃ·¹ÀÌ¾îÀÎÁö È®ÀÎ (ÅÂ±×³ª ÄÄÆ÷³ÍÆ®·Î È®ÀÎ)
+        // ì¶©ëŒí•œ ëŒ€ìƒì´ í”Œë ˆì´ì–´ì¸ì§€ í™•ì¸ (íƒœê·¸ë‚˜ ì»´í¬ë„ŒíŠ¸ë¡œ í™•ì¸)
         if (collision.CompareTag("Player"))
         {
             PlayerManager player = collision.GetComponent<PlayerManager>();

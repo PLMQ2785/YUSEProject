@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class BasicWeapon :Weapon
 {
@@ -13,7 +13,7 @@ public class BasicWeapon :Weapon
     
     protected override void PerformAttack()
     {
-        // 1. ¹æÇâ ¹× À§Ä¡ °è»ê
+        // 1. ë°©í–¥ ë° ìœ„ì¹˜ ê³„ì‚°
         if (WeaponData.ProjectilePrefab == null)
             return;
 
@@ -25,12 +25,12 @@ public class BasicWeapon :Weapon
 
         Vector3 spawnPos = transform.position + (Vector3)(facingDir.normalized * attackRange);
 
-        // 3. È¸Àü °è»ê )
+        // 3. íšŒì „ ê³„ì‚° )
    
         float angle = Mathf.Atan2(facingDir.y, facingDir.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.Euler(0, 0, angle);
 
-        // 4. »ı¼º (ÇÃ·¹ÀÌ¾î¸¦ ºÎ¸ğ·Î ¼³Á¤)
+        // 4. ìƒì„± (í”Œë ˆì´ì–´ë¥¼ ë¶€ëª¨ë¡œ ì„¤ì •)
         GameObject slashObj = Instantiate(WeaponData.ProjectilePrefab, spawnPos, rotation,transform);
 
         SlashProjectile slash = slashObj.GetComponent<SlashProjectile>();

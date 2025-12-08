@@ -26,6 +26,9 @@ public class PlayerManager : MonoBehaviour
     
     // (Sprint 2, B-1.b) 레벨 업 이벤트를 정의합니다. (GameManager가 구독할 대상)
     public event Action OnPlayerLeveledUp;
+
+    //보물상자 먹는 이벤트
+    public event Action OnPlayerGetTreasure;
     #endregion
 
     #region Properties
@@ -258,6 +261,14 @@ public class PlayerManager : MonoBehaviour
         // 재화 획득 후 UI 갱신 알림
         OnGoldChanged?.Invoke(_gold);
     }
+    
+    //보물상자 획득
+    public void GainTreasure()
+    {
+        OnPlayerGetTreasure?.Invoke();
+    }
+
+
 
     /// <summary>
     /// 킬카운트를 획득합니다.

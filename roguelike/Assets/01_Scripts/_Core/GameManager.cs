@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public event Action<GameState> OnGameStateChanged;
 
+    
     #endregion
 
     #region Properties
@@ -385,7 +386,10 @@ public class GameManager : MonoBehaviour
 
         // 5. 씬 내부 매니저들의 이벤트를 "구독"합니다.
         if (_playerManager != null)
+        {
             _playerManager.OnPlayerLeveledUp += HandlePlayerLeveledUp;
+            _playerManager.OnPlayerGetTreasure += HandlePlayerLeveledUp;
+        }
 
         if (_rewardManager != null)
             _rewardManager.OnRewardProcessFinished += HandleRewardFinished;
