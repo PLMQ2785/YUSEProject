@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 2754266992652824033}
   - component: {fileID: 48254275233714998}
   - component: {fileID: 1737600228348484724}
-  - component: {fileID: 6813797106969371374}
   - component: {fileID: 2925388671421349269}
+  - component: {fileID: 382759265004321393}
   m_Layer: 8
   m_Name: SlowMonster
   m_TagString: Enemy
@@ -108,8 +108,9 @@ MonoBehaviour:
   description: "\uC228\uC744 \uBABB \uC26C\uC5B4\uC11C \uC8FD\uC5C8\uB2E4..."
   unlocked: 0
   maxHp: 25
-  moveSpeed: 1
+  moveSpeed: 3
   contactDamage: 5
+  fadeInDuration: 0.5
   expOrbPrefab: {fileID: 622782962632113181, guid: e0f17047d092c564ba65b11d0ea8c20b, type: 3}
 --- !u!61 &48254275233714998
 BoxCollider2D:
@@ -184,18 +185,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &6813797106969371374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2355473164220929502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f94e73f83aa11bb4fa9084d8c777c3d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &2925388671421349269
 Animator:
   serializedVersion: 7
@@ -218,3 +207,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &382759265004321393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2355473164220929502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3163e4f52ac2daa43bbd1bd77d7faff7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
