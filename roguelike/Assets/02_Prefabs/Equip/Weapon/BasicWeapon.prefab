@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _data: {fileID: 11400000, guid: f1c0e4d018bad9a40b58de7c67b6845e, type: 2}
   attackRange: 2
-  duration: 0.5
+  duration: 0.15

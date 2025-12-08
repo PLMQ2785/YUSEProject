@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: ExpBook
   m_EditorClassIdentifier: 
   _equipmentName: "\uACBD\uC804"
-  _description: "\uC5EC\uB7EC \uACBD\uD5D8\uC774 \uB2F4\uAE34 \uCC45\uC774\uB2E4."
+  _description: "\uC5EC\uB7EC \uACBD\uD5D8\uC774 \uB2F4\uAE34 \uCC45\uC774\uB2E4.
+    (\uC5BB\uB294\uACBD\uD5D8\uCE58 \uC99D\uAC00)"
   _icon: {fileID: 21300000, guid: bfde17ec51db8214399855e02b63f8e6, type: 3}
   _maxLevel: 5
-  statType: 9
+  unlocked: 0
+  statType: 8
   statValue: 2

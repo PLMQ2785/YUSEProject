@@ -6,7 +6,7 @@ public class BasicWeapon :Weapon
 
    
     [SerializeField] private float attackRange =2.0f;
-    [SerializeField] private float duration = 5f;
+    [SerializeField] private float duration = 0.1f;
     
 
 
@@ -31,7 +31,7 @@ public class BasicWeapon :Weapon
         Quaternion rotation = Quaternion.Euler(0, 0, angle);
 
         // 4. 생성 (플레이어를 부모로 설정)
-        GameObject slashObj = Instantiate(WeaponData.ProjectilePrefab, spawnPos, rotation);
+        GameObject slashObj = Instantiate(WeaponData.ProjectilePrefab, spawnPos, rotation,transform);
 
         SlashProjectile slash = slashObj.GetComponent<SlashProjectile>();
         slash.Initialize(WeaponData.BaseDamage, duration); 
