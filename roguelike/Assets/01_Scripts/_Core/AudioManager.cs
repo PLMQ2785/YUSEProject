@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic; //딕셔너리 사용을 위해 추가
 
@@ -44,6 +45,13 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void Start()
+    {
+        // 게임 시작 시 볼륨 불러오기
+        LoadVolumeSettings();
+    }
+
     #endregion
     
     #region Public methods
@@ -130,8 +138,13 @@ public class AudioManager : MonoBehaviour
     public void SetMasterVolume(float level)
     {
         masterVolume = Mathf.Clamp01(level);
-        bgmSource.volume = bgmVolume*masterVolume;
-        sfxSource.volume = sfxVolume*masterVolume;
+        // bgmSource.volume = bgmVolume*masterVolume;
+        // sfxSource.volume = sfxVolume*masterVolume;
+        
+        UpdateAudioSourceVolumes();
+        
+        SaveManager.SaveVolume("Master", masterVolume);
+        SaveManager.Save();
     }
     
     /// <summary>
@@ -140,13 +153,43 @@ public class AudioManager : MonoBehaviour
     public void SetBgmVolume(float level)
     {
         bgmVolume = Mathf.Clamp01(level);
-        bgmSource.volume = bgmVolume*masterVolume; 
+        
+        UpdateAudioSourceVolumes();
+        
+        SaveManager.SaveVolume("BGM", bgmVolume);
+        SaveManager.Save();
+        
+        // bgmSource.volume = bgmVolume*masterVolume; 
     }
 
     public void SetSfxVolume(float level)
     {
         sfxVolume = Mathf.Clamp01(level);
-        sfxSource.volume = sfxVolume*masterVolume; 
+        
+        UpdateAudioSourceVolumes();
+        
+        SaveManager.SaveVolume("SFX", sfxVolume);
+        SaveManager.Save();
+        
+        // sfxSource.volume = sfxVolume*masterVolume; 
     }
+    
+    public void LoadVolumeSettings()
+    {
+        // SaveManager에서 값 로드 (저장된 값이 없으면 기본값 1.0f 반환)
+        masterVolume = SaveManager.LoadVolume("Master", 1.0f);
+        bgmVolume = SaveManager.LoadVolume("BGM", 1.0f);
+        sfxVolume = SaveManager.LoadVolume("SFX", 1.0f);
+
+        // 오디오 소스에 실제 적용
+        UpdateAudioSourceVolumes();
+    }
+    
+    private void UpdateAudioSourceVolumes()
+    {
+        if (bgmSource != null) bgmSource.volume = bgmVolume * masterVolume;
+        if (sfxSource != null) sfxSource.volume = sfxVolume * masterVolume;
+    }
+    
     #endregion
 }

@@ -10,6 +10,9 @@ public static class SaveManager
     private const string KEY_BGM_VOLUME = "Setting_BgmVolume";
     private const string KEY_SFX_VOLUME = "Setting_SfxVolume";
     
+    private const string KEY_RES_WIDTH = "Setting_ResWidth";
+    private const string KEY_RES_HEIGHT = "Setting_ResHeight";
+    private const string KEY_IS_FULLSCREEN = "Setting_IsFullScreen";
     
     // 업그레이드 키 접두사 미리 만들어둔것.
     private const string KEY_UPGRADE_PREFIX = "Upgrade_";
@@ -182,6 +185,28 @@ public static class SaveManager
             case "SFX": return PlayerPrefs.GetFloat(KEY_SFX_VOLUME, defaultValue);
             default: return defaultValue;
         }
+    }
+    
+    public static void SaveResolutionSettings(int width, int height, bool isFullScreen)
+    {
+        PlayerPrefs.SetInt(KEY_RES_WIDTH, width);
+        PlayerPrefs.SetInt(KEY_RES_HEIGHT, height);
+        // PlayerPrefs는 bool이 없으므로 int(1=true, 0=false)로 변환 저장
+        PlayerPrefs.SetInt(KEY_IS_FULLSCREEN, isFullScreen ? 1 : 0);
+    }
+    
+    public static (int width, int height, bool isFullScreen) LoadResolutionSettings()
+    {
+        // 기본값: 현재 스크린 해상도
+        int defaultWidth = Screen.width;
+        int defaultHeight = Screen.height;
+        int defaultFull = Screen.fullScreen ? 1 : 0;
+
+        int w = PlayerPrefs.GetInt(KEY_RES_WIDTH, defaultWidth);
+        int h = PlayerPrefs.GetInt(KEY_RES_HEIGHT, defaultHeight);
+        bool full = PlayerPrefs.GetInt(KEY_IS_FULLSCREEN, defaultFull) == 1;
+
+        return (w, h, full);
     }
     #endregion
 }
