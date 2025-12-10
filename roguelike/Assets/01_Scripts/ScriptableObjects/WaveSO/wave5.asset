@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68925d4488c278442abcd2336da02e4d, type: 3}
   m_Name: wave5
   m_EditorClassIdentifier: 
-  startTime: 180
-  endTime: 240
+  startTime: 240
+  endTime: 300
   spawnInterval: 1
   maxFieldMonsterCount: 200
   monsterSpawnInfos:
