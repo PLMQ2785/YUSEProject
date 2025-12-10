@@ -50,8 +50,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d624f00841700e74fb3daec8dda0417a, type: 2}
   - {fileID: 11400000, guid: 41428ced1c0265a43acba5d1ad94ec4a, type: 2}
   - {fileID: 11400000, guid: 300dc165201c24a4780299d26ff5b08d, type: 2}
-  - {fileID: 11400000, guid: be67e6d6d637bb641a7ef42eaa91efca, type: 2}
-  bossPrefab: {fileID: -580824824227003035, guid: 721093c7e785e5b438ad80e165d569da, type: 3}
+  - {fileID: 11400000, guid: 6d04d83900602d24194f0a45d9548da8, type: 2}
+  firstBossPrefab: {fileID: -580824824227003035, guid: 721093c7e785e5b438ad80e165d569da, type: 3}
+  secondBossPrefab: {fileID: 3366211708096188460, guid: 4c707b92c025580468edb57d0563f09d, type: 3}
   spawnRadius: 10
-  bossSpawnCycle: 300
   initialPerTypeSize: 10
