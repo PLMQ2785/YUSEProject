@@ -967,51 +967,85 @@
 
 ### 📦MainMenuPanelManager
 > **Description:**
-> 여기에 클래스 설명 작성
+> 메인 메뉴의 UI 표시를 관리하는 클래스
 
 **🟢Attributes (속성)**
 
 | Name                 | Description        | Type                      | Visibility |
 |:---------------------|:-------------------|:--------------------------|:-----------|
-| `bgmClips`           | 배경 음악 리스트          | `AudioClip[0..*]`         | `private`  |
-| `OnGameStateChanged` | 게임 상태의 변경을 알리는 이벤트 | `event Action<GameState>` | `public`   |
+| `mainPanel`           | 메인메뉴 패널          | `GameObject`         | `private`  |
+| `lobbyPanel`           | 로비 패널          | `GameObject`         | `private`  |
+| `upgradePanel`           | 강화 패널          | `GameObject`         | `private`  |
+| `codexPanel`           | 도감 패널          | `GameObject`         | `private`  |
+| `settingPanel`           | 설정 패널          | `GameObject`         | `private`  |
+| `pressAnyKeyText` | 게임시작 시 '아무 키를 눌러 시작' 텍스트 | `Text` | `private`   |
+| `upgradeGoldText` | 강화 패널의 골드 텍스트 | `TextMeshProUGUI` | `private`   |
+| `_isPanelShown` | 타이틀 패널이 표시되었는지 여부 | `bool` | `private`   |
+| `_upgradeManager` | 업그레이드 매니저 | `UpgradeManager` | `private`   |
 
 **🔷Operations (메서드)**
 
 | Name                            | Description             | Type (Return) | Visibility |
 |:--------------------------------|:------------------------|:--------------|:-----------|
-| `SetSfxVolume(level: float)`    | 설정 파일을 읽어와서 효과음 불륨 적용   | `void`        | `public`   |
+| `HandleLobbyInput()`    | 아무 키나 눌렀을 때 로비 패널로 전환하는 메서드   | `void`        | `public`   |
+| `ToggleUpgradePanel()`    | 강화 패널을 표시하거나 숨기는 메서드   | `void`        | `public`   |
+| `ToggleSettingPanel()`    | 설정 패널을 표시하거나 숨기는 메서드   | `void`        | `public`   |
+| `ToggleCodexPanel()`    | 도감 패널을 표시하거나 숨기는 메서드   | `void`        | `public`   |
+| `Onclick_StartGame()`    | 게임을 시작하는 메서드   | `void`        | `public`   |
+| `CheckAndShowTitlePanel()`    | 게임 최초 실행 시에만 타이틀 패널을 표시하는 메서드   | `void`        | `private`   |
+| `CalculateAlpha()`    | 텍스트 깜빡임을 위한 투명도를 계산하는 메서드   | `float`        | `private`   |
+| `UpdateBlinkText(alpha: float)`    | 텍스트를 깜빡임 효과로 업데이트하는 메서드   | `void`        | `private`   |
+| `UpdateGoldText(amount: int)`    | 강화 패널의 골드 텍스트를 업데이트하는 메서드   | `void`        | `private`   |
 
 ### 📦TooltipController
 > **Description:**
-> 여기에 클래스 설명 작성
+> 툴팁 표시 및 위치를 관리하는 클래스
 
 **🟢Attributes (속성)**
 
 | Name                 | Description        | Type                      | Visibility |
 |:---------------------|:-------------------|:--------------------------|:-----------|
-| `bgmClips`           | 배경 음악 리스트          | `AudioClip[0..*]`         | `private`  |
-| `OnGameStateChanged` | 게임 상태의 변경을 알리는 이벤트 | `event Action<GameState>` | `public`   |
+| `tooltipRect`           | 툴팁의 위치          | `RectTransform`         | `private`  |
+| `contentText` | 툴팁의 텍스트 | `TMP_Text` | `private`   |
+| `offset` | 툴팁의 오프셋 | `Vector2` | `private`   |
 
 **🔷Operations (메서드)**
 
 | Name                            | Description             | Type (Return) | Visibility |
 |:--------------------------------|:------------------------|:--------------|:-----------|
-| `SetSfxVolume(level: float)`    | 설정 파일을 읽어와서 효과음 불륨 적용   | `void`        | `public`   |
+| `ShowTooltip(text: string)`    | 툴팁을 표시하는 메서드   | `void`        | `public`   |
+| `ShowUpgradeTooltip(data: UpgradeData, currentLevel: int, cost: int)`    | 업그레이드 정보를 툴팁으로 표시하는 메서드   | `void`        | `public`   |
+| `HideTooltip()`    | 툴팁을 숨기는 메서드   | `void`        | `public`   |
+| `UpdateTooltipPosition()`    | 툴팁의 위치를 마우스 위치에 따라 업데이트하는 메서드   | `void`        | `private`   |
 
 ### 📦UpgradeSlot
 > **Description:**
-> 여기에 클래스 설명 작성
+> 강화 슬롯의 UI를 관리하는 클래스
 
 **🟢Attributes (속성)**
 
 | Name                 | Description        | Type                      | Visibility |
 |:---------------------|:-------------------|:--------------------------|:-----------|
-| `bgmClips`           | 배경 음악 리스트          | `AudioClip[0..*]`         | `private`  |
-| `OnGameStateChanged` | 게임 상태의 변경을 알리는 이벤트 | `event Action<GameState>` | `public`   |
+| `upgradeData`           | 강화 데이터          | `UpgradeData`         | `private`  |
+| `normalColor` | 정상 상태의 색상          | `Color`         | `private`  |
+| `lockedColor` | 잠긴 상태의 색상 | `Color` | `private`   |
+| `_data` | 업그레이드 데이터 | `UpgradeData` | `private`   |
+| `_upgradeManager` | 업그레이드 매니저 | `UpgradeManager` | `private`   |
+| `_tooltipController` | 툴팁 컨트롤러 | `TooltipController` | `private`   |
+| `_buttonImage` | 강화 버튼 이미지 | `Image` | `private`   |
+| `_texts` | 강화 텍스트 리스트 | `TMP_Text[]` | `private`   |
 
 **🔷Operations (메서드)**
 
 | Name                            | Description             | Type (Return) | Visibility |
 |:--------------------------------|:------------------------|:--------------|:-----------|
-| `SetSfxVolume(level: float)`    | 설정 파일을 읽어와서 효과음 불륨 적용   | `void`        | `public`   |
+| `Initialize(data: UpgradeData, manager: UpgradeManager)`    | 슬롯을 초기화하는 메서드   | `void`        | `public`   |
+| `UpdateDisplay()` | 슬롯의 표시 내용을 업데이트하는 메서드 | `void` | `public`   |
+| `OnPointerClick(eventData: PointerEventData)` | 슬롯을 클릭했을 때 이벤트를 처리하는 메서드 | `void` | `public`   |
+| `OnPointerEnter(eventData: PointerEventData)` | 마우스가 슬롯 위에 올라갔을 때 툴팁을 표시하는 메서드 | `void` | `public`   |
+| `OnPointerExit(eventData: PointerEventData)` | 마우스가 슬롯 위에서 벗어났을 때 툴팁을 제거하는 메서드 | `void` | `public`   |
+| `OnPurchaseClicked()` | 구매 버튼을 클릭했을 때 호출되는 메서드 | `void` | `private`   |
+| `OnRefundClicked()` | 환불 버튼을 클릭했을 때 호출되는 메서드 | `void` | `private`   |
+| `RefreshTooltip()` | 툴팁을 업데이트하는 메서드 | `void` | `private`   |
+| `OnGoldChanged(newGold: int)` | 골드가 변경되었을 때 호출되는 메서드 | `void` | `private`   |
+| `OnUpgradeChanged(type: UpgradeType, newLevel: int)` | 업그레이드가 변경되었을 때 호출되는 메서드 | `void` | `private`   |
