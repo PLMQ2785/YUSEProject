@@ -56,6 +56,16 @@ public class FloatingText : MonoBehaviour
     {
         _elapsedTime += Time.deltaTime;
         
+        
+        // 애니메이션 전용 메서드 호출
+        FloatingAnimation();
+    }
+    
+    /// <summary>
+    /// 상승 + 페이드인/아웃 + 수명 관리
+    /// </summary>
+    private void FloatingAnimation()
+    {
         // 상승 애니메이션
         transform.position = _startPosition + Vector3.up * (riseSpeed * _elapsedTime);
         
