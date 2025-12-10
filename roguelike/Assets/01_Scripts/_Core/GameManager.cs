@@ -218,7 +218,16 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f; // 게임 정지
         OnGameStateChanged?.Invoke(_currentState);
 
-        SaveManager.SaveGold(SaveManager.LoadGold() + _playerManager.Gold); // 골드 저장
+        // 인게임 골드를 기존 골드에 더해서 저장
+        int totalGold = SaveManager.LoadGold() + _playerManager.Gold;
+        SaveManager.SaveGold(totalGold);
+        SaveManager.Save();
+        
+        // UpgradeManager가 새로운 골드 값을 인식하도록 갱신
+        if (UpgradeManager.Instance != null)
+        {
+            UpgradeManager.Instance.RefreshGold();
+        }
 
         // (S3, D-2.c) 게임 오버 패널 표시(bool show, bool clear)
         if (_inGamePanelManager != null)

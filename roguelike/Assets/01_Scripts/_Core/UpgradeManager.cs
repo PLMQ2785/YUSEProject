@@ -181,6 +181,17 @@ public class UpgradeManager : MonoBehaviour
         
         return true;
     }
+    
+    /// <summary>
+    /// 저장된 골드 값을 다시 불러와 현재 골드를 갱신합니다.
+    /// GameOver 등에서 골드가 저장된 후 호출됩니다.
+    /// </summary>
+    public void RefreshGold()
+    {
+        _currentGold = SaveManager.LoadGold();
+        OnGoldChanged?.Invoke(_currentGold);
+        Debug.Log($"UpgradeManager: 골드 새로고침 완료 (현재 골드: {_currentGold})");
+    }
     #endregion
 
     #region Private Methods
