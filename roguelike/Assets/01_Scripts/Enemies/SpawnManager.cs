@@ -11,11 +11,11 @@ public class SpawnManager : MonoBehaviour
 
     [Header("Wave Settings")] 
     [SerializeField] private List<WaveData> waves;
-    [SerializeField] private BossMonster bossPrefab; 
+    [SerializeField] private BossMonster firstBossPrefab;  // 5분(300초) 보스
+    [SerializeField] private BossMonster secondBossPrefab; // 10분(600초) 최종 보스
 
     [Header("Spawn Settings")] 
     [SerializeField] private float spawnRadius = 10.0f;
-    [SerializeField] private float bossSpawnCycle = 300f;
     [SerializeField] private int initialPerTypeSize = 10;
     #endregion
 
@@ -25,8 +25,12 @@ public class SpawnManager : MonoBehaviour
 
     #region Private Fields
     private WaveData _currentWave;
-    private int _bossLevel = 1;
     private bool _isBossActive;
+    private bool _isSecondBossActive = false; // 현재 활성화된 보스가 두 번째 보스인지
+    
+    // 각 보스의 스폰 여부 추적
+    private bool _firstBossSpawned = false;
+    private bool _secondBossSpawned = false;
 
     // 현재 필드 몬스터 리스트 (마릿수 제한용)
     private List<Monster> _activeMonsters = new List<Monster>();
@@ -54,9 +58,19 @@ public class SpawnManager : MonoBehaviour
         float currentGameTime = GameManager.Instance.GameTime;
 
         // 1. 보스 스폰 체크
-        if (currentGameTime >= bossSpawnCycle * _bossLevel)
+        // 첫 번째 보스: 5분(300초)
+        if (currentGameTime >= 300f && !_firstBossSpawned)
         {
-            SpawnBoss();
+            SpawnBoss(firstBossPrefab, false);
+            _firstBossSpawned = true;
+            return;
+        }
+        
+        // 두 번째 보스 (최종 보스): 10분(600초)
+        if (currentGameTime >= 600f && !_secondBossSpawned)
+        {
+            SpawnBoss(secondBossPrefab, true);
+            _secondBossSpawned = true;
             return;
         }
 
@@ -132,16 +146,18 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private void SpawnBoss()
+    private void SpawnBoss(BossMonster bossPrefab, bool isSecondBoss)
     {
         _isBossActive = true;
+        _isSecondBossActive = isSecondBoss;
         GameManager.Instance.IsTimerStopped = true;
 
         Vector2 spawnPos = CalculateSpawnPosition();
         BossMonster boss = Instantiate(bossPrefab, spawnPos, Quaternion.identity);
         boss.Init(playerTransform, OnBossDied);
 
-        Debug.Log($"BOSS APPEARED! Level: {_bossLevel}");
+        string bossType = isSecondBoss ? "FINAL BOSS" : "BOSS";
+        Debug.Log($"{bossType} APPEARED!");
         OnBossSpawned?.Invoke(_isBossActive, boss); // 보스 출현 방송
     }
 
@@ -149,8 +165,16 @@ public class SpawnManager : MonoBehaviour
     {
         Debug.Log("BOSS DEFEATED!");
         _isBossActive = false;
-        _bossLevel++; 
         GameManager.Instance.IsTimerStopped = false;
+        
+        // 두 번째 보스(최종 보스)를 처치했으면 게임 클리어
+        if (_isSecondBossActive)
+        {
+            Debug.Log("FINAL BOSS DEFEATED! GAME CLEAR!");
+            GameManager.Instance.GameClear();
+        }
+        
+        _isSecondBossActive = false;
         Destroy(boss.gameObject);
         OnBossSpawned?.Invoke(_isBossActive, (BossMonster)boss); // 보스 처치 방송
     }
