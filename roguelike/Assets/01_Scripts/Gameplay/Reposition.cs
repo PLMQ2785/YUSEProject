@@ -41,14 +41,14 @@ public class Reposition : MonoBehaviour
 
         if(Mathf.Abs(_distance.x)>threshold || Mathf.Abs(_distance.y)>threshold)
         {
-            RepositionMapChucnk(_distance);
+            RepositionMapChunk(_distance);
         }
 
 
     }
 
 
-    private void RepositionMapChucnk(Vector3 distance)
+    private void RepositionMapChunk(Vector3 distance)
     {
         const float CHUNK_SIZE = 40F;
         

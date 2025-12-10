@@ -434,9 +434,9 @@
 
 **🔷Operations (메서드)**
 
-| Name                                      | Description                        | Type (Return) | Visibility |
-|:------------------------------------------|:-----------------------------------|:--------------|:-----------|
-| `RepositionMapChucnk(distance: Vector3 )` | 플레이어와 청크 간의 거리를 기반으로 청크를 재배치하는 메서드 | `void`        | `Private`  |
+| Name                                     | Description                        | Type (Return) | Visibility |
+|:-----------------------------------------|:-----------------------------------|:--------------|:-----------|
+| `RepositionMapChunk(distance: Vector3 )` | 플레이어와 청크 간의 거리를 기반으로 청크를 재배치하는 메서드 | `void`        | `Private`  |
 
 
 
