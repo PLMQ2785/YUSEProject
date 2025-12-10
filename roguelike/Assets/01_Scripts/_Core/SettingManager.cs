@@ -31,8 +31,21 @@ public class SettingManager : MonoBehaviour
     void Start()
     {
         Init_Resolution();
+        
+        LoadAndApplySavedSettings();
+        
         // 오디오 볼륨설정 초기화, 이벤트 연결 함수 호출
         Init_VolumeSettings();
+        
+        if (resolutionDropdown != null)
+        {
+            resolutionDropdown.onValueChanged.AddListener(SetResolution);
+        }
+        
+        if (fullScreenToggle != null)
+        {
+            fullScreenToggle.onValueChanged.AddListener(PickFullScreen);
+        }
     }
 
 
@@ -52,11 +65,32 @@ public class SettingManager : MonoBehaviour
     {
         isFullScreen = isFull;
     }
-    public void ApplyResolution()
+    
+    // ApplyResolution -> ApplyAllSettings 
+    public void ApplyAllSettings()
     {
-        Resolution selected_Resolution = targetResolution[resolutionIndex];
+        // 1. 해상도 적용
+        if (resolutionIndex >= 0 && resolutionIndex < targetResolution.Count)
+        {
+            Resolution selected = targetResolution[resolutionIndex];
+            Screen.SetResolution(selected.width, selected.height, isFullScreen);
+            
+            // 해상도 저장
+            SaveManager.SaveResolutionSettings(selected.width, selected.height, isFullScreen);
+        }
 
-        Screen.SetResolution(selected_Resolution.width, selected_Resolution.height, isFullScreen);
+        // 2. 볼륨 저장 (슬라이더 값은 이미 AudioManager에 반영되어 있으므로 저장만 수행)
+        if (AudioManager.Instance != null)
+        {
+            SaveManager.SaveVolume("Master", AudioManager.Instance.MasterVolume);
+            SaveManager.SaveVolume("BGM", AudioManager.Instance.BgmVolume);
+            SaveManager.SaveVolume("SFX", AudioManager.Instance.SfxVolume);
+        }
+
+        // 3. 최종 디스크 쓰기
+        SaveManager.Save();
+        
+        Debug.Log("모든 설정이 적용되고 저장되었습니다.");
     }
 
     #endregion
@@ -124,25 +158,76 @@ public class SettingManager : MonoBehaviour
     {
         if (AudioManager.Instance != null)
         {
-            // 슬라이더 초기값 설정
-            masterSlider.value = AudioManager.Instance.MasterVolume;
-            bgmSlider.value = AudioManager.Instance.BgmVolume;    
-            sfxSlider.value = AudioManager.Instance.SfxVolume;     
+            // 1. AudioManager에서 현재(저장된) 볼륨 값 가져오기
+            float currentMaster = AudioManager.Instance.MasterVolume;
+            float currentBgm = AudioManager.Instance.BgmVolume;
+            float currentSfx = AudioManager.Instance.SfxVolume;
             
-            // 초기값으로 음향 설정
-            AudioManager.Instance.SetMasterVolume(masterSlider.value);
-            AudioManager.Instance.SetBgmVolume(bgmSlider.value);
-            AudioManager.Instance.SetSfxVolume(sfxSlider.value);
-        
-            // 리스너 연결
-            masterSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
-            bgmSlider.onValueChanged.AddListener(AudioManager.Instance.SetBgmVolume);
-            sfxSlider.onValueChanged.AddListener(AudioManager.Instance.SetSfxVolume);
+            // 2. 슬라이더 UI에 값 반영
+            if (masterSlider) masterSlider.value = currentMaster;
+            if (bgmSlider) bgmSlider.value = currentBgm;
+            if (sfxSlider) sfxSlider.value = currentSfx;
+            
+            // 3. 슬라이더 이벤트 리스너 연결 (값이 바뀔 때마다 AudioManager 호출)
+            if (masterSlider)
+            {
+                masterSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
+            }
+
+            if (bgmSlider)
+            {
+                bgmSlider.onValueChanged.AddListener(AudioManager.Instance.SetBgmVolume);
+            }
+
+            if (sfxSlider)
+            {
+                sfxSlider.onValueChanged.AddListener(AudioManager.Instance.SetSfxVolume);
+            }
+            
+            // // 슬라이더 초기값 설정
+            // masterSlider.value = AudioManager.Instance.MasterVolume;
+            // bgmSlider.value = AudioManager.Instance.BgmVolume;    
+            // sfxSlider.value = AudioManager.Instance.SfxVolume;     
+            //
+            // // 초기값으로 음향 설정
+            // AudioManager.Instance.SetMasterVolume(masterSlider.value);
+            // AudioManager.Instance.SetBgmVolume(bgmSlider.value);
+            // AudioManager.Instance.SetSfxVolume(sfxSlider.value);
+            //
+            // // 리스너 연결
+            // masterSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
+            // bgmSlider.onValueChanged.AddListener(AudioManager.Instance.SetBgmVolume);
+            // sfxSlider.onValueChanged.AddListener(AudioManager.Instance.SetSfxVolume);
             
         }
         else
         {
             Debug.LogError("AudioManager 인스턴스를 찾을 수 없습니다.");
+        }
+    }
+    
+    private void LoadAndApplySavedSettings()
+    {
+        // 1. 해상도 불러오기
+        var (width, height, isFull) = SaveManager.LoadResolutionSettings();
+        
+        // 화면 적용
+        Screen.SetResolution(width, height, isFull);
+        
+        // UI 동기화 (임시 변수 업데이트)
+        isFullScreen = isFull;
+        fullScreenToggle.isOn = isFull;
+
+        // 드롭다운에서 해당 해상도 찾아서 선택하기
+        for (int i = 0; i < targetResolution.Count; i++)
+        {
+            if (targetResolution[i].width == width && targetResolution[i].height == height)
+            {
+                resolutionIndex = i;
+                resolutionDropdown.value = i;
+                resolutionDropdown.RefreshShownValue();
+                break;
+            }
         }
     }
 }   

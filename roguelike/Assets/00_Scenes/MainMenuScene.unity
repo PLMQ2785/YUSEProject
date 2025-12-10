@@ -135,6 +135,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &461503382 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 209677084394295804, guid: 008ac9f228016bd4fb30e5a662bafdbd, type: 3}
+  m_PrefabInstance: {fileID: 2024751632}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40d4f612418cb14d88fc4c263a0b23e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &679693913 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4504687970089636057, guid: 7ba626e011d5a0a43b0875e4a3d3ad27, type: 3}
@@ -807,7 +818,7 @@ PrefabInstance:
     - target: {fileID: 742119658261837026, guid: 7ba626e011d5a0a43b0875e4a3d3ad27, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 461503382}
     - target: {fileID: 742119658261837026, guid: 7ba626e011d5a0a43b0875e4a3d3ad27, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Shutdown
@@ -1038,7 +1049,7 @@ PrefabInstance:
       objectReference: {fileID: 5711470666772431384}
     - target: {fileID: 4383347426803578296, guid: 7ba626e011d5a0a43b0875e4a3d3ad27, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ApplyResolution
+      value: ApplyAllSettings
       objectReference: {fileID: 0}
     - target: {fileID: 4448594968524101348, guid: 7ba626e011d5a0a43b0875e4a3d3ad27, type: 3}
       propertyPath: m_IsActive
