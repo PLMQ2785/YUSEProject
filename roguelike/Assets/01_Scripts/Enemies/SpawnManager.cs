@@ -154,14 +154,14 @@ public class SpawnManager : MonoBehaviour
 
         Vector2 spawnPos = CalculateSpawnPosition();
         BossMonster boss = Instantiate(bossPrefab, spawnPos, Quaternion.identity);
-        boss.Init(playerTransform, OnBossDied);
+        boss.Init(playerTransform, BossDied);
 
         string bossType = isSecondBoss ? "FINAL BOSS" : "BOSS";
         Debug.Log($"{bossType} APPEARED!");
         OnBossSpawned?.Invoke(_isBossActive, boss); // 보스 출현 방송
     }
 
-    private void OnBossDied(Monster boss)
+    private void BossDied(Monster boss)
     {
         Debug.Log("BOSS DEFEATED!");
         _isBossActive = false;
