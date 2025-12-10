@@ -116,25 +116,9 @@ public class InGamePanelManager : MonoBehaviour
         if (gameOverPanel != null)
         {
             UpdateGameOverPanel(clear);
-          
             gameOverPanel.SetActive(show);
         }
-           
     }
-
-    /* ShowGameOverPanel에서 클리어 여부를 받아서 처리
-    /// <summary>
-    /// (S3, D-2.c) GameManager가 호출할 더미 함수
-    /// </summary>
-    public void ShowGameClearPanel(bool show)
-    {
-        Debug.Log("InGamePanelManager: 게임 클리어 패널 " + (show ? "표시" : "숨김"));
-        if (gameClearPanel != null)
-        {
-            gameClearPanel.SetActive(show);
-        }
-
-    }*/
 
     /// <summary>
     /// '메인메뉴' 버튼 클릭 시 호출
@@ -160,15 +144,6 @@ public class InGamePanelManager : MonoBehaviour
         GameManager.Instance.ResumeGame();
     }
 
-    /*
-    /// <summary>
-    /// '설정' 버튼 클릭 시 호출
-    /// </summary>
-    public void OnClickSetting()
-    {
-        if (settingPanel != null)
-            settingPanel.SetActive(true);
-    }*/
     #endregion
 
     #region Private Methods
