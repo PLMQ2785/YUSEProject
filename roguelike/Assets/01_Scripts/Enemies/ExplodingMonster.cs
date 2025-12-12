@@ -257,7 +257,17 @@ public class ExplodingMonster : Monster
         DropExpOrb();
         UpGold(1);
         UpKillCount(1);
-        unlocked = true;
+        
+        // Unlock 처리 - LootDataBase를 통해 중앙 관리
+        if (LootDataBase.Instance != null)
+        {
+            Debug.Log($"ExplodingMonster.CleanupAndReturn(): Attempting to unlock monster: {monsterName}");
+            LootDataBase.Instance.UnlockMonster(monsterName);
+        }
+        else
+        {
+            Debug.LogError("ExplodingMonster.CleanupAndReturn(): LootDataBase.Instance is null!");
+        }
         
         if (_returnToPoolAction != null)
         {
