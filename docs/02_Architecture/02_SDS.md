@@ -1850,25 +1850,47 @@ PoolManager를 통해 재활용된다.
 
 ![Sequence Diagram 6](../imgs/Diagram_Sequance/06.png)
 
-&ensp;위 그림은 '캐릭터를 이동한다' Use Case를 나타내는 시퀀스 다이어그램이다.
+&ensp;위 그림은 '캐릭터를 이동한다' Use Case를 나타내는 Sequence Diagram이다.
 이 상호작용은 loop(인게임 플레이 중) 프레그먼트(fragment) 내에서 발생하며, 게임 플레이 중에 지속적으로 반복된다.
-먼저 PlayerManager는 InputManager에게 direction = GetMovementInput() 메시지를 보낸다.
+매 프레임마다 InputManager는 ProcessInput()을 통해 플레이어의 키보드 입력(WASD)을 감지하고, 수평/수직 입력 값을 조합하여 방향 벡터를 계산한다.
+이 방향 값은 OnMovementInput 이벤트를 통해 PlayerManager에 전달된다.
 
-&ensp;이를 통해 PlayerManager는 InputManager로부터 플레이어의 키보드 입력(W, A, S, D 등)에 따른 현재 이동 방향 값(direction)을 요청하고 반환받는다.
-InputManager로부터 방향 값을 전달받은 PlayerManager는 이 direction 값을 인자로 하여 자신의 Move(direction) 메서드를 호출한다. 이 Move 메서드는 PlayerStats의 speed 값을 참조하여 캐릭터의 실제 위치를 맵 상에서 이동시키는 로직을 수행한다.
+PlayerManager는 PlayerStats에서 현재 이동 속도(기본 속도 + 보너스)를 조회하고, Move(direction) 메서드를 통해 캐릭터를 이동시킨다.
+이동 방향에 따라 FacingDirection을 업데이트하여 sprite의 방향을 결정하고, Player_Animation()을 호출해 Animator에 속도 값을 전달하여 이동 애니메이션을 재생한다.
+또한 PlayerMagnet의 Magnet()을 호출해 주변의 경험치 구슬이나 아이템을 탐색하고, 범위 내에 있으면 StartMoveTo()를 통해 오브젝트를 플레이어 쪽으로 끌어당겨 획득 처리한다.
+
 
 ![Sequence Diagram 7](../imgs/Diagram_Sequance/07.png)
 
-&ensp;위 그림은 플레이어가 영구 능력치를 강화할 때를 나타내는 Sequence diagram이다. 플레이어가 특정 능력치를 강화하기 위해 UpgradeStat을 요청한다. 이 요청은 UpgradeManager에게 전달되어 활성화된다. UpgradeManager는 먼저 해당 능려기를 강화하는데 필요한 재화 비용을 계산하고, 플레이어가 충분한 재화가 있는지 확인한다. 여기서 플레이어의 재화가 충분하고 최대 레벨이 아닐 경우 UpGradeManager가 PlayerManager에게 재화를 쓰라고 한다. 이후 UpGradeManager는 선택 된 스텟의 레벨을 1 증가시키고 변경 사항을 저장한다. 재화가 부족한 경우
-UpgradeManager가 플레이어에게 재화가 부족하다는 UI를 표시하고 이미 최대 레벨일 경우 이미 최대 레벨이라는 UI를 표시한다.
+&ensp;위 그림은 플레이어가 영구 능력치를 강화할 때를 나타내는 Sequence Diagram이다.
+플레이어가 강화 패널에서 특정 능력치 슬롯에 마우스를 올리면 UpgradeSlot의 OnPointerEnter()가 호출되어 TooltipController를 통해 해당 능력치의 상세 정보(현재 레벨, 비용, 효과)를 툴팁으로 표시한다.
+
+플레이어가 강화 버튼을 클릭하면 OnPointerClick()을 통해 OnPurchaseClicked()가 호출되고, UpgradeManager의 Purchase(upgradeData)를 실행한다.
+UpgradeManager는 먼저 UpgradeData의 GetCostForLevel()을 통해 현재 레벨에서의 강화 비용을 계산하고, 최대 레벨 도달 여부와 골드 보유량을 확인한다.
+골드가 충분하고 최대 레벨이 아니면 골드를 차감하고 레벨을 증가시킨 뒤, SaveManager를 통해 강화 레벨과 골드를 저장한다.
+OnUpgradeChanged와 OnGoldChanged 이벤트를 발생시켜 UI를 갱신한다.
+골드가 부족하거나 최대 레벨이면 강화는 실패하고 해당 상태를 UI에 표시한다.
 
 ![Sequence Diagram 8](../imgs/Diagram_Sequance/08.png)
 
-&ensp;위 그림은 플레이어가 메인 메뉴에서 도감을 조회하는 과정을 나타낸 시퀀스 다이어그램이다. 플레이어가 도감 버튼을 누르면 MainMenuPanelManager가 도감 패널을 표시하고(Codex 패널 활성화), CodexManager에서 도감 데이터를 불러온다. 이후 플레이어가 뒤로가기를 누르기 전까지 카테고리와 항목 선택이 반복되며, 선택한 항목이 잠겨 있으면 실루엣과 ‘?’만 표시되고, 해금된 항목이면 상세 정보가 출력된다.
+&ensp;위 그림은 플레이어가 메인 메뉴에서 도감을 조회하는 과정을 나타낸 Sequence Diagram이다.
+플레이어가 도감 버튼을 누르면 MainMenuPanelManager의 ToggleCodexPanel()이 호출되어 도감 패널을 활성화하고, CodexManager의 RefreshCodex()를 통해 도감 데이터를 갱신한다.
+RefreshCodex()는 먼저 기존 슬롯들을 모두 제거(ClearContent)한 뒤, LootDataBase에서 모든 몬스터, 장비(무기/패시브), 아이템 정보를 조회하고 각각에 대해 CodexSlot을 동적으로 생성하여 배치한다.
+
+이후 플레이어가 카테고리 탭(몬스터/장비/아이템)을 클릭하면 CodexManager의 OpenPanel()이 해당 패널만 활성화하고 나머지는 비활성화한다.
+플레이어가 특정 도감 슬롯을 클릭하면 CodexSlot이 DescriptionPanel에 상세 정보 표시를 요청한다.
+해금된 항목이면 실제 아이콘, 이름, 설명이 표시되고, 미해금 항목이면 실루엣 아이콘과 "???" 이름, "아직 발견하지 못했습니다" 설명이 표시된다.
+뒤로가기를 누르면 도감 패널이 닫히고 메인 메뉴로 돌아간다.
 
 ![Sequence Diagram 9](../imgs/Diagram_Sequance/09.png)
 
-&ensp;위 그림은 플레이어가 설정을 변경하는 상황의 Sequence diagram이다. 플레이어가 '설정' 버튼을 누르면 MainMenuPanelManager의 ShowSettingPanel을 호출하여 설정 UI를 표시한다. 플레이어가 master volume을 조절하면 SettingManager의 SetMasterVolume(level)이 호출되고, 이는 AudioManager의 SetMasterVolume(level)을 호출한다. 플레이어가 sfx volume을 조절하면 SettingManager의 SetSfxVolume(level)이 호출되고, 이는 AudioManager의 SetSfxVolume(level)을 호출한다. 플레이어가 bgm volume을 조절하면 SettingManager의 SetBgmVolume(level)이 호출되고, 이는 AudioManager의 SetBgmVolume(level)을 호출한다. 플레이어가 resolution을 조절하면 SettingManager의 ApplyResolution을 호출한다.
+&ensp;위 그림은 플레이어가 설정을 변경하는 상황의 Sequence Diagram이다.
+플레이어가 '설정' 버튼을 누르면 MainMenuPanelManager의 ToggleSettingPanel()을 호출하여 설정 UI를 표시한다.
+SettingManager는 LoadAndApplySavedSettings()를 통해 저장된 설정을 로드하고 UI를 초기화한다.
+
+플레이어가 마스터/BGM/SFX 볼륨 슬라이더를 조절하면 SettingManager가 AudioManager의 SetMasterVolume(), SetBgmVolume(), SetSfxVolume()을 각각 호출하여 볼륨을 적용하고 SaveManager를 통해 PlayerPrefs에 저장한다.
+해상도 드롭다운을 선택하거나 전체화면 토글을 클릭하면 SettingManager가 해당 값을 저장해두고, '적용하기' 버튼을 클릭하면 ApplyResolution()을 통해 Screen.SetResolution()으로 실제 해상도를 변경하고 SaveManager를 통해 영구 저장한다.
+'도감 초기화' 버튼을 클릭하면 Use Case #10으로 이동한다.
 
 ![Sequence Diagram 10](../imgs/Diagram_Sequance/10.png)
 
