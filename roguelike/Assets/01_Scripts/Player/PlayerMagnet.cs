@@ -18,12 +18,12 @@ public class PlayerMagnet : MonoBehaviour
 
     private void Update()
     {
-        magnet();
+        Magnet();
     }
 
 
 
-    private void magnet()
+    private void Magnet()
     {
         if (_playerManager == null || _playerManager.Stats == null)
             return;
