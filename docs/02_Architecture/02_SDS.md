@@ -546,529 +546,1273 @@
 
 ![Class Diagram](../imgs/classDiagram.jpg)
 
-## 3.2.1 Core Class
-
-### Class: [GameManager]
-* **Description:** Manager 클래스들을 종합 관리하는 마스터 클래스
-
-**Attributes (속성)**
-
-| Name                        | Description          | Type                 | Visibility |
-|:----------------------------|:---------------------|:---------------------|:-----------|
-| `currentState`              | 현재 게임 상태             | `GameState`          | `Private`  |
-| `currentTime`               | 현재 플레이 시간            | `float`              | `Private`  |
-| `maxTime`                   | 최대 플레이 시간            | `float`              | `Private`  |
-| `playerManager`             | 플레이어 매니저 참조          | `PlayerManager`      | `Private`  |
-| `spawnManager`              | 스폰 매니저 참조            | `SpawnManager`       | `Private`  |
-| `questManager`              | 퀘스트 매니저 참조           | `QuestManager`       | `Private`  |
-| `hudManager`                | HUD 매니저 참조           | `HUDManager`         | `Private`  |
-| `inGamePanelManager`        | 인게임 씬 패널 매니저 참조      | `InGamePanelManager` | `Private`  |
-| `audioManager`              | 오디오 매니저 참조           | `AudioManager`       | `Private`  |
-| `OnRewardProcessedFinished` | 보상 처리 완료를 알리는 C# 이벤트 | `Action`             | `Private`  |
-
-**Operations (메서드)**
-
-| Name                                | Description                                                   | Type (Return) | Visibility |
-|:------------------------------------|:--------------------------------------------------------------|:--------------|:-----------|
-| `StartGame()`                       | 게임 시작                                                         | `void`        | `Public`   |
-| `PauseGame()`                       | 게임을 일시정지 상태로 변경                                               | `void`        | `Public`   |
-| `ResumeGame()`                      | 일시정지 상태에서 게임을 재개                                              | `void`        | `Public`   |
-| `UpdateGameState(deltaTime: float)` | 게임 상태를 매 프레임 갱신                                               | `void`        | `Public`   |
-| `GameOver()`                        | 게임 오버 처리                                                      | `void`        | `Public`   |
-| `GameClear()`                       | 게임 클리어 처리                                                     | `void`        | `Public`   |
-| `GoToMainMenu()`                    | 인게임 씬에서 메인 메뉴 씬으로 전환                                          | `void`        | `Public`   |
-| `RestartGame()`                     | 게임 세션을 처음부터 다시 시작                                             | `void`        | `Public`   |
-| `HandlePlayerLeveledUp()`           | PlayerManager의 OnPlayerLeveledUp 이벤트를 수신하여 처리하는 핸들러 메서드       | `void`        | `Public`   |
-| `HandleRewardFinished()`            | RewardManager의 OnRewardProcessFinished 이벤트를 수신하여 처리하는 핸들러 메서드 | `void`        | `Public`   |
-
-### Class: [InputManager]
-* **Description:** 사용자의 입력을 관리하는 매니저 클래스
-
-**Attributes (속성)**
-
-| Name              | Description   | Type    | Visibility |
-|:------------------|:--------------|:--------|:-----------|
-| `horizontalInput` | 수평 입력 값       | `float` | `Private`  |
-| `verticalInput`   | 수직 입력 값       | `float` | `Private`  |
-| `pauseInput`      | 일시 정지 입력 값    | `bool`  | `Private`  |
-| `itemUseInput`    | 아이템 사용 키 입력 값 | `bool`  | `Private`  |
-
-**Operations (메서드)**
-
-| Name                 | Description    | Type (Return) | Visibility |
-|:---------------------|:---------------|:--------------|:-----------|
-| `GetMovementInput()` | 플레이어 이동 입력 처리  | `Vector2`     | `Public`   |
-| `IsPausePressed()`   | 일시 정지 입력 처리    | `bool`        | `Public`   |
-| `GetItemUseInput()`  | 아이템 사용 키 입력 처리 | `int`         | `Public`   |
-
-### Class: [SpawnManager]
-* **Description:** 몬스터 생성을 관리하는 매니저 클래스
-
-**Attributes (속성)**
-
-| Name               | Description     | Type                  | Visibility |
-|:-------------------|:----------------|:----------------------|:-----------|
-| `normalMobPrefabs` | 일반 몬스터 프리팹      | `NormalMonster[0..*]` | `Private`  |
-| `bossMobPrefabs`   | 보스 몬스터 프리팹      | `BossMonster[0..*]`   | `Private`  |
-| `playerTransform`  | 플레이어 위치         | `Transform`           | `Private`  |
-| `spawnRadius`      | 몬스터 객체 생성 범위    | `float`               | `Private`  |
-| `safeRadius`       | 몬스터 객체 생성 제외 범위 | `float`               | `Private`  |
-
-**Operations (메서드)**
-
-| Name                                             | Description      | Type (Return) | Visibility |
-|:-------------------------------------------------|:-----------------|:--------------|:-----------|
-| `UpdateSpawning(gameTime:float)`                 | 시간에 맞는 몬스터 생성 처리 | `void`        | `Public`   |
-| `SpawnMonster(prefab:Monster, position:Vector2)` | 실제 몬스터 생성        | `void`        | `Public`   |
-| `SpawnBoss(prefab:Bossmonster)`                  | 보스 몬스터 생성        | `void`        | `Public`   |
-| `CalculateSpawnPosition()`                       | 몬스터 생성 위치 계산     | `Vector2`     | `Public`   |
-
-### Class: [QuestManager]
-* **Description:** 돌발 이벤트를 관리하는 매니저 클래스
-
-**Attributes (속성)**
-
-| Name           | Description | Type        | Visibility |
-|:---------------|:------------|:------------|:-----------|
-| `currentQuest` | 현재 퀘스트 정보   | `BaseQuest` | `Private`  |
-
-**Operations (메서드)**
-
-| Name                                  | Description   | Type (Return) | Visibility |
-|:--------------------------------------|:--------------|:--------------|:-----------|
-| `TryStartRandomQuest(gameTime:float)` | 돌발 이벤트 활성화 시도 | `void`        | `Public`   |
-| `StartQuest(quest: BaseQuest)`        | 돌발 이벤트 시작     | `void`        | `Public`   |
-| `UpdateCurrentQuest()`                | 이벤트 완료 여부 검사  | `void`        | `Public`   |
-| `EndQuest()`                          | 이벤트 완료 처리     | `void`        | `Public`   |
-
-### Class: [AudioManager]
-* **Description:** 게임의 모든 사운드를 관리하는 매니저 클래스
-
-**Attributes (속성)**
-
-| Name        | Description | Type              | Visibility |
-|:------------|:------------|:------------------|:-----------|
-| `bgmClips`  | 배경 음악 리스트   | `AudioClip[0..*]` | `Private`  |
-| `sfxClips`  | 효과음 리스트     | `AudioClip[0..*]` | `Private`  ||
-| `bgmVolume` | 배경 음악 불륨    | `float`           | `Private`  ||
-| `sfxVolume` | 효과음 불륨      | `float`           | `Private`  |
-
-**Operations (메서드)**
-
-| Name                            | Description             | Type (Return) | Visibility |
-|:--------------------------------|:------------------------|:--------------|:-----------|
-| `PlayBGM(clipName: string)`     | 배경 음악 재생                | `void`        | `Public`   |
-| `PlaySFX(clipName: string)`     | 효과음 재생                  | `void`        | `Public`   |
-| `StopBGM()`                     | 배경 음악 종료                | `void`        | `Public`   |
-| `SetMasterVolume(level: float)` | 설정 파일을 읽어와서 마스터 불륨 적용   | `void`        | `Public`   |
-| `SetBgmVolume(level: float)`    | 설정 파일을 읽어와서 배경 음악 불륨 적용 | `void`        | `Public`   |
-| `SetSfxVolume(level: float)`    | 설정 파일을 읽어와서 효과음 불륨 적용   | `void`        | `Public`   |
-
-## 3.2.2 Player Class
-
-### Class: [PlayerManager]
-* **Description:** 플레이어 객체를 관리하는 매니저 클래스
-
-**Attributes (속성)**
-
-| Name                | Description       | Type               | Visibility |
-|:--------------------|:------------------|:-------------------|:-----------|
-| `stats`             | 플레이어의 능력치 참조      | `PlayerStats`      | `Private`  |
-| `equipmentManager`  | 플레이어 장비 참조        | `EquipmentManager` | `Private`  |
-| `itemManager`       | 플레이어 아이템 참조       | `ItemManager`      | `Private`  |
-| `level`             | 플레이어 레벨           | `int`              | `Private`  |
-| `currentExp`        | 플레이어의 현재 경험치      | `int`              | `Private`  |
-| `maxExp`            | 플레이어의 최대 경험치      | `int`              | `Private`  |
-| `killCount`         | 플레이어의 적 처치 수      | `int`              | `Private`  |
-| `gold`              | 플레이어의 보유 재화       | `int`              | `Private`  |
-| `OnPlayerLeveledUp` | 레벨 상승을 알리는 C# 이벤트 | `Action`           | `Private`  |
-
-**Operations (메서드)**
-
-| Name                                   | Description           | Type (Return) | Visibility |
-|:---------------------------------------|:----------------------|:--------------|:-----------|
-| `Move(direction: Vector2)`             | 플레이어 이동 처리            | `void`        | `Public`   |
-| `UseItem(slotIndex: int)`              | 아이템 사용                | `void`        | `Public`   |
-| `TakeDamage(amount: float)`            | 입은 피해 처리              | `void`        | `Public`   |
-| `Heal(amount: float)`                  | Hp 회복 처리              | `void`        | `Public`   |
-| `GainExp(amount: int)`                 | 경험치 회복                | `void`        | `Public`   |
-| `LevelUp()`                            | 레벨 증가                 | `void`        | `Public`   |
-| `Die()`                                | 플레이어 사망 처리            | `void`        | `Public`   |
-| `AddEquipment(data: Equipment)`        | 플레이어 장비 추가 호출         | `void`        | `Public`   |
-| `AddItem(data: Item)`                  | 플레이어 아이템 추가 호출        | `void`        | `Public`   |
-| `ApplyAllUpgrades(stats: PlayerStats)` | 영구 능력치 강화를 인게임에 적용    | `void`        | `Public`   |
-| `CanSpendGold(amount: int)`            | 충분한 재화를 가지고 있는지 비교 연산 | `bool`        | `Public`   |
-| `SpendGold(amount: int)`               | 재화 감소 처리              | `void`        | `Public`   |
-
-### Class: [PlayerStats]
-* **Description:** 플레이어의 능력치를 관리하는 데이터 클래스
-
-**Attributes (속성)**
-
-| Name                  | Description   | Type    | Visibility |
-|:----------------------|:--------------|:--------|:-----------|
-| `Hp`                  | 체력            | `float` | `Private`  |
-| `speed`               | 이동 속도         | `float` | `Private`  |
-| `magnetRange`         | 드랍 오브젝트 획득 범위 | `float` | `Private`  |
-| `reduceDamage`        | 입는 피해 감소      | `float` | `Private`  |
-| `damageMult`          | 입히는 피해 배수     | `float` | `Private`  |
-| `criticalProbability` | 치명타 확률        | `float` | `Private`  |
-| `criticalDamageMult`  | 치명타 피해 배율     | `float` | `Private`  |
-| `expMult`             | 획득 경험치 배율     | `float` | `Private`  |
-| `goldMult`            | 획득 재화 배율      | `float` | `Private`  |
-| `reduceCooldownMult`  | 장비 쿨다운 감소 배율  | `float` | `Private`  |
-| `projectileSpeedMult` | 투사체 속도 배율     | `float` | `Private`  |
-
-
-### Class: [EquipmentManager]
-* **Description:** 플레이어의 장비를 관리하는 매니저 클래스
-
-**Attributes (속성)**
-
-| Name            | Description | Type                    | Visibility |
-|:----------------|:------------|:------------------------|:-----------|
-| `currentEquips` | 보유 장비 리스트   | `List<Equipment>[0..5]` | `Private`  |
-
-**Operations (메서드)**
-
-| Name                                              | Description       | Type (Return) | Visibility |
-|:--------------------------------------------------|:------------------|:--------------|:-----------|
-| `UpdateAllEquipments(deltaTime: float)`           | 장비의 쿨다운, 자동 공격 갱신 | `void`        | `Public`   |
-| `AddOrLevelUpEquipment(equipmentData: Equipment)` | 장비 획득 처리          | `void`        | `Public`   |
-
-### Class: [ItemManager]
-* **Description:** 플레이어의 아이템을 관리하는 매니저 클래스
-
-**Attributes (속성)**
-
-| Name           | Description | Type               | Visibility |
-|:---------------|:------------|:-------------------|:-----------|
-| `currentItems` | 보유 장비 리스트   | `List<Item>[0..2]` | `Private`  |
-
-**Operations (메서드)**
-
-| Name                                       | Description | Type (Return) | Visibility |
-|:-------------------------------------------|:------------|:--------------|:-----------|
-| `ActivateItem(slotIndex: int)`             | 아이템 사용      | `void`        | `Public`   |
-| `UpdateAllItemCooldowns(deltaTime: float)` | 아이템 쿨다운 갱신  | `void`        | `Public`   |
-
-## 3.2.3 UI Class
-
-### Class: [HUDManager]
-* **Description:** 인게임 씬의 실시간 정보 인터페이스를 관리하는 클래스
-
-**Attributes (속성)**
-
-| Name             | Description    | Type              | Visibility |
-|:-----------------|:---------------|:------------------|:-----------|
-| `hpBar`          | 플레이어의 체력 바     | `Slider`          | `Private`  |
-| `expBar`         | 플레이어의 경험치 바    | `Slider`          | `Private`  |
-| `bossHpBar`      | 보스 몬스터의 체력 바   | `Slider`          | `Private`  |
-| `timerText`      | 게임이 진행된 시간 텍스트 | `TextMeshProUGUI` | `Private`  |
-| `goldText`       | 보유 중인 재화 텍스트   | `TextMeshProUGUI` | `Private`  |
-| `killCountText`  | 처치한 적의 수 텍스트   | `TextMeshProUGUI` | `Private`  |
-| `questInfoPanel` | 돌발 이벤트의 정보 패널  | `GameObject`      | `Private`  |
-
-**Operations (메서드)**
-
-| Name                                               | Description  | Type (Return) | Visibility |
-|:---------------------------------------------------|:-------------|:--------------|:-----------|
-| `UpdateHpBar(current: float, max: float)`          | 체력 바 갱신      | `void`        | `Public`   |
-| `UpdateExpBar(current: float, max: float)`         | 경험치 바 갱신     | `void`        | `Public`   |
-| `UpdateTimer(time: float)`                         | 시간 텍스트 갱신    | `void`        | `Public`   |
-| `UpdateGold(amount: int)`                          | 보유 재화 텍스트 갱신 | `void`        | `Public`   |
-| `ShowBossHpBar(current: float, max: float)`        | 보스 체력 바 표시   | `void`        | `Public`   |
-| `ToggleQuestInfo(show: bool, description: string)` | 돌발 이벤트 정보 표시 | `void`        | `Public`   |
-
-### Class: [InGamePanelManager]
-* **Description:** 인게임 씬의 패널 UI를 관리하는 클래스
-
-**Attributes (속성)**
-
-| Name             | Description | Type         | Visibility |
-|:-----------------|:------------|:-------------|:-----------|
-| `rewardPanel`    | 보상 패널       | `GameObject` | `Private`  |
-| `pausePanel`     | 일시 정지 패널    | `GameObject` | `Private`  |
-| `settingPanel`   | 설정 패널       | `GameObject` | `Private`  |
-| `gameOverPanel`  | 게임 오버 패널    | `GameObject` | `Private`  |
-| `gameClearPanel` | 게임 클리어 패널   | `GameObject` | `Private`  |
-
-**Operations (메서드)**
-
-| Name                             | Description                        | Type (Return) | Visibility |
-|:---------------------------------|:-----------------------------------|:--------------|:-----------|
-| `ShowRewardPanel(show: bool)`    | 보상 패널 호출                           | `void`        | `Public`   |
-| `ShowPausePanel(show: bool)`     | 일시 정지 패널 호출                        | `void`        | `Public`   |
-| `ShowSettingPanel(show: bool)`   | 설정 패널 호출                           | `void`        | `Public`   |
-| `ShowGameOverPanel(show: bool)`  | 게임 오버 패널 호출                        | `void`        | `Public`   |
-| `ShowGameClearPanel(show: bool)` | 게임 클리어 패널 호출                       | `void`        | `Public`   |
-| `OnResumeClick()`                | 게임 재개 버튼이 수행하는 기능을 포함하는 메서드        | `void`        | `Public`   |
-| `OnMainMenuClick()`              | 메인 화면으로 돌아가기 버튼이 수행하는 기능을 포함하는 메서드 | `void`        | `Public`   |
-
-### Class: [RewardManager]
-* **Description:** 보상 시스템을 관리하는 클래스
-
-**Attributes (속성)**
-
-| Name            | Description | Type            | Visibility |
-|:----------------|:------------|:----------------|:-----------|
-| `rerollCount`   | 현재 새로고침 횟수  | `int`           | `Private`  |
-| `rerollPrice`   | 새로고침 비용     | `int`           | `Private`  |
-| `playerManager` | 플레이어 매니저 참조 | `PlayerManager` | `Private`  |
-
-**Operations (메서드)**
-
-| Name                                    | Description        | Type (Return) | Visibility |
-|:----------------------------------------|:-------------------|:--------------|:-----------|
-| `GenerateRewards()`                     | 보상 선택지 생성          | `void`        | `Public`   |
-| `OnRewardSelected(data: EquipmentData)` | 보상 선택              | `void`        | `Public`   |
-| `OnRerollPressed()`                     | 보상 선택지 새로고침        | `void`        | `Public`   |
-| `OnSkipPressed()`                       | 보상 안 받고 넘기기        | `void`        | `Public`   ||
-| `getRerollPrice()`                      | 보상 선택지 새로 고침 비용 연산 | `int`         | `Public`   |
-
-### Class: [MainMenuPanelManager]
-* **Description:** 메인 메뉴 씬의 패널 UI를 관리하는 클래스
-
-**Attributes (속성)**
-
-| Name           | Description  | Type         | Visibility |
-|:---------------|:-------------|:-------------|:-----------|
-| `upgradePanel` | 캐릭터 영구 강화 패널 | `GameObject` | `Private`  |
-| `codexPanel`   | 도감 패널        | `GameObject` | `Private`  |
-| `settingPanel` | 설정 화면 패널     | `GameObject` | `Private`  |
-
-**Operations (메서드)**
-
-| Name                            | Description     | Type (Return) | Visibility |
-|:--------------------------------|:----------------|:--------------|:-----------|
-| `ShowUpgradePanel(show: bool)`  | 캐릭터 영구 강화 패널 호출 | `void`        | `Public`   |
-| `ShowCodexPanel(show: bool)`    | 도감 패널 호출        | `void`        | `Public`   |
-| `ShowSettingsPanel(show: bool)` | 설정 화면 패널 호출     | `void`        | `Public`   |
-
-### Class: [UpgradeManager]
-* **Description:** 캐릭터 능력치 영구 강화를 관리하는 클래스
-
-**Attributes (속성)**
-
-| Name                         | Description  | Type  | Visibility |
-|:-----------------------------|:-------------|:------|:-----------|
-| `hpUpgrade`                  | 체력 강화 단계     | `int` | `Private`  |
-| `speedUpgrade`               | 이동 속도 강화 단계  | `int` | `Private`  |
-| `magnetUpgrade`              | 드롭 획득 범위 증가  | `int` | `Private`  |
-| `criticalProbabilityUpgrade` | 치명타 확률 증가    | `int` | `Private`  |
-| `criticalDamageMultUpgrade`  | 치명타 피해 배율 증가 | `int` | `Private`  |
-| `expMultUpgrade`             | 경험치 획득 배율 증가 | `int` | `Private`  |
-| `goldMult`                   | 재화 획득 배율 증가  | `int` | `Private`  |
-
-**Operations (메서드)**
-
-| Name                                      | Description    | Type (Return) | Visibility |
-|:------------------------------------------|:---------------|:--------------|:-----------|
-| `UpgradeStat(statToUpgrade: StatType)`    | 능력치 강화         | `void`        | `Public`   |
-| `GetUpgradeCost(statToUpgrade: StatType)` | 능력치 강화 비용 계산   | `void`        | `Public`   |
-
-### Class: [CodexManager]
-* **Description:** 도감 메뉴를 관리하는 클래스
-
-**Attributes (속성)**
-
-| Name          | Description       | Type                    | Visibility |
-|:--------------|:------------------|:------------------------|:-----------|
-| `monsterList` | 조우한 몬스터 리스트       | `List<Monster>[0..*]`   | `Private`  |
-| `equipList`   | 획득 이력이 있는 장비 리스트  | `List<Equipment>[0..*]` | `Private`  |
-| `itemList`    | 획득 이력이 있는 아이템 리스트 | `List<Item>[0..*]`      | `Private`  |
-
-### Class: [SettingManager]
-* **Description:** 설정 메뉴를 관리하는 클래스
-
-**Attributes (속성)**
-
-| Name              | Description | Type    | Visibility |
-|:------------------|:------------|:--------|:-----------|
-| `masterVolume`    | 마스터 불륨      | `float` | `Private`  |
-| `bgmVolume`       | 배경 음악 불륨    | `float` | `Private`  |
-| `sfxVolume`       | 효과음 불륨      | `float` | `Private`  |
-| `resolutionIndex` | 해상도         | `int`   | `Private`  |
-| `isFullScreen`    | 전체 화면 여부    | `bool`  | `Private`  |
-
-**Operations (메서드)**
-
-| Name                            | Description | Type (Return) | Visibility |
-|:--------------------------------|:------------|:--------------|:-----------|
-| `SetMasterVolume(level: float)` | 불륨 설정       | `void`        | `Public`   |
-| `SetBgmVolume(level: float)`    | 배경 음악 불륨 설정 | `void`        | `Public`   |
-| `SetSfxVolume(level: float)`    | 효과음 불륨 설정   | `void`        | `Public`   |
-| `ApplyResolution(index: int)`   | 해상도 설정      | `void`        | `Public`   |
-
-## 3.2.4 Data Class
-
-### Class: [Equipment]
-* **Description:** 모든 장비가 상속받는 추상 클래스
-
-**Attributes (속성)**
-
-| Name          | Description | Type     | Visibility |
-|:--------------|:------------|:---------|:-----------|
-| `name`        | 이름          | `string` | `Private`  |
-| `description` | 설명          | `string` | `Private`  |
-| `icon`        | 장비 스프라이트    | `Sprite` | `Private`  |
-| `level`       | 장비 레벨       | `int`    | `Private`  |
-| `cooldown`    | 쿨다운         | `float`  | `Private`  |
-
-**Operations (메서드)**
-
-| Name                               | Description | Type (Return) | Visibility |
-|:-----------------------------------|:------------|:--------------|:-----------|
-| `PerformAttack()`                  | 자동 공격       | `void`        | `Public`   |
-| `LevelUp()`                        | 장비 레벨 증가    | `void`        | `Public`   |
-| `UpdateCooldown(deltaTime: float)` | 쿨다운 갱신      | `void`        | `Public`   |
-
-### Class: [Item]
-* **Description:** 모든 아이템이 상속받는 추상 클래스
-
-**Attributes (속성)**
-
-| Name          | Description | Type     | Visibility |
-|:--------------|:------------|:---------|:-----------|
-| `name`        | 이름          | `string` | `Private`  |
-| `description` | 설명          | `string` | `Private`  |
-| `icon`        | 아이템 스프라이트   | `Sprite` | `Private`  |
-| `durability`  | 최대 사용 횟수    | `int`    | `Private`  |
-| `cooldown`    | 쿨다운         | `float`  | `Private`  |
-
-**Operations (메서드)**
-
-| Name                               | Description | Type (Return) | Visibility |
-|:-----------------------------------|:------------|:--------------|:-----------|
-| `Activate()`                       | 아이템 사용      | `void`        | `Public`   |
-| `UpdateCooldown(deltaTime: float)` | 쿨다운 갱신      | `void`        | `Public`   |
-
-### Class: [Projectile]
-* **Description:** 투사체의 정보를 담는 클래스
-
-**Attributes (속성)**
-
-| Name      | Description | Type    | Visibility |
-|:----------|:------------|:--------|:-----------|
-| `genTime` | 객체가 생성된 시간  | `float` | `Private`  |
-| `maxTime` | 객체가 소멸하는 시간 | `float` | `Private`  |
-| `damage`  | 투사체 피해량     | `float` | `Private`  |
-
-### Class: [BaseQuest]
-* **Description:** 모든 돌발 이벤트가 상속받는 추상 클래스
-
-**Attributes (속성)**
-
-| Name         | Description | Type    | Visibility |
-|:-------------|:------------|:--------|:-----------|
-| `questTimer` | 이벤트 지속 시간   | `float` | `Private`  |
-
-**Operations (메서드)**
-
-| Name            | Description  | Type (Return) | Visibility |
-|:----------------|:-------------|:--------------|:-----------|
-| `Start()`       | 이벤트 시작       | `void`        | `Public`   |
-| `UpdateQuest()` | 이벤트 완료 여부 갱신 | `void`        | `Public`   |
-| `End()`         | 이벤트 종료       | `void`        | `Public`   |
-
-### Class: [DefenceQuest]
-* **Description:** 특정 시간동안 거점을 방어하는 돌발 이벤트를 정의하는 클래스
-
-**Attributes (속성)**
-
-| Name       | Description | Type    | Visibility |
-|:-----------|:------------|:--------|:-----------|
-| `objectHp` | 방어 대상 체력    | `float` | `Public`   |
-
-
-## 3.2.5 Monster Class
-
-### Class: [Monster]
-* **Description:** 모든 몬스터의 기본 속성과 행동을 정의하는 추상 클래스
-
-**Attributes (속성)**
-
-| Name            | Description | Type     | Visibility |
-|:----------------|:------------|:---------|:-----------|
-| `name`          | 이름          | `string` | `Private`  |
-| `description`   | 설명          | `string` | `Private`  |
-| `icon`          | 몬스터 스프라이트   | `Sprite` | `Private`  |
-| `maxHp`         | 최대 체력       | `float`  | `Public`   |
-| `currentHp`     | 현재 체력       | `float`  | `Public`   |
-| `damage`        | 공격력         | `float`  | `Public`   |
-| `moveSpeed`     | 이동 속도       | `float`  | `Public`   |
-| `dropExpAmount` | 드롭할 경험치 양   | `int`    | `Public`   |
-
-**Operations (메서드)**
-
-| Name                                                            | Description   | Type (Return) | Visibility |
-|:----------------------------------------------------------------|:--------------|:--------------|:-----------|
-| `Move(targetPosition: Vector2)`                                 | 대상 위치로 이동     | `void`        | `Public`   |
-| `TakeDamage(amount: float)`                                     | 피해를 입음        | `void`        | `Public`   |
-| `Die()`                                                         | 사망 처리         | `void`        | `Public`   |
-| `PerformAttack(target: PlayerManager)`                          | 플레이어 공격       | `void`        | `Public`   |
-| `SpawnAcquirable(object: AcquireableObject, position: Vector2)` | 획득 가능 오브젝트 생성 | `void`        | `Public`   |
-
-### Class: [BossMonster]
-* **Description:** Monster 클래스를 상속받는 보스 몬스터 클래스
-
-**Operations (메서드)**
-
-| Name                                   | Description             | Type (Return) | Visibility |
-|:---------------------------------------|:------------------------|:--------------|:-----------|
-| `PerformAttack(target: PlayerManager)` | 플레이어 공격                 | `void`        | `Public`   |
-| `Die()`                                | 보물 상자를 드롭하는 등 확장된 사망 처리 | `void`        | `Public`   |
-
-### Class: [NormalMonster]
-* **Description:** Monster 클래스를 상속받는 일반 몬스터 클래스
-
-**Operations (메서드)**
-
-| Name                                   | Description | Type (Return) | Visibility |
-|:---------------------------------------|:------------|:--------------|:-----------|
-| `PerformAttack(target: PlayerManager)` | 플레이어 공격     | `void`        | `Public`   |
-
-## 3.2.6 Acquirable Class
-
-### Class: [AcquirableObject]
-* **Description:** 플레이어가 획득할 수 있는 모든 오브젝트의 부모 추상 클래스
-
-**Attributes (속성)**
-
-| Name       | Description | Type      | Visibility |
-|:-----------|:------------|:----------|:-----------|
-| `position` | 오브젝트 위치     | `Vector2` | `Public`   |
-
-**Operations (메서드)**
-
-| Name                                  | Description      | Type (Return) | Visibility |
-|:--------------------------------------|:-----------------|:--------------|:-----------|
-| `MoveToPlayer(target: PlayerManager)` | 플레이어 방향으로 이동     | `void`        | `Public`   |
-| `OnAcquire(player: PlayerManager)`    | 플레이어에게 획득될 때의 동작 | `void`        | `Public`   |
-
-### Class: [ExperienceOrb]
-* **Description:** AcquirableObject 클래스를 상속받는 경험치 구슬 클래스
-
-**Attributes (속성)**
-
-| Name        | Description  | Type  | Visibility |
-|:------------|:-------------|:------|:-----------|
-| `expAmount` | 구슬이 주는 경험치 양 | `int` | `Public`   |
-
-**Operations (메서드)**
-
-| Name                               | Description   | Type (Return) | Visibility |
-|:-----------------------------------|:--------------|:--------------|:-----------|
-| `OnAcquire(player: PlayerManager)` | 플레이어에게 경험치 전달 | `void`        | `Public`   |
-
-### Class: [TreasureChest]
-* **Description:** AcquirableObject 클래스를 상속받는 보물 상자 클래스
-
-**Operations (메서드)**
-
-| Name                               | Description      | Type (Return) | Visibility |
-|:-----------------------------------|:-----------------|:--------------|:-----------|
-| `OnAcquire(player: PlayerManager)` | 보상 패널 호출 등 획득 처리 | `void`        | `Public`   |
+## 📂 3.2.1 Core 관련 클래스
+
+### 📦AudioManager
+> **Description:**
+> 게임의 모든 사운드를 관리하는 매니저 클래스
+
+
+**🟢Attributes (속성)**
+
+| Name            | Description              | Type                            | Visibility      |
+|:----------------|:-------------------------|:--------------------------------|:----------------|
+| `Instance`      | `AudioManager`의 싱글톤 인스턴스 | `AudioManager`                  | `Public Static` |
+| `bgmSource`     | 배경 음악 재생에 사용되는 컴포넌트      | `AudioSource`                   | `Private`       |
+| `sfxSource`     | 효과음 재생에 사용되는 컴포넌트        | `AudioSource`                   | `Private`       |
+| `bgmClips`      | 인스펙터에 할당된 BGM 클립 배열      | `AudioClip[]`                   | `Private`       |
+| `sfxClips`      | 인스펙터에 할당된 SFX 클립 배열      | `AudioClip[]`                   | `Private`       |
+| `bgmDictionary` | BGM 클립 이름으로 검색하기 위한 딕셔너리 | `Dictionary<string, AudioClip>` | `Private`       |
+| `sfxDictionary` | SFX 클립 이름으로 검색하기 위한 딕셔너리 | `Dictionary<string, AudioClip>` | `Private`       |
+| `masterVolume`  | 전체 마스터 볼륨 레벨             | `float`                         | `Private`       |
+| `bgmVolume`     | BGM 개별 볼륨 레벨             | `float`                         | `Private`       |
+| `sfxVolume`     | SFX 개별 볼륨 레벨             | `float`                         | `Private`       |
+
+**🔷Operations (메서드)**
+
+| Name                            | Description                         | Type (Return) | Visibility |
+|:--------------------------------|:------------------------------------|:--------------|:-----------|
+| `InitializeAudioDictionary()`   | 배열의 내용을 클립을 이름으로 초기화하는 메서드          | `void`        | `Private`  |
+| `PlayBGM(clipName: string)`     | 지정된 이름의 BGM 재생하는 메서드                | `void`        | `Public`   |
+| `PlaySfx(clipName: string)`     | 지정된 이름의 SFX 클립을 재생하는 메서드            | `void`        | `Public`   |
+| `StopBGM()`                     | BGM을 끄는 메서드                         | `void`        | `Public`   |
+| `SetMasterVolume(level: float)` | 마스터 볼륨을 설정하고, 이 값을 반영하는 메서드         | `void`        | `Public`   |
+| `SetBgmVolume(level: float)`    | BGM 개별 볼륨을 설정하고, 이 값을 반영하는 메서드      | `void`        | `Public`   |
+| `SetSfxVolume(level: float)`    | SFX 개별 볼륨을 설정하고, 이 값을 반영하는 메서드      | `void`        | `Public`   |
+| `LoadVolumeSettings()`          | PlayerPrefs에 저장되어 있는 설정 값을 불러오는 메서드 | `void`        | `Public`   |
+| `UpdateAudioSourceVolumes()`    | 개별 사운드에 마스터 불륨을 적용하는 메서드            | `void`        | `Public`   |
+
+### 📦GameManager
+> **Description:**
+> Manager 클래스들을 종합 관리하는 마스터 클래스
+
+**🟢Attributes (속성)**
+
+| Name                  | Description                     | Type                      | Visibility      |
+|:----------------------|:--------------------------------|:--------------------------|:----------------|
+| `Instance`            | `GameManager`의 씬을 넘나드는 싱글톤 인스턴스 | `GameManager`             | `Public Static` |
+| `OnTimeChanged`       | 게임 시간이 변경될 때 발생하는 이벤트           | `event Action<float>`     | `Public`        |
+| `OnGameStateChanged`  | 게임 상태가 변경될 때 발생하는 이벤트           | `event Action<GameState>` | `Public`        |
+| `IsTimerStopped`      | 타이머만 멈출지 여부를 설정하는 플래그           | `bool`                    | `Public`        |
+| `_currentState`       | 현재 게임 상태를 저장하는 백킹 필드            | `GameState`               | `Private`       |
+| `_gameTime`           | 현재 플레이 시간을 저장하는 백킹 필드           | `float`                   | `Private`       |
+| `_playerManager`      | `PlayerManager` 인스턴스 참조         | `PlayerManager`           | `Private`       |
+| `_rewardManager`      | `RewardManager` 인스턴스 참조         | `RewardManager`           | `Private`       |
+| `_inGamePanelManager` | `InGamePanelManager` 인스턴스 참조    | `InGamePanelManager`      | `Private`       |
+| `_inputManager`       | `InputManager` 인스턴스 참조          | `InputManager`            | `Private`       |
+
+**🔷Operations (메서드)**
+
+| Name                                               | Description                                          | Type (Return) | Visibility |
+|:---------------------------------------------------|:-----------------------------------------------------|:--------------|:-----------|
+| `PauseGame()`                                      | 게임을 일시정지하고, 게임시간을 멈추고, 일시정지 패널을 표시하는 메서드             | `void`        | `Public`   |
+| `ResumeGame()`                                     | 게임을 재개하고, 게임 시간을 흐르게 하고, 일시정지 패널을 닫는 메서드             | `void`        | `Public`   |
+| `HandlePauseInput()`                               | `Playing` 상태와 `Paused` 상태를 토글하는 메서드                  | `void`        | `Private`  |
+| `GameOver()`                                       | 게임 오버 처리 메서드                                         | `void`        | `Public`   |
+| `GameClear()`                                      | 게임 클리어 처리 메서드                                        | `void`        | `Public`   |
+| `StartGame()`                                      | 상태를 초기화하고  새 게임을 시작하는 메서드                            | `void`        | `Public`   |
+| `GoToMainMenu()`                                   | 상태 초기화 후 메인 메뉴 씬을 로드하는 메서드                           | `void`        | `Public`   |
+| `RestartGame()`                                    | 게임을 다시 시작하는 메서드                                      | `void`        | `Public`   |
+| `Shutdown()`                                       | 애플리케이션을 종료하는 메서드                                     | `void`        | `Public`   |
+| `HandlePlayerLeveledUp()`                          | 플레이어 레벨업 또는 보물상자 획득 시 호출되며, 보상 시스템을 시작, 게임을 멈추는 메서드  | `void`        | `Private`  |
+| `HandleRewardFinished()`                           | 보상을 받고나서, 보상 패널을 닫고 게임 재개하는 메서드                      | `void`        | `Private`  |
+| `OnSceneLoaded(scene: Scene, mode: LoadSceneMode)` | 씬 로드 시마다 호출되어 이전 씬 이벤트 구독을 해제하고, 인게임 씬인 경우 초기화하는 메서드 | `void`        | `Private`  |
+| `InitializeInGameManagers()`                       | 인게임 씬 로드 후 매니저들을 찾아 연결하고 필요한 이벤트를 구독하는 메서드           | `IEnumerator` | `Private`  |
+| `UnsubscribeInGameEvents()`                        | 씬 전환 또는 파괴 시 인게임 매니저들의 이벤트 구독을 안전하게 해제하는 메서드         | `void`        | `Private`  |
+
+### 📦InputManager
+> **Description:**
+> 사용자의 입력을 받아와 처리하고, 이벤트 형태로 필요한 곳에 분배하는 매니저 클래스
+
+**🟢Attributes (속성)**
+
+| Name              | Description                 | Type                    | Visibility |
+|:------------------|:----------------------------|:------------------------|:-----------|
+| `OnMovementInput` | 이동 입력이 변경될 때마다 호출되는 이벤트     | `event Action<Vector2>` | `Public`   |
+| `OnPausePressed`  | 일시정지 키(ESC)가 눌렸을 때 호출되는 이벤트 | `event Action`          | `Public`   |
+| `GetItemUseInput` | 아이템 슬롯 키가 눌렸을 때 호출되는 이벤트    | `event Action<int>`     | `Public`   |
+| `horizontalInput` | 현재 수평 입력 값                  | `float`                 | `Private ` |
+| `verticalInput`   | 현재 수직 입력 값                  | `float`                 | `Private ` |
+| `mouseXInput`     | 현재 마우스 X축 입력 값              | `float`                 | `Private ` |
+| `mouseYInput`     | 현재 마우스 Y축 입력 값              | `float`                 | `Private ` |
+| `jumpInput`       | 점프 입력 상태                    | `bool`                  | `Private`  |
+| `pauseInput`      | 일시정지 입력 상태 (ESC 키)          | `bool`                  | `Private`  |
+| `dashInput`       | 대시 입력 상태 (Space 키)          | `bool`                  | `Private`  |
+| `useItemInput`    | 사용하려는 아이템 슬롯 번호             | `int`                   | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                | Description                                        | Type (Return) | Visibility |
+|:------------------------------------|:---------------------------------------------------|:--------------|:-----------|
+| `Init()`                            | 모든 입력 값을 초기화하는 메서드                                 | `void`        | `Public`   |
+| `ProcessInput()`                    | 매 프레임 입력 상태를 받아와 필드에 저장하고, 유효한 입력에 대해 이벤트 방송하는 메서드 | `void`        | `Public`   |
+| `IsKeyPressed(keyCode: KeyCode)`    | 특정 키가 눌리고 있는지 확인하는 메서드                             | `bool`        | `Public`   |
+| `IsKeyDown(keyCode: KeyCode)`       | 특정 키가 눌렸는지 확인하는 메서드                                | `bool`        | `Public`   |
+| `GetMouseCoord()`                   | 현재 마우스 커서의 씬 좌표를 반환하는 메서드                          | `Vector2`     | `Public`   |
+| `IsMouseButtonPressed(button: int)` | 특정 마우스 버튼을 누르고 있는지 확인하는 메서드                        | `bool`        | `Public`   |
+| `IsMouseButtonDown(button: int)`    | 특정 마우스 버튼이 눌렸는지 확인하는 메서드                           | `bool`        | `Public`   |
+
+### 📦PoolManager
+> **Description:**
+> 오브젝트를 미리 생성하거나 재활용하여 성능 부하를 줄이는 오브젝트 풀링 시스템의 중앙 관리 클래스
+
+**🟢Attributes (속성)**
+
+| Name          | Description                        | Type                                 | Visibility      |
+|:--------------|:-----------------------------------|:-------------------------------------|:----------------|
+| `Instance`    | `PoolManager`의 싱글톤 인스턴스            | `PoolManager`                        | `Public Static` |
+| `_pools`      | Instance ID를 통해 풀 관리용 딕셔너리         | `Dictionary<int, Queue<GameObject>>` | `Private`       |
+| `_containers` | Hierarchy 정리를 위한, 풀별 부모를 관리하는 딕셔너리 | `Dictionary<int, Transform>`         | `Private`       |
+
+**🔷Operations (메서드)**
+
+| Name                                                               | Description                             | Type (Return) | Visibility |
+|:-------------------------------------------------------------------|:----------------------------------------|:--------------|:-----------|
+| `Get(prefab: GameObject, position: Vector3, rotation: Quaternion)` | 풀에서 오브젝트를 가져와 활성화하고 위치/회전을 설정하는 메서드     | `GameObject`  | `Public`   |
+| `ReturnToPool(obj: GameObject, prefab: GameObject)`                | 사용이 끝난 오브젝트를 비활성화하고 해당 프리팹의 풀에 반환하는 메서드 | `void`        | `Public`   |
+| `Preload(prefab: GameObject, count: int)`                          | 특정 프리팹에 대해 지정된 개수만큼 오브젝트를 미리 생성하는 메서드   | `void`        | `Public`   |
+| `InitPool(prefab: GameObject)`                                     | 풀이 들어갈 부모를 초기화 하는 메서드                   | `void`        | `Private`  |
+
+### 📦SaveManager
+> **Description:**
+> 게임 내용, 게임 재화 그리고 강화레벨 등 게임의 영구적인 데이터를 저장하고 불러오는 클래스
+
+**🟢Attributes (속성)**
+
+| Name                     | Description                             | Type           | Visibility |
+|:-------------------------|:----------------------------------------|:---------------|:-----------|
+| `UnlockData`             | `HashSet<string>`을 JSON 직렬화하기 위한 래퍼 클래스 | `class`        | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                                                   | Description                                | Type (Return)                                   | Visibility       |
+|:-----------------------------------------------------------------------|:-------------------------------------------|:------------------------------------------------|:-----------------|
+| `Save()`                                                               | `PlayerPrefs`에 임시 저장된 모든 데이터를 영구 저장하는 메서드  | `void`                                          | `Public Static`  |
+| `DeleteAll()`                                                          | `PlayerPrefs`에 저장된 데이터 삭제하는 메서드            | `void`                                          | `Public Static`  |
+| `HasKey(key: string)`                                                  | 지정된 키에 해당하는 데이터가 있는지 확인하는 메서드              | `bool`                                          | `Public Static`  |
+| `SaveGold(amount: int)`                                                | 현재 골드 저장하는 메서드                             | `void`                                          | `Public Static`  |
+| `LoadGold()`                                                           | 저장된 골드를 불러오는 메서드                           | `int`                                           | `Public Static`  |
+| `SaveUpgradeLevel(upgradeType: UpgradeType, level: int)`               | 특정 능력치의 강화 레벨을 저장하는 메서드                    | `void`                                          | `Public Static`  |
+| `LoadUpgradeLevel(upgradeType: UpgradeType)`                           | 특정 능력치의 강화 레벨을 불러오는 메서드                    | `int`                                           | `Public Static`  |
+| `GetUpgradeKey(upgradeType: UpgradeType)`                              | `UpgradeType`을 기반으로 고유한 저장 키 문자열을 생성하는 메서드 | `string`                                        | `Private Static` |
+| `SaveUnlockedMonsters(unlockedIds: HashSet<string>)`                   | 몬스터 언락 ID 목록을 저장하는 메서드                     | `void`                                          | `Public Static`  |
+| `LoadUnlockedMonsters()`                                               | 몬스터 언락 ID 목록을 불러오는 메서드                     | `HashSet<string>`                               | `Public Static`  |
+| `SaveUnlockedEquipment(unlockedIds: HashSet<string>)`                  | 장비 언락 ID 목록을 저장하는 메서드                      | `void`                                          | `Public Static`  |
+| `LoadUnlockedEquipment()`                                              | 장비 언락 ID 목록을 불러오는 메서드                      | `HashSet<string>`                               | `Public Static`  |
+| `SaveUnlockedItems(unlockedIds: HashSet<string>)`                      | 아이템 언락 ID 목록을 저장하는 메서드                     | `void`                                          | `Public Static`  |
+| `LoadUnlockedItems()`                                                  | 아이템 언락 ID 목록을 불러오는 메서드                     | `HashSet<string>`                               | `Public Static`  |
+| `SaveVolume(volumeType: string, value: float)`                         | 마스터, BGM, SFX 볼륨 값을 저장하는 메서드               | `void`                                          | `Public Static`  |
+| `LoadVolume(volumeType: string, defaultValue = 1.0f: float )`          | 지정된 볼륨 타입의 값을 불러오는 메서드                     | `float`                                         | `Public Static`  |
+| `SaveResoulutionSettings(width: int, height: int, isFullScreen: bool)` | 설정한 해상도를 저장하는 메서드                          | `void`                                          | `public static`  |
+| `LoadResoulutionSettings()`                                            | 설정한 해상도를 불러오는 메서드                          | `(width: int, height: int, isFullScreen: bool)` | `public static`  |
+
+### 📦SettingManager
+> **Description:**
+> UI 컴포넌트와 AudioManager를 연결하여 해상도, 전체화면 상태, 오디오 볼륨 등 게임의 환경 설정을 관리하고 적용하는 클래스
+
+**🟢Attributes (속성)**
+
+| Name                 | Description               | Type               | Visibility |
+|:---------------------|:--------------------------|:-------------------|:-----------|
+| `resolutionDropdown` | 해상도 목록을 표시하는 UI 드롭다운 컴포넌트 | `TMP_Dropdown`     | `Private`  |
+| `fullScreenToggle`   | 전체화면 여부를 설정하는 UI 토글 컴포넌트  | `Toggle`           | `Private`  |
+| `masterSlider`       | 마스터 볼륨 설정용 UI 슬라이더 컴포넌트   | `Slider`           | `Private`  |
+| `bgmSlider`          | BGM 볼륨 설정용 UI 슬라이더 컴포넌트   | `Slider`           | `Private`  |
+| `sfxSlider`          | SFX 볼륨 설정용 UI 슬라이더 컴포넌트   | `Slider`           | `Private`  |
+| `resolutionIndex`    | 선택된 해상도 번호                | `int`              | `Private`  |
+| `isFullScreen`       | 전체화면 여부 설정                | `bool`             | `Private`  |
+| `targetResolution`   | Unity에서 지원하는 해상도 목록       | `List<Resolution>` | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                           | Description                           | Type (Return) | Visibility |
+|:-------------------------------|:--------------------------------------|:--------------|:-----------|
+| `SetResolution(index: int)`    | UI 드롭다운에서 선택된 해상도 번호를 임시 변수에 저장하는 메서드 | `void`        | `Public`   |
+| `PickFullScreen(isFull: bool)` | UI 토글에서 선택된 전체화면 여부를 임시 변수에 저장하는 메서드  | `void`        | `Public`   |
+| `ApplyResolution()`            | 선택된 해상도 옵션을 적용하는 메서드                  | `void`        | `Public`   |
+| `Init_Resolution()`            | 시스템에서 지원하는 해상도 목록을 가져와 ui에 반영하는 메서드   | `void`        | `Private`  |
+| `Init_VolumeSettings()`        | 저장된 사운드 세팅을 가져와서 ui를 초기화 하는 메서드       | `void`        | `Private`  |
+| `LoadAndApplySavedSettings()`  | 해상도 설정을 불러오고 적용, ui를 초기화 하는 메서드       | `void`        | `Private`  |
+
+### 📦UpgradeManager
+> **Description:**
+> 플레이어 능력치 강화하는 클래스
+
+**🟢Attributes (속성)**
+
+| Name                | Description                    | Type                             | Visibility      |
+|:--------------------|:-------------------------------|:---------------------------------|:----------------|
+| `Instance`          | `UpgradeManager`의 싱글톤 인스턴스     | `UpgradeManager`                 | `Public Static` |
+| `OnGoldChanged`     | 현재 골드가 변경될 때 발생하는 이벤트          | `event Action<int>`              | `Public`        |
+| `OnUpgradeChanged`  | 특정 업그레이드의 레벨이 변경될 때 발생하는 이벤트   | `event Action<UpgradeType, int>` | `Public`        |
+| `availableUpgrades` | 업그레이드 데이터 리스트                  | `List<UpgradeData>`              | `Private`       |
+| `_currentGold`      | 현재 플레이어가 보유한 골드 양              | `int`                            | `Private`       |
+| `_upgradeLevels`    | 각 업그레이드의 레벨을 저장하는 딕셔너리         | `Dictionary<UpgradeType, int>`   | `Private`       |
+
+**🔷Operations (메서드)**
+
+| Name                                 | Description                             | Type (Return) | Visibility |
+|:-------------------------------------|:----------------------------------------|:--------------|:-----------|
+| `GetUpgradeLevel(type: UpgradeType)` | 특정 업그레이드 타입의 현재 레벨을 반환하는 메서드            | `int`         | `Public`   |
+| `GetStatBonus(type: UpgradeType)`    | 특정 업그레이드 타입의 스텟 보너스를 반환하는 메서드           | `float`       | `Public`   |
+| `Purchase(data: UpgradeData)`        | 업그레이드의 조건을 만족하면 구매하고 이벤트를 방송 하는 메서드     | `bool`        | `Public`   |
+| `Refund(data: UpgradeData)`          | 조건을 만족하면 업그레이드 구매를 환불 해주고 이벤트를 방송하는 메서드 | `bool`        | `Public`   |
+| `RefreshGold()`                      | 저장된 골드 값을 불러와 현재 골드를 갱신하는 메서드           | `void`        | `public`   |
+| `LoadData()`                         | 저장된 강화 레벨과 골드를 가지고와 UI에 반영하는 메서드        | `void`        | `Private`  |
+
+---
+
+## 📂 3.2.2 Enemies 관련 클래스
+
+### 📦BossMonster
+> **Description:**
+> Monster 클래스를 상속받는 보스 몬스터 클래스.   
+보스 전용 체력바 UI 연동을 위한 이벤트와 사망 시 보상 생성 로직을 포함.
+
+**🟢Attributes (속성)**
+
+| Name              | Description          | Type                   | Visibility |
+|:------------------|:---------------------|:-----------------------|:-----------|
+| `OnBossHpChanged` | 보스 체력 변경 시 발생하는 이벤트  | `Action<float, float>` | `public`   |
+| `TreasurePrefab`  | 보스 사망 시 드롭할 보물상자 프리팹 | `GameObject`           | `public`   |
+
+**🔷Operations (메서드)**
+
+| Name                            | Description                                  | Type (Return) | Visibility |
+|:--------------------------------|:---------------------------------------------|:--------------|:-----------|
+| `Move(targetPosition: Vector2)` | 타겟을 향해 이동하며, 위치에 따라 스프라이트를 좌우 반전             | `void`        | `public`   |
+| `TakeDamage(amount: float)`     | 데미지를 입고 피격 효과를 재생하며, OnBossHpChanged 이벤트를 호출 | `void`        | `public`   |
+| `Die()`                         | 사망 로그 출력 및 보물상자를 생성한 뒤, 부모의 사망 처리(풀 반환)를 수행  | `void`        | `public`   |
+
+### 📦EnemyReposition
+> **Description:**
+> 몬스터가 플레이어로부터 일정 거리 이상 멀어지면, 플레이어 진행 방향 앞쪽으로 방향을 설정한다.
+
+**🟢Attributes (속성)**
+
+| Name                    | Description                  | Type         | Visibility |
+|:------------------------|:-----------------------------|:-------------|:-----------|
+| `maxDistanceFromPlayer` | 재배치가 트리거되는 플레이어와의 최대 거리 임계값  | `float`      | `private`  |
+| `spawnDistance`         | 재배치 시 설정되는 플레이어로부터의 거리       | `float`      | `private`  |
+| `randomOffsetRange`     | 몬스터 간 겹침 방지를 위한 랜덤 위치 오프셋 범위 | `float`      | `private`  |
+| `forwardAngleRange`     | 플레이어 진행 방향 기준 재배치 허용 각도(좌우)  | `float`      | `private`  |
+| `_maxDistanceSqr`       | 거리 비교 최적화 위해 계산하는 거리의 제곱값    | `float`      | `private`  |
+| `_collider`             | 몬스터의 콜라이더 참조(비활성화 확인용)       | `Collider2D` | `private`  |
+
+**🔷Operations (메서드)**
+
+| Name                             | Description                                 | Type (Return) | Visibility |
+|:---------------------------------|:--------------------------------------------|:--------------|:-----------|
+| `Reposition(playerPos: Vector3)` | 플레이어 이동방향 기반으로 전방 부채꼴 범위내 랜덤 위치 계산해서 몬스터 이동 | `void`        | `private`  |
+
+### 📦Monster
+> **Description:**
+> 몬스터 공통 속성을 정의하는 추상 클래스.
+
+**🟢Attributes (속성)**
+
+| Name                  | Description         | Type              | Visibility  |
+|:----------------------|:--------------------|:------------------|:------------|
+| `monsterName`         | 몬스터 이름 (도감 및 식별용)   | `string`          | `protected` |
+| `description`         | 몬스터 설명              | `string`          | `private`   |
+| `unlocked`            | 몬스터 해금 상태           | `bool`            | `protected` |
+| `maxHp`               | 최대 체력               | `float`           | `protected` |
+| `moveSpeed`           | 이동 속도               | `float`           | `protected` |
+| `contactDamage`       | 플레이어와 충돌 시 입히는 데미지  | `float`           | `protected` |
+| `fadeInDuration`      | 페이드인 효과 지속시간 정의     | `float`           | `protected` |
+| `expOrbPrefab`        | 사망 시 드롭할 경험치 구슬 프리팹 | `GameObject`      | `public`    |
+| `_currentHp`          | 현재 체력               | `float`           | `protected` |
+| `_target`             | 추적 대상(플레이어)         | `Transform`       | `protected` |
+| `_returnToPoolAction` | 몬스터 사망 시 풀로 복귀      | `Action<Monster>` | `protected` |
+| `_spriteRenderer`     | 피격 효과용 스프라이트 렌더러    | `SpriteRenderer`  | `protected` |
+| `_originalColor`      | 피격 효과용 색상 저장        | `Color`           | `protected` |
+| `_speedMultiplier`    | 현재 속도 배율 (디버프 등 적용) | `float`           | `protected` |
+
+**🔷Operations (메서드)**
+
+| Name                                                                   | Description                                  | Type (Return) | Visibility  |
+|:-----------------------------------------------------------------------|:---------------------------------------------|:--------------|:------------|
+| `Init(target: Transform, returnCallback: Action<Monster>)`             | 스폰 시 타겟 설정, 풀링 콜백 연결, 상태 초기화 수행              | `void`        | `public`    |
+| `Move(targetPosition: Vector2)`                                        | 대상 위치로 이동 (자식 클래스에서 구체적인 이동 로직 구현)           | `void`        | `public`    |
+| `TakeDamage(amount: float)`                                            | 데미지를 입고 피격 효과 실행, 체력이 0 이하가 되면 Die 호출        | `void`        | `public`    |
+| `Die()`                                                                | 사망 처리, 경험치/재화/킬카운트 반영, 도감 해금 및 오브젝트 풀 반환을 수행 | `void`        | `public`    |
+| `ApplySpeedDebuff(source: object, slowAmount: float, duration: float)` | 특정 소스로부터 이동 속도 감소 디버프를 적용(중첩 시 시간 갱신)        | `void`        | `public`    |
+| `RemoveSpeedDebuff(source: object)`                                    | 속도 디버프를 제거하고 속도 배율을 재계산                      | `void`        | `public`    |
+| `SpawnFadeIn()`                                                        | 스폰 시 투명 상태에서 서서히 나타나는 페이드인 연출 수행             | `IEnumerator` | `protected` |
+| `DropExpOrb()`                                                         | 경험치 구슬 프리팹을 PoolManager를 통해 드롭               | `void`        | `public`    |
+| `UpGold(amount: int)`                                                  | GameManager를 통해 플레이어의 골드를 증가시킴               | `void`        | `public`    |
+| `UpKillCount(amount: int)`                                             | GameManager를 통해 플레이어의 킬 카운트를 증가시킴            | `void`        | `public`    |
+| `OnCollisionStay2D(collision: Collision2D)`                            | 플레이어와 충돌 유지 시 지속적인 데미지를 입힘                   | `void`        | `protected` |
+| `HitFlash()`                                                           | 피격 시 스프라이트를 일시적으로 붉게 점멸시키는 연출 수행             | `IEnumerator` | `protected` |
+| `UpdateSpeedDebuffs()`                                                 | 매 프레임 감속 디버프 시간을 갱신하고 만료된 디버프를 제거함           | `void`        | `private`   |
+| `RecalculateSpeedMultiplier()`                                         | 현재 활성화된 디버프 중 가장 강한 효과를 기준으로 속도 배율을 재계산함     | `void`        | `private`   |
+
+### 📦NormalMonster
+> **Description:**
+> Monster 클래스를 상속받는 일반 몬스터 클래스. 플레이어를 향해 단순 이동하며, 이동방향에 따라 스프라이트 방향을 설정한다
+
+**🔷Operations (메서드)**
+
+| Name                            | Description                                                  | Type   | Visibility |
+|:--------------------------------|:-------------------------------------------------------------|:-------|:-----------|
+| `Move(targetPosition: Vector2)` | CurrentMoveSpeed를 사용하여 타겟 위치로 이동하며, 타겟의 X좌표에 따라 스프라이트를 좌우 반전 | `void` | `public`   |
+
+### 📦ExplodingMonster
+> **Description:**
+> Monster 클래스를 상속받는 자폭 몬스터 클래스. 플레이어에게 접근하여 일정 범위 내에 들어오면 자폭 시퀀스를 시작하고, 잠시 후 폭발하여 광역 데미지를 입힌다
+
+**🟢Attributes (속성)**
+
+| Name                  | Description          | Type         | Visibility |
+|:----------------------|:---------------------|:-------------|:-----------|
+| `explosionDelay`      | 폭발 시퀀스 시작 후 폭발까지의 시간 | `float`      | `private`  |
+| `explosionRange`      | 자폭 공격의 범위            | `float`      | `private`  |
+| `explosionDamage`     | 자폭 공격의 데미지           | `float`      | `private`  |
+| `warningColor`        | 폭발 경고 시 표시할 색상       | `Color`      | `private`  |
+| `explosionColor`      | 폭발 순간 표시할 색상         | `Color`      | `private`  |
+| `_explosionIndicator` | 폭발 범위를 표시하는 오브젝트     | `GameObject` | `private`  |
+| `_isExploding`        | 현재 폭발 시퀀스가 진행 중인지 여부 | `bool`       | `private`  |
+
+**🔷Operations (메서드)**
+
+| Name                            | Description                  | Type (Return) | Visibility |
+|:--------------------------------|:-----------------------------|:--------------|:-----------|
+| `Move(targetPosition: Vector2)` | 플레이어를 향해 이동하되, 폭발 중이면 이동을 멈춤 | `void`        | `public`   |
+| `Die()`                         | 사망 처리. 폭발 중이 아닐 때만 실행됨       | `void`        | `public`   |
+| `CreateExplosionIndicator()`    | 폭발 범위를 표시할 원형 인디케이터 생성       | `void`        | `private`  |
+| `ExplosionSequence()`           | 경고 효과 후 폭발을 일으키는 코루틴         | `IEnumerator` | `private`  |
+| `Explode()`                     | 범위 내 플레이어에게 데미지를 입히는 메서드     | `void`        | `private`  |
+
+### 📦RangedMonster
+> **Description:**
+> Monster 클래스를 상속받는 원거리 공격 몬스터 클래스. 플레이어와 일정 거리를 유지하며 투사체를 발사하여 공격한다
+
+**🟢Attributes (속성)**
+
+| Name               | Description    | Type         | Visibility |
+|:-------------------|:---------------|:-------------|:-----------|
+| `attackRange`      | 공격을 시작하는 최대 거리 | `float`      | `private`  |
+| `fireRate`         | 공격(투사체 발사) 주기  | `float`      | `private`  |
+| `projectilePrefab` | 발사할 투사체 프리팹    | `GameObject` | `private`  |
+| `_attackTimer`     | 공격 쿨타임 계산용 타이머 | `float`      | `private`  |
+
+**🔷Operations (메서드)**
+
+| Name                            | Description                               | Type (Return) | Visibility |
+|:--------------------------------|:------------------------------------------|:--------------|:-----------|
+| `Move(targetPosition: Vector2)` | 플레이어와 일정 거리를 유지하도록 이동 (너무 멀면 접근, 적당하면 정지) | `void`        | `public`   |
+| `HandleAttack()`                | 사정거리 내에 있고 쿨타임이 되면 투사체 발사                 | `void`        | `private`  |
+| `ShootProjectile()`             | 투사체 인스턴스를 생성하고 초기화                        | `void`        | `private`  |
+| `UpdateSpriteDirection()`       | 타겟 위치에 따라 스프라이트 좌우 반전                     | `void`        | `private`  |
+
+### 📦Projectile2
+> **Description:**
+> 적 몬스터가 발사하는 투사체 클래스. 초기화된 방향 또는 타겟을 향해 직선으로 이동하며, 플레이어와 충돌 시 데미지를 입히고 파괴된다
+
+**🟢Attributes (속성)**
+
+| Name             | Description           | Type        | Visibility |
+|:-----------------|:----------------------|:------------|:-----------|
+| `speed`          | 투사체의 이동 속도            | `float`     | `private`  |
+| `damage`         | 플레이어 충돌 시 입히는 피해량     | `float`     | `private`  |
+| `lifetime`       | 투사체가 발사된 후 자동 소멸되는 시간 | `float`     | `private`  |
+| `_target`        | 투사체가 날아갈 대상           | `Transform` | `private`  |
+| `_moveDirection` | 투사체가 날아갈 방향           | `Vector2`   | `private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                  | Description                                   | Type (Return) | Visibility |
+|:--------------------------------------|:----------------------------------------------|:--------------|:-----------|
+| `Init(target: Transform)`             | 타겟의 위치를 계산하여 이동 방향을 설정하고, 스프라이트 회전을 업데이트      | `void`        | `public`   |
+| `Init(direction: Vector2)`            | 지정된 방향 벡터로 이동 방향을 설정하고, 스프라이트 회전을 업데이트        | `void`        | `public`   |
+| `SetSize(scale: float)`               | 투사체의 크기 설정                                    | `void`        | `public`   |
+| `SetSpeed(newSpeed: float)`           | 투사체의 속도 설정                                    | `void`        | `public`   |
+| `SetDamage(newDamage: float)`         | 투사체의 데미지 설정                                   | `void`        | `public`   |
+| `OnTriggerEnter2D(other: Collider2D)` | 플레이어와 충돌 시 데미지를 입히고 투사체를 파괴                   | `void`        | `private`  |
+| `UpdateRotation()`                    | 이동 방향(_moveDirection)에 맞춰 투사체 스프라이트의 회전값을 갱신함 | `void`        | `private`  |
+
+### 📦SpawnManager
+> **Description:**
+> WaveData를 기반으로 몬스터 스폰을 총괄. 시간 흐름에 따라 웨이브를 갱신하고 MonsterSpawnInfo에 설정된 시간에 따라 몬스터를 생성한다.
+> 보스 몬스터의 등장 및 처치 이벤트도 관리하며, PoolManager와 연동하여 몬스터 오브젝트 풀링을 처리
+
+**🟢Attributes (속성)**
+
+| Name                  | Description                   | Type                                  | Visibility |
+|:----------------------|:------------------------------|:--------------------------------------|:-----------|
+| `playerTransform`     | 플레이어 위치 참조                    | `Transform`                           | `private`  |
+| `waves`               | 게임 진행에 따른 웨이브 데이터 리스트         | `List<WaveData>`                      | `private`  |
+| `firstBossPrefab`     | 주기적으로 등장할 보스 몬스터 프리팹          | `BossMonster`                         | `private`  |
+| `secondBossPrefab`    | 주기적으로 등장할 보스 몬스터 프리팹          | `BossMonster`                         | `private`  |
+| `spawnRadius`         | 플레이어 기준 몬스터 생성 거리             | `float`                               | `private`  |
+| `bossSpawnCycle`      | 보스 등장 주기                      | `float`                               | `private`  |
+| `initialPerTypeSize`  | 몬스터 종류별 초기 풀링 개수              | `int`                                 | `private`  |
+| `OnBossSpawned`       | 보스 등장 및 처치 알림 이벤트             | `event Action<bool, BossMonster>`     | `public`   |
+| `_currentWave`        | 현재 진행 중인 웨이브 데이터              | `WaveData`                            | `private`  |
+| `_isBossActive`       | 필드에 보스가 존재하는지 나타내는 필드         | `bool`                                | `private`  |
+| `_isSecondBossActive` | 필드에 보스가 존재하는지 나타내는 필드         | `bool`                                | `private`  |
+| `_activeMonsters`     | 현재 필드에 활성화된 몬스터 리스트(최대 수량 제한) | `List<Monster>`                       | `private`  |
+| `_spawnTimers`        | 각 몬스터 종류별 스폰 쿨타임 관리 딕셔너리      | `Dictionary<MonsterSpawnInfo, float>` | `private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                                     | Description                                          | Type (Return) | Visibility |
+|:---------------------------------------------------------|:-----------------------------------------------------|:--------------|:-----------|
+| `UpdateWaveData(time: float)`                            | 현재 게임 시간에 맞는 웨이브 데이터를 리스트에서 찾아 현재 웨이브 갱신             | `void`        | `private`  |
+| `ProcessWaveSpawning()`                                  | 현재 웨이브의 모든 MonsterSpawnInfo를 순회하며 각자의 주기에 맞춰 몬스터를 스폰 | `void`        | `private`  |
+| `SpawnBoss(bossPrefab: BossMonster, isSecondBoss: bool)` | 보스 몬스터를 생성하고 OnBossSpawned 이벤트를 호출하며, 게임 타이머를 일시 정지  | `void`        | `private`  |
+| `BossDied(boss: Monster)`                                | 보스 사망 시 호출되는 콜백. 타이머를 재개하고 보스 처치 이벤트를 방송             | `void`        | `private`  |
+| `SpawnMonster(prefab: Monster, position: Vector2)`       | PoolManager에 요청하여 몬스터 오브젝트를 가져오고 초기화하여 필드에 배치        | `void`        | `public`   |
+| `ReturnToPool(monster: Monster, prefab: Monster)`        | 몬스터 사망 시 활성 리스트에서 제거하고 PoolManager로 반환 요청            | `void`        | `public`   |
+| `PreloadAllWaveMonsters()`                               | 게임 시작 시 waves에 등록된 모든 몬스터 프리팹을 PoolManager를 통해 미리 생성 | `void`        | `private`  |
+| `CalculateSpawnPosition()`                               | 플레이어 위치를 기준으로 spawnRadius 거리의 랜덤한 위치를 계산하여 반환        | `Vector2`     | `public`   |
+
+## 📂 3.2.3 Gameplay 관련 클래스
+
+### 📦AcquireableObject
+> **Description:**
+> 플레이어가 획득 가능한 오브젝트의 기본 추상 클래스
+
+**🟢Attributes (속성)**
+
+| Name                | Description        | Type            | Visibility  |
+|:--------------------|:-------------------|:----------------|:------------|
+| `Position`          | 오브젝트 자신의 위치        | `Vector2`       | `Public`    |
+| `moveSpeed`         | 플레이어에게 끌려갈 때의 속도   | `float`         | `Public`    |
+| `currentTarget`     | `PlayerMager` 참조   | `PlayerManager` | `Protected` |
+| `_isMovingToPlayer` | 플레이어에게 끌려가는 중인지 여부 | `bool`          | `Private`   |
+
+**🔷Operations (메서드)**
+
+| Name                                  | Description                      | Type (Return)   | Visibility |
+|:--------------------------------------|:---------------------------------|:----------------|:-----------|
+| `StartMoveTo(target: PlayerManager)`  | 플레이어 쪽으로 이동하는 메서드                | `void`          | `Public`   |
+| `StopMove()`                          | 이동을 멈추는 메서드                      | `void`          | `Public`   |
+| `MoveToPlayer(target: PlayerManager)` | 플레이어에게 이동한 다음 가까워지면 획득 처리 하는 메서드 | `void`          | `Public`   |
+| `OnAcquire(player: PlayerManager)`    | 획득 시 실제로 발생하는 효과를 정의하는 추상 메서드    | `abstract void` | `Public`   |
+
+### 📦ExperienceOrb
+> **Description:**
+> 몬스터 처치 시 드랍되며, 플레이어가 획득하면 경험치를 제공하는 오브젝트
+PoolManager를 통해 재활용된다.
+
+**🟢Attributes (속성)**
+
+| Name             | Description         | Type         | Visibility |
+|:-----------------|:--------------------|:-------------|:-----------|
+| `expAmount`      | 획득 시 제공하는 경험치 양     | `int`        | `private`  |
+| `_prefabForPool` | 풀링 반환을 위한 원본 프리팹 참조 | `GameObject` | `private`  |
+
+**🔷Operations (메서드)**
+
+| Name                               | Description                            | Type (Return) | Visibility |
+|:-----------------------------------|:---------------------------------------|:--------------|:-----------|
+| `Init(prefab: GameObject)`         | 풀에서 생성된 후 초기화하는 메서드                    | `void`        | `public`   |
+| `OnAcquire(player: PlayerManager)` | 플레이어에게 경험치를 지급하고 이동을 멈춘 뒤 풀로 반환하거나 파괴함 | `void`        | `public`   |
+
+### 📦TreasureBox
+> **Description:**
+> 보스 몬스터 처치 시 드랍되거나 맵에 배치되는 보물상자 오브젝트
+
+**🟢Attributes (속성)**
+
+| Name             | Description    | Type            | Visibility |
+|:-----------------|:---------------|:----------------|:-----------|
+| `_isAcquired`    | 이미 획득된 상태인지 여부 | `bool`          | `private`  |
+| `_playerManager` | 플레이어 매니저 참조    | `PlayerManager` | `private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                       | Description                                  | Type (Return) | Visibility |
+|:-------------------------------------------|:---------------------------------------------|:--------------|:-----------|
+| `OnAcquire(player: PlayerManager)`         | 보물상자를 획득 처리하고 PlayerManager를 통해 보상 획득 로직을 호출 | `void`        | `public`   |
+| `OnTriggerEnter2D(collision: Collision2D)` | 플레이어와의 충돌을 감지하여 획득 로직을 실행하는 메서드              | `void`        | `private`  |
+
+### 📦EventManager
+> **Description:**
+> 게임이 진행되는 동안 발생하는 이벤트를 관리하는 클래스
+
+**🟢Attributes (속성)**
+
+| Name               | Description               | Type                   | Visibility      |
+|:-------------------|:--------------------------|:-----------------------|:----------------|
+| `Instance`         | `EventManager`의 싱글톤 인스턴스  | `EventManager`         | `Public Static` |
+| `playerManager`    | `PlayerManager` 참조        | `PlayerManager`        | `Private`       |
+| `possibleEvents`   | 발생 가능한 모든 게임 이벤트 데이터 리스트  | `List<GameEventData>`  | `Private`       |
+| `minEventInterval` | 이벤트 발생 최소 주기              | `float`                | `Private`       |
+| `maxEventInterval` | 이벤트 발생 최대 주기              | `float`                | `Private`       |
+| `OnToggleEvent`    | 이벤트 시작/종료 시 구독자에게 알리는 이벤트 | `event Action<string>` | `Public`        |
+| `_timer`           | 현재 이벤트 주기를 측정하는 타이머       | `float`                | `Private`       |
+| `_nextEventTime`   | 다음 이벤트가 발생해야 할 시간         | `float`                | `Private`       |
+| `_currentEvent`    | 현재 활성화된 이벤트 데이터           | `GameEventData`        | `Private`       |
+
+**🔷Operations (메서드)**
+
+| Name                                            | Description                                       | Type (Return) | Visibility |
+|:------------------------------------------------|:--------------------------------------------------|:--------------|:-----------|
+| `SetNextEventTime()`                            | 다음 이벤트 발생시간을 설정하고 타이머를 초기화하는 메서드                  | `void`        | `Private`  |
+| `TriggerRandomEvent()`                          | 이벤트 리스트에서 무작위로 하나의 이벤트를 선택하는 메서드                  | `void`        | `Public`   |
+| `StartEvent(eventData: GameEventData)`          | 선택된 이벤트를 실행하는 메서드                                 | `void`        | `Public`   |
+| `ProcessEventRoutine(eventData: GameEventData)` | 이벤트 시작부터 끝날때까지 모든 단계를 순차적으로 처리하는 코루틴 메서드          | `IEnumerator` | `Private`  |
+| `EndEvent(eventData: GameEventData)`            | 이벤트를 종료시, 활성화 된 모든 이벤트의 효과를 해제하고 다음 이벤트를 준비하는 메서드 | `void`        | `Private`  |
+
+### 📦GameEventData
+> **Description:**
+> 게임 이벤트에 대한 데이터 구조를 담는 Scriptable Object 클래스
+
+**🟢Attributes (속성)**
+
+| Name                  | Description                      | Type                 | Visibility |
+|:----------------------|:---------------------------------|:---------------------|:-----------|
+| `eventName`           | 이벤트의 이름                          | `string`             | `Public`   |
+| `description`         | 이벤트에 대한 상세 설명                    | `string`             | `Public`   |
+| `notificationMessage` | 이벤트 시작/종료 시 UI에 표시될 메시지          | `string`             | `Public`   |
+| `duration`            | 이벤트가 지속될 시간                      | `float`              | `Public`   |
+| `statModifiers`       | 수정할 능력치 종류와 수치 값을 가진 구조체를 담는 리스트 | `List<StatModifier>` | `Public`   |
+
+
+
+### 📦Reposition
+> **Description:**
+> 청크를 재배치함으로써 무한맵처럼 보이게 하는 클래스
+
+**🟢Attributes (속성)**
+
+| Name        | Description | Type    | Visibility |
+|:------------|:------------|:--------|:-----------|
+| `chunkSize` | 맵 청크 하나의 크기 | `float` | `Private`  |
+
+
+**🔷Operations (메서드)**
+
+| Name                                     | Description                        | Type (Return) | Visibility |
+|:-----------------------------------------|:-----------------------------------|:--------------|:-----------|
+| `RepositionMapChunk(distance: Vector3 )` | 플레이어와 청크 간의 거리를 기반으로 청크를 재배치하는 메서드 | `void`        | `Private`  |
+
+
+
+### 📦RewardManager
+> **Description:**
+> 레벨업 후 보상 항목을 무작위로 생성하고, 리롤 및 스킵 기능을 관리하여 선택된 보상을 플레이어에게 지급하는 보상 시스템 클래스
+
+**🟢Attributes (속성)**
+
+| Name                      | Description             | Type                                   | Visibility |
+|:--------------------------|:------------------------|:---------------------------------------|:-----------|
+| `OnRewardProcessFinished` | 보상 선택/스킵 완료 시 발생하는 이벤트  | `event Action`                         | `Public`   |
+| `OnRewardTextUIChanged`   | 보상 패널의 텍스트 정보 갱신 이벤트    | `event Action<int,int,float>`          | `Public`   |
+| `OnRewardUIChanged`       | 보상 카드 목록 갱신 이벤트         | `event Action<List<ScriptableObject>>` | `Public`   |
+| `playerManager`           | `PlayerManager` 참조      | `PlayerManager`                        | `Private`  |
+| `lootDataBase`            | `LootDataBase` 참조       | `LootDataBase`                         | `Private`  |
+| `inventoryManager`        | `InventoryManager` 참조   | `InventoryManager`                     | `Private`  |
+| `_maxRerollCount`         | 최대 리롤 횟수                | `int`                                  | `Private`  |
+| `_rerollCount`            | 현재 남은 리롤 횟수             | `int`                                  | `Private`  |
+| `_baseRerollPrice`        | 기본 리롤 비용                | `int`                                  | `Private`  |
+| `_rerollPrice`            | 현재 리롤에 필요한 골드 비용        | `int`                                  | `Private`  |
+| `_skipExpRatio`           | 보상 스킵 시 얻는 최대 경험치 대비 비율 | `float`                                | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                       | Description                  | Type (Return) | Visibility |
+|:-------------------------------------------|:-----------------------------|:--------------|:-----------|
+| `GenerateRewards()`                        | 3개의 무작위 보상 생성하는 메서드          | `void`        | `Public`   |
+| `OnRewardSelected(data: ScriptableObject)` | 보상을 선택하면 선택 장비/아이템을 추가하는 메서드 | `void`        | `Public`   |
+| `OnRerollPressed()`                        | 리롤버튼을 누르면 새로운 보상을 생성하는 메서드   | `void`        | `Public`   |
+| `OnSkipPressed()`                          | 스킵버튼을 누르면 경험치를 지급하는 메서드      | `void`        | `Public`   |
+
+
+### 📦UpgradeData
+> **Description:**
+> 레벨당 스탯 보너스 값과 레벨에 따른 비용 증가 수식을 포함하여, 영구적인 능력치 업그레이드의 모든 정보를 정의하는 Scriptable Object 데이터 클래스
+
+**🟢Attributes (속성)**
+
+| Name            | Description       | Type          | Visibility |
+|:----------------|:------------------|:--------------|:-----------|
+| `upgradeName`   | 업그레이드의 이름         | `string`      | `Private`  |
+| `description`   | 업그레이드에 대한 상세 설명   | `string`      | `Private`  |
+| `upgradeType`   | 업그레이드하는 스텟 종류     | `UpgradeType` | `Private`  |
+| `baseCost`      | 업그레이드의 기본 비용      | `int`         | `Private`  |
+| `maxLevel`      | 도달 가능한 최대 레벨      | `int`         | `Private`  |
+| `valuePerLevel` | 레벨당 획득하는 스탯 보너스 값 | `float`       | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                  | Description                         | Type (Return) | Visibility |
+|:--------------------------------------|:------------------------------------|:--------------|:-----------|
+| `GetCostForLevel(currentLevel: int )` | 레벨당 비용 증가시키는 메서드                    | `int`         | `Public`   |
+| `GetTotalBonus(currentLevel: int )`   | 현재 레벨까지 누적된 총 스텟 보너스를 계산해서 반환하는 메서드 | `float`       | `Public`   |
+
+## 📂 3.2.4 Loot-Abstract 관련 클래스
+
+### 📦EquipmentBase
+> **Description:**
+> 모든 장비(Weapon, Passive)가 상속받는 추상 클래스
+
+**🟢Attributes (속성)**
+
+| Name      | Description                    | Type            | Visibility  |
+|:----------|:-------------------------------|:----------------|:------------|
+| `_data`   | 장비의 Scriptable Object를 할당하는 필드 | `EquipmentData` | `protected` |
+| `_level`  | 장비의 레벨을 저장하는 필드                | `int`           | `protected` |
+| `_player` | 플레이어 매니저 인스턴스 참조               | `PlayerManager` | `protected` |
+
+**🔷Operations (메서드)**
+
+| Name                                                     | Description          | Type (Return) | Visibility |
+|:---------------------------------------------------------|:---------------------|:--------------|:-----------|
+| `LevelUp()`                                              | 장비의 레벨을 증가시키는 가상 메서드 | `void`        | `public`   |
+
+### 📦Item
+> **Description:**
+> 모든 아이템이 상속받는 추상 클래스
+
+**🟢Attributes (속성)**
+
+| Name              | Description                     | Type            | Visibility |
+|:------------------|:--------------------------------|:----------------|:-----------|
+| `data`            | 아이템의 Scriptable Object를 할당하는 필드 | `ItemData`      | `private`  |
+| `_player`         | 플레이어 매니저 인스턴스 참조                | `PlayerManager` | `private`  |
+| `durability`      | 아이템을 사용할 수 있는 횟수                | `int`           | `private`  |
+| `currentCooldown` | 아이템의 남은 재사용 가능 시간을 저장하는 필드      | `float`         | `private`  |
+
+**🔷Operations (메서드)**
+
+| Name                               | Description           | Type (Return) | Visibility |
+|:-----------------------------------|:----------------------|:--------------|:-----------|
+| `Activate()`                       | 아이템의 사용을 처리하는 가상 메서드  | `bool`        | `public`   |
+| `UpdateCooldown(deltaTime: float)` | 아이템의 쿨다운 시간을 갱신하는 메서드 | `void`        | `public`   |
+
+### 📦Passive
+> **Description:**
+> 모든 패시브 장비가 상속 받는 추상 클래스
+
+**🔷Operations (메서드)**
+
+| Name                                                     | Description                 | Type (Return) | Visibility |
+|:---------------------------------------------------------|:----------------------------|:--------------|:-----------|
+| `LevelUp()`                                              | 장비의 레벨을 증가시키는 오버라이드 메서드     | `void`        | `public`   |
+| `ApplyStatBonus()`                                       | 장비의 효과를 플레이어 캐릭터에게 적용하는 메서드 | `void`        | `private`  |
+
+### 📦Projectile
+> **Description:**
+> 플레이어의 무기가 지원하는 모든 투사체의 추상 클래스
+
+**🟢Attributes (속성)**
+
+| Name           | Description                      | Type    | Visibility  |
+|:---------------|:---------------------------------|:--------|:------------|
+| `_speed`       | 투사체의 속도를 정의하는 필드                 | `float` | `protected` |
+| `_damage`      | 투사체의 데미지를 정의하는 필드                | `float` | `protected` |
+| `_penetration` | 투사체가 적을 관통할 수 있는 횟수의 -1을 정의하는 필드 | `int`   | `protected` |
+
+**🔷Operations (메서드)**
+
+| Name                                                            | Description             | Type (Return) | Visibility  |
+|:----------------------------------------------------------------|:------------------------|:--------------|:------------|
+| `UpdateMovement()`                                              | 투사체의 이동 로직을 구현하는 가상 메서드 | `void`        | `protected` |
+| `InitializeBase(speed: float, damage: float, penetration: int)` | 투사체의 기본 속성을 초기화하는 메서드   | `void`        | `protected` |
+
+---
+
+### 📦Weapon
+> **Description:**
+> 모든 무기가 상속 받는 추상 클래스
+
+**🟢Attributes (속성)**
+
+| Name               | Description              | Type    | Visibility  |
+|:-------------------|:-------------------------|:--------|:------------|
+| `_currentCooldown` | 무기의 남은 재사용 대기시간을 저장하는 필드 | `float` | `protected` |
+
+**🔷Operations (메서드)**
+
+| Name                                                       | Description               | Type (Return) | Visibility  |
+|:-----------------------------------------------------------|:--------------------------|:--------------|:------------|
+| `UpdateCooldown(deltaTime: float)`                         | 무기의 재사용 대기시간을 갱신하는 가상 메서드 | `void`        | `public`    |
+| `CalculateDamage(baseDamage: float, isCritical: out bool)` | 무기의 최종 데미지를 계산하는 메서드      | `float`       | `protected` |
+| `CalculateCooldown()`                                      | 무기의 최종 재사용 대기시간을 계산하는 메서드 | `float`       | `protected` |
+| `PerformAttack()`                                          | 실제 공격 로직을 구현하는 가상 메서드     | `void`        | `protected` |
+
+## 📂 3.2.5 Loot-Data 관련 클래스
+
+### 📦EquipmentData
+> **Description:**
+> 모든 장비의 정보를 정의하는 데이터 컨테이너 클래스 (ScriptableObject)
+
+**🟢Attributes (속성)**
+
+| Name             | Description            | Type     | Visibility |
+|:-----------------|:-----------------------|:---------|:-----------|
+| `_equipmentName` | 장비의 이름을 저장하는 필드        | `string` | `private`  |
+| `_description`   | 장비의 설명을 저장하는 필드        | `string` | `private`  |
+| `_icon`          | 장비의 아이콘 스프라이트를 저장하는 필드 | `Sprite` | `private`  |
+| `_maxLevel`      | 장비의 최대 레벨을 정의하는 필드     | `int`    | `private`  |
+| `unlocked`       | 장비의 획득 이력을 나타내는 필드     | `bool`   | `private`  |
+
+### 📦EquipmentInfo
+> **Description:**
+> 도감의 장비 부문 데이터베이스 관리용 클래스
+
+**🟢Attributes (속성)**
+
+| Name         | Description                    | Type            | Visibility |
+|:-------------|:-------------------------------|:----------------|:-----------|
+| `Id`         | 장비의 고유 Id를 저장하는 필드             | `string`        | `public`   |
+| `Data`       | 장비의 Scriptable Object를 저장하는 필드 | `EquipmentData` | `public`   |
+| `IsUnlocked` | 장비의 획득 이력을 나타내는 필드             | `bool`          | `public`   |
+
+### 📦ItemData
+> **Description:**
+> 아이템의 정보를 정의하는 데이터 컨테이너 클래스 (ScriptableObject)
+
+**🟢Attributes (속성)**
+
+| Name             | Description               | Type         | Visibility |
+|:-----------------|:--------------------------|:-------------|:-----------|
+| `_itemName`      | 아이템의 이름을 저장하는 필드          | `string`     | `private`  |
+| `_description`   | 아이템의 설명을 저장하는 필드          | `string`     | `private`  |
+| `_icon`          | 아이템의 아이콘 스프라이트를 저장하는 필드   | `Sprite`     | `private`  |
+| `_prefab`        | 구현된 아이템의 프리팹을 저장하는 필드     | `GameObject` | `private`  |
+| `unlocked`       | 아이템의 획득 이력을 나타내는 필드       | `bool`       | `private`  |
+| `_cooldown`      | 아이템의 재사용 대기시간을 정의하는 필드    | `float`      | `private`  |
+| `_maxDurability` | 아이템의 최대 사용 가능 횟수를 정의하는 필드 | `int`        | `private`  |
+
+### 📦ItemInfo
+> **Description:**
+> 도감의 아이템 부문 데이터베이스 관리용 클래스
+
+**🟢Attributes (속성)**
+
+| Name         | Description                     | Type       | Visibility |
+|:-------------|:--------------------------------|:-----------|:-----------|
+| `Id`         | 아이템의 고유 Id를 저장하는 필드             | `string`   | `public`   |
+| `Data`       | 아이템의 Scriptable Object를 저장하는 필드 | `ItemData` | `public`   |
+| `IsUnlocked` | 아이템의 획득 이력을 나타내는 필드             | `bool`     | `public`   |
+
+### 📦LootDataBase
+> **Description:**
+> 몬스터, 장비, 아이템의 데이터를 관리하고 상태를 관리하는 클래스
+
+**🟢Attributes (속성)**
+
+| Name                 | Description     | Type                                | Visibility |
+|:---------------------|:----------------|:------------------------------------|:-----------|
+| `_instance`          | 싱글톤 인스턴스        | `LootDataBase`                      | `private`  |
+| `monsterPool`        | 몬스터 데이터 목록      | `List<Monster>`                     | `private`  |
+| `weaponPool`         | 장비 데이터 목록       | `List<EquipmentData>`               | `private`  |
+| `passivePool`        | 패시브 데이터 목록      | `List<EquipmentData>`               | `private`  |
+| `itemPool`           | 아이템 데이터 목록      | `List<ItemData>`                    | `private`  |
+| `_monsterRegistry`   | 몬스터 데이터의 이름과 정보 | `Dictionary<string, MonsterInfo>`   | `private`  |
+| `_equipmentRegistry` | 장비 데이터의 이름과 정보  | `Dictionary<string, EquipmentInfo>` | `private`  |
+| `_itemRegistry`      | 아이템 데이터의 이름과 정보 | `Dictionary<string, ItemInfo>`      | `private`  |
+| `_isInitialized`     | 초기화 완료 여부 판단    | `bool`                              | `private`  |
+
+**🔷Operations (메서드)**
+
+| Name                              | Description                | Type (Return)         | Visibility |
+|:----------------------------------|:---------------------------|:----------------------|:-----------|
+| `Initialize()`                    | 데이터베이스 초기화                 | `void`                | `public`   |
+| `LoadUnlockStates()`              | SaveManager에서 unlock 상태 로드 | `void`                | `public`   |
+| `GetMonsterInfo(id: string)`      | 몬스터 정보 조회                  | `MonsterInfo`         | `public`   |
+| `GetEquipmentInfo(id: string)`    | 장비 정보 조회                   | `EquipmentInfo`       | `public`   |
+| `GetItemInfo(id: string)`         | 아이템 정보 조회                  | `ItemInfo`            | `public`   |
+| `GetAllMonsters()`                | 모든 몬스터 정보 리스트              | `List<MonsterInfo>`   | `public`   |
+| `GetAllWeapons()`                 | 모든 무기 정보 리스트               | `List<EquipmentInfo>` | `public`   |
+| `GetAllPassives()`                | 모든 패시브 정보 리스트              | `List<EquipmentInfo>` | `public`   |
+| `GetAllItemInfos()`               | 모든 아이템 정보 리스트              | `List<ItemInfo>`      | `public`   |
+| `IsMonsterUnlocked(id: string)`   | 몬스터 unlock 여부 확인           | `bool`                | `public`   |
+| `IsEquipmentUnlocked(id: string)` | 장비 unlock 여부 확인            | `bool`                | `public`   |
+| `IsItemUnlocked(id: string)`      | 아이템 unlock 여부 확인           | `bool`                | `public`   |
+| `UnlockMonster(id: string)`       | 몬스터 unlock                 | `void`                | `public`   |
+| `UnlockEquipment(id: string)`     | 장비 unlock                  | `void`                | `public`   |
+| `UnlockItem(id: string)`          | 아이템 unlock                 | `void`                | `public`   |
+| `GetRandomWeapon()`               | 랜덤 무기 데이터 가져오기             | `EquipmentData`       | `public`   |
+| `GetRandomPassive()`              | 랜덤 패시브 데이터 가져오기            | `EquipmentData`       | `public`   |
+| `GetRandomItem()`                 | 랜덤 아이템 가져오기                | `ItemData`            | `public`   |
+| `SaveUnlockStates()`              | unlock 상태를 SaveManager에 저장 | `void`                | `private`  |
+
+### 📦MonsterInfo
+> **Description:**
+> 몬스터 런타임 데이터를 나타내는 클래스
+
+**🟢Attributes (속성)**
+
+| Name         | Description | Type        | Visibility |
+|:-------------|:------------|:------------|:-----------|
+| `Id`         | 몬스터의 이름     | `string`    | `public`   |
+| `Prefab`     | 몬스터 프리팹     | `Monster`   | `public`   |
+| `IsUnlocked` | 몬스터 해금 여부   | `bool`      | `public`   |
+
+### 📦PassiveData
+> **Description:**
+> 패시브 아이템 전용 데이터 클래스
+
+**🟢Attributes (속성)**
+
+| Name        | Description | Type          | Visibility |
+|:------------|:------------|:--------------|:-----------|
+| `StatType`  | 증가할 스탯      | `UpgradeType` | `public`   |
+| `StatValue` | 스탯 증가량      | `float`       | `public`   |
+
+### 📦WeaponData
+> **Description:**
+> 무기 전용 데이터 클래스
+
+**🟢Attributes (속성)**
+
+| Name               | Description | Type         | Visibility |
+|:-------------------|:------------|:-------------|:-----------|
+| `Prefab`           | 무기 프리팹      | `GameObject` | `public`   |
+| `ProjectilePrefab` | 무기의 투사체 프리팹 | `GameObject` | `public`   |
+| `BaseDamage`       | 기본 데미지      | `float`      | `public`   |
+| `BaseCooldown`     | 기본 쿨타임      | `float`      | `public`   |
+| `ProjectileSpeed`  | 투사체 속도      | `float`      | `public`   |
+| `Penetration`      | 관통하는 적 수    | `int`        | `public`   |
+
+## 📂 3.2.6 Player 관련 클래스
+
+### 📦InventoryManager
+> **Description:**
+> 무기, 패시브 장비, 소모성 아이템의 보유 및 슬롯 한도를 관리하고, 획득 시 레벨업 또는 신규 추가를 처리하며, 아이템 사용 로직을 수행하는 플레이어의  관리 클래스
+
+**🟢Attributes (속성)**
+
+| Name                 | Description                     | Type            | Visibility |
+|:---------------------|:--------------------------------|:----------------|:-----------|
+| `playerManager`      | `PlayerManager` 참조              | `PlayerManager` | `Private`  |
+| `weaponParent`       | 무기 및 패시브 오브젝트가 생성될 부모           | `Transform`     | `Private`  |
+| `maxWeaponSlots`     | 보유 가능한 최대 무기 슬롯 개수              | `int`           | `Private`  |
+| `maxPassiveSlots`    | 보유 가능한 최대 패시브 슬롯 개수             | `int`           | `Private`  |
+| `maxItemSlots`       | 보유 가능한 최대 소모성 아이템 슬롯 개수         | `int`           | `Private`  |
+| `OnInventoryChanged` | 인벤토리 내용 변경 시 UI 갱신을 위해 호출되는 이벤트 | `event Action`  | `Public`   |
+| `_weapons`           | 현재 플레이어가 보유한 `Weapon` 인스턴스 리스트  | `List<Weapon>`  | `Private`  |
+| `_passives`          | 현재 플레이어가 보유한 `Passive` 인스턴스 리스트 | `List<Passive>` | `Private`  |
+| `_consumables`       | 현재 플레이어가 보유한 `Item` 인스턴스 리스트    | `List<Item>`    | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                | Description                  | Type (Return)   | Visibility |
+|:------------------------------------|:-----------------------------|:----------------|:-----------|
+| `Add(data: EquipmentData)`          | 장비를 추가하거나 보유 중이면 레벨 업시키는 메서드 | `void`          | `Public`   |
+| `Add(data: ItemData)`               | 소모성 아이템을 추가하는 메서드            | `void`          | `Public`   |
+| `FindItem(data: EquipmentData)`     | 할성화된 무기와 패시브의 데이터를 반환하는 메서드  | `EquipmentBase` | `Public`   |
+| `UseItem(slotIndex: int)`           | 아이템을 사용 메서드                  | `void`          | `Public`   |
+| `AddWeapon(data: WeaponData)`       | 무기를 추가하는 메서드                 | `void`          | `Private`  |
+| `AddPassive(data: PassiveData)`     | 인벤토리에 패시브 아이템을 추가하는 메서드      | `void`          | `Private`  |
+| `AddConsumable(data: ItemData)`     | 아이템을 추가하는 메서드                | `void`          | `Private`  |
+
+### 📦PlayerMagnet
+> **Description:**
+> 플레이어 자석 기능 클래스
+
+**🟢Attributes (속성)**
+
+| Name                 | Description                  | Type            | Visibility |
+|:---------------------|:-----------------------------|:----------------|:-----------|
+| `orbLayer`           | 감지 대상이 되는 경험치의 레이어 마스크       | `LayerMask`     | `Private`  |
+| `maxTargetsPerFrame` | 한 번의 감지로 처리할 수 있는 최대 오브젝트 수  | `int`           | `Private`  |
+| `_playerManager`     | 플레이어의 능력치와 위치 정보를 가져오기 위한 참조 | `PlayerManager` | `Private`  |
+| `_results`           | 주위 획득 가능 오브젝트 저장 배열          | `Collider2D[]`  | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name       | Description            | Type (Return) | Visibility |
+|:-----------|:-----------------------|:--------------|:-----------|
+| `Magnet()` | 획득 가능한 오브젝트를 끌어당기는 메서드 | `void`        | `private`  |
+
+### 📦PlayerManager
+> **Description:**
+> 플레이어의 핵심 상태 및 능력치를 관리하고, 이동, 피해 처리, 레벨업, 대시 등 캐릭터의 모든 생명 주기 및 로직을 제어하는 중앙 관리 클래스
+
+**🟢Attributes (속성)**
+
+| Name                           | Description                     | Type                         | Visibility |
+|:-------------------------------|:--------------------------------|:-----------------------------|:-----------|
+| `OnHpChanged`                  | HP 변경 시 호출되는 이벤트                | `event Action<float, float>` | `Public`   |
+| `OnExpChanged`                 | 경험치 변경 시 호출되는 이벤트               | `event Action<float, float>` | `Public`   |
+| `OnGoldChanged`                | 골드 변경 시 호출되는 이벤트                | `event Action<int>`          | `Public`   |
+| `OnKillCountChanged`           | 킬 카운트 변경 시 호출되는 이벤트             | `event Action<int>`          | `Public`   |
+| `OnPlayerLeveledUp`            | 레벨 업 시 호출되는 이벤트                 | `event Action`               | `Public`   |
+| `OnPlayerGetTreasure`          | 보물 상자 획득 시 호출되는 이벤트             | `event Action`               | `Public`   |
+| `FacingDirection`              | 플레이어가 현재 바라보는 방향                | `Vector2`                    | `Public`   |
+| `inputManager`                 | `InputManager` 참조               | `InputManager`               | `Private`  |
+| `inventoryManager`             | `InventoryManager` 참조           | `InventoryManager`           | `Private`  |
+| `startingWeapon`               | 게임 시작 시 지급될 기본 무기 데이터           | `WeaponData`                 | `Private`  |
+| `stats`                        | 플레이어 능력치 데이터                    | `PlayerStats`                | `Private`  |
+| `contactDamageCooldown`        | 피격 후 무적시간                       | `float`                      | `Private`  |
+| `dashDistance`                 | 대시 시 이동할 거리                     | `float`                      | `Private`  |
+| `dashDuration`                 | 대시가 지속되는 시간                     | `float`                      | `Private`  |
+| `dashCooldown`                 | 대시 후 재사용까지의 쿨다운 시간              | `float`                      | `Private`  |
+| `dashDamage`                   | 대시 데미지                          | `float`                      | `Private`  |
+| `dashDamageRadius`             | 대시 데미지 범위                       | `float`                      | `Private`  |
+| `lightningEffectPrefab`        | 대시 번개 이펙트 프리펩                   | `Gameobject`                 | `private`  |
+| `floatingTextOffPrefab`        | 대시 쿨타임 알림창 프리펩                  | `Gameobject`                 | `private`  |
+| `floatingTextOffset`           | 대시 알림 시작 위치 offset              | `Vector3`                    | `private`  |
+| `_upgradeManager`              | `UpgradeManager` 참조             | `UpgradeManager`             | `Private`  |
+| `_rb`                          | 플레이어 객체의 RigidBody2D 속성         | `Rigidbody2`                 | `Private`  |
+| `_currentHp`                   | 현재 HP                           | `float`                      | `Private`  |
+| `_anime`                       | 플레이어 객체의 Animator 속성            | `Animator`                   | `Private`  |
+| `_sprite`                      | 플레이어 객체의 SpriteRenderer 속성      | `SpriteRenderer`             | `Private`  |
+| `_level`                       | 현재 레벨                           | `int`                        | `Private`  |
+| `_currentExp`                  | 현재 경험치                          | `int`                        | `Private`  |
+| `_maxExp`                      | 다음 레벨에 필요한 최대 경험치               | `int`                        | `Private`  |
+| `_gold`                        | 현재 보유 골드                        | `int`                        | `Private`  |
+| `_killCount`                   | 현재 킬 카운트                        | `int`                        | `Private`  |
+| `_contactDamageTimer`          | 충돌 무적 시간 타이머                    | `float`                      | `Private`  |
+| `_invincibilityFlashCoroutine` | 무적 시간 깜빡임 전용 코루틴 참조             | `Coroutine`                  | `Private`  |
+| `_originalSpriteColor`         | 기존 스프라이트 색상 저장                  | `Color`                      | `Private`  |
+| `_isDashing`                   | 현재 대시 중인지 여부                    | `bool`                       | `Private`  |
+| `_dashCooldownTimer`           | 대시 재사용 쿨다운 타이머                  | `float`                      | `Private`  |
+| `_lastMoveDirection`           | 플레이어가 마지막으로 이동했던 방향             | `Vector2`                    | `Private`  |
+| `_originalLayer`               | 대시 충돌 무시를 위해 저장해 둔 플레이어의 원래 레이어 | `int`                        | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                                                       | Description                      | Type (Return) | Visibility |
+|:---------------------------------------------------------------------------|:---------------------------------|:--------------|:-----------|
+| `HandleItemUseInput(slotNumber: int)`                                      | 아이템 사용 메서드                       | `void`        | `Private`  |
+| `TakeDamage(amount: float)`                                                | 몬스터 공격으로 인한 데미지를 받는 메서드          | `void`        | `Public`   |
+| `Heal(amount: float)`                                                      | 플레이의 HP를 회복 시키는 메서드              | `void`        | `Public`   |
+| `TakeDamage(amount: float, isContactDamage: bool)`                         | 몬스터 충돌로 인한 데미지를 받는 메서드           | `void`        | `Public`   |
+| `GainExp(amount: int)`                                                     | 경험치를 획득하는 메서드                    | `void`        | `Public`   |
+| `GainGold(amount: int)`                                                    | 골드 획득하는 메서드                      | `void`        | `Public`   |
+| `SpendGold(amount: int)`                                                   | 골드 소비하는 메서드                      | `bool`        | `Public`   |
+| `GainTreasure()`                                                           | 보물 상자 획득 메서드                     | `void`        | `Public`   |
+| `GainKillCount(amount: int)`                                               | 킬 카운트를 증가시키는 메서드                 | `void`        | `Public`   |
+| `AddEquipment(data: EquipmentData)`                                        | 장비를 획득하는 메서드                     | `void`        | `Public`   |
+| `AddItem(data: ItemData)`                                                  | 아이템을 획득하는 메서드                    | `void`        | `Public`   |
+| `AddPassiveBonus(type: UpgradeType, source: object, value: float)`         | 패시브 아이템 등에 의한 스탯 보너스를 적용하는 메서드   | `void`        | `Public`   |
+| `ApplyEventModifiers(eventSource: object, modifiers: List<StatModifier>)`  | 이벤트 발생시 플레이어 능력치를 오르게 하는 메서드     | `void`        | `Public`   |
+| `RemoveEventModifiers(eventSource: object, modifiers: List<StatModifier>)` | 이벤트 종료시 증가된 능력치를 제거하는 메서드        | `void`        | `Public`   |
+| `RemovePassiveBonus(type: UpgradeType, source: object)`                    | 패시브 아이템  의한 스탯 보너스 능력치를 제거하는 메서드 | `void`        | `Public`   |
+| `EquipStartingWeapon()`                                                    | 기본무기 지급 메서드                      | `void`        | `Private`  |
+| `Move(direction: Vector2)`                                                 | 플레이어 이동시키는 메서드                   | `void`        | `Private`  |
+| `Die()`                                                                    | 플레이어 사망을 처리하는 메서드                | `void`        | `Private`  |
+| `Player_Animation()`                                                       | 플레이어 애니메이션 동작 메서드                | `void`        | `Private`  |
+| `LevelUp()`                                                                | 플레이어 레벨 업 시키는 메서드                | `void`        | `Private`  |
+| `ApplyUpgradeBonuses()`                                                    | 플레이어 스텟을 강화하는 메서드                | `void`        | `Private`  |
+| `TryDash()`                                                                | 플레이어를 대시시키는 메서드                  | `void`        | `Private`  |
+| `DashCoroutine(direction: Vector2)`                                        | 대시 행동 로작 정의 메서드                  | `IEnumerator` | `Private`  |
+| `DealDashDamage(damagedMonsters: HashSet<Monster>)`                        | 주변 적에게 대시 피해를 입히는 메서드            | `void`        | `Private`  |
+| `SpawnLightningEffect(startPos: Vector2, endPos: Vector2)`                 | 대시 경로에 번개 이펙트를 생성하는 메서드          | `void`        | `Private`  |
+| `InvincibilityFlashCoroutine()`                                            | 무적 시간동안 플레이어를 깜빡이는 메서드           | `IEnumerator` | `Private`  |
+| `ShowDashCooldownText()`                                                   | 대시 쿨다운을 알려주는 텍스트를 띄워주는 메서드       | `void`        | `Private`  |
+
+### 📦PlayerStats
+> **Description:**
+> 플레이어의 능력치를 정의하는 클래스
+
+**🟢Attributes (속성)**
+
+| Name                  | Description           | Type                                                 | Visibility |
+|:----------------------|:----------------------|:-----------------------------------------------------|:-----------|
+| `maxHp`               | 기본 최대 HP              | `float`                                              | `Private`  |
+| `speed`               | 기본 이동 속도              | `float`                                              | `Private`  |
+| `attackDamageMult`    | 기본 공격 피해 배율           | `float`                                              | `Private`  |
+| `attackSpeedMult`     | 기본 공격 속도 배율           | `float`                                              | `Private`  |
+| `cooldownMult`        | 기본 쿨다운 감소 배율          | `float`                                              | `Private`  |
+| `magnetRange`         | 기본 아이템 획득 범위          | `float`                                              | `Private`  |
+| `critChance`          | 기본 치명타 확률             | `float`                                              | `Private`  |
+| `critDamageMult`      | 기본 치명타 피해 배율          | `float`                                              | `Private`  |
+| `expMult`             | 기본 경험치 획득 배율          | `float`                                              | `Private`  |
+| `goldMult`            | 기본 골드 획득 배율           | `float`                                              | `Private`  |
+| `damageReductionMult` | 기본 피해 감소율             | `float`                                              | `Private`  |
+| `_permanentBonuses`   | 업그레이드 전용 능력치 보너스      | `Dictionary<UpgradeType, float>`                     | `Private`  |
+| `_passiveBonuses`     | 패시브 장비 전용 능력치 보너스     | `Dictionary<UpgradeType, Dictionary<object, float>>` | `Private`  |
+| `_eventBonuses`       | 이벤트 버프/디버프 전용 능력치 보너스 | `Dictionary<UpgradeType, Dictionary<object, float>>` | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                                               | Description                                            | Type (Return) | Visibility |
+|:-------------------------------------------------------------------|:-------------------------------------------------------|:--------------|:-----------|
+| `SetPermanentBonus(type: UpgradeType, value: float)`               | 업그레이드에 의한 능력치 보너스를 설정하는 메서드                            | `void`        | `Public`   |
+| `SetPassiveBonus(type: UpgradeType, source: object, value: float)` | 패시브 장비에 의한 능력치 보너스를 설정하는 메서드                           | `void`        | `Public`   |
+| `RemovePassiveBonus(type: UpgradeType, source: object)`            | 패시브 장비에 의한능력치 보너스를 제거하는 메서드                            | `void`        | `Public`   |
+| `GetBonus(type: UpgradeType)`                                      | 영구 업그레이드, 패시브 장비, 이벤트에 의해 적용된 능력치 보너스를 합산한 값을 반환하는 메서드 | `float`       | `Public`   |
+| `ClearBonuses()`                                                   | 영구, 패시브 보너스 목록을 모두 초기화 하는 메서드                          | `void`        | `Public`   |
+| `AddEventBonus(type: source: object, value: float)`                | 이벤트에 의한 능력치 보너스를 적용하는 메서드                              | `void`        | `Public`   |
+| `RemoveEventBonus(type: UpgradeType, source: object)`              | 이벤트 능력치 보너스를 제거하는 메서드                                  | `void`        | `Public`   |
+
+## 📂 3.2.7 UI 관련 클래스
+
+### 📦CodexManager
+
+> **Description:**
+> 몬스터/장비/아이템 도감 UI 전체를 관리하는 매니저 클래스  
+> 각 도감 탭(몬스터, 장비, 아이템) 패널을 전환하고, `LootDataBase` 정보를 기반으로 `CodexSlot`을 동적 생성하여  
+> 스크롤 뷰에 배치하며, 선택된 슬롯의 상세 정보를 `DescriptionPanel`에 표시하도록 연결하는 역할을 담당한다.
+
+**🟢Attributes (속성)**
+
+| Name               | Description                                  | Type               | Visibility |
+|:-------------------|:---------------------------------------------|:-------------------|:-----------|
+| `allCodexPanels`   | 몬스터/장비/아이템 도감 탭에 해당하는 모든 패널 배열               | `GameObject[]`     | `Private`  |
+| `monsterContent`   | 몬스터 도감 슬롯이 배치될 ScrollView의 Content Transform | `Transform`        | `Private`  |
+| `equipmentContent` | 장비(무기/패시브) 도감 슬롯이 배치될 Content Transform      | `Transform`        | `Private`  |
+| `itemContent`      | 아이템 도감 슬롯이 배치될 Content Transform             | `Transform`        | `Private`  |
+| `slotPrefab`       | 도감 슬롯 UI 프리팹(`CodexSlot` 컴포넌트 포함)            | `GameObject`       | `Private`  |
+| `descriptionPanel` | 선택된 도감 슬롯의 상세 정보를 출력하는 설명 패널                 | `DescriptionPanel` | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                 | Description                                                                                       | Type (Return) | Visibility |
+|:-------------------------------------|:--------------------------------------------------------------------------------------------------|:--------------|:-----------|
+| `OpenPanel(targetPanel: GameObject)` | 전달받은 패널만 활성화하고 나머지 도감 패널은 비활성화하여 탭 전환을 처리하고, 선택 효과음을 재생하는 메서드                                     | `void`        | `Public`   |
+| `RefreshCodex()`                     | 기존 도감 슬롯을 모두 제거한 뒤, `LootDataBase`에서 몬스터/장비/아이템 정보를 조회하여 슬롯을 동적 생성하고 `DescriptionPanel`과 연결하는 메서드 | `void`        | `Public`   |
+| `ClearContent(content: Transform)`   | 전달받은 Content Transform의 모든 자식 슬롯 오브젝트를 제거하여 도감 UI를 초기화하는 유틸리티 메서드                                 | `void`        | `Private`  |
+
+### 📦CodexSlot
+> **Description:**
+> 도감 UI 그리드 안에서 각 칸(슬롯)을 표현하는 컴포넌트.  
+> 몬스터 / 아이템 / 장비 타입에 따라 아이콘을 설정하고, 슬롯 클릭 시 `DescriptionPanel`에 상세 정보를 띄우도록 버튼 이벤트를 연결하는 역할을 한다.
+
+**🟢Attributes (속성)**
+
+| Name                | Description                      | Type               | Visibility |
+|:--------------------|:---------------------------------|:-------------------|:-----------|
+| `slot`              | 슬롯 전체를 클릭하기 위한 버튼 컴포넌트           | `Button`           | `Private`  |
+| `slotIcon`          | 도감 슬롯에 표시되는 아이콘 이미지              | `Image`            | `Private`  |
+| `slotSilhouette`    | 미해금 상태일 때 사용되는 실루엣(잠금) 아이콘 스프라이트 | `Sprite`           | `Private`  |
+| `_descriptionPanel` | 슬롯이 클릭되었을 때 상세 정보를 표시할 대상 패널 참조  | `DescriptionPanel` | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                            | Description                                                                       | Type (Return) | Visibility |
+|:------------------------------------------------|:----------------------------------------------------------------------------------|:--------------|:-----------|
+| `SetMonster(data: Monster, unlocked: bool)`     | 몬스터 도감 슬롯을 설정. 해금 여부에 따라 실제 아이콘 또는 실루엣을 설정하고, 클릭 시 몬스터 상세 정보를 보여주도록 버튼 이벤트를 등록한다. | `void`        | `Public`   |
+| `SetItem(data: ItemData, unlocked: bool)`       | 아이템 도감 슬롯을 설정. 해금 여부에 따라 아이콘/실루엣을 설정하고, 클릭 시 아이템 상세 정보 표시 이벤트를 등록한다.              | `void`        | `Public`   |
+| `SetEquip(data: EquipmentData, unlocked: bool)` | 장비 도감 슬롯을 설정. 해금 여부에 따라 아이콘/실루엣을 설정하고, 클릭 시 장비 상세 정보 표시 이벤트를 등록한다.                | `void`        | `Public`   |
+| `SetDescriptionPanel(panel: DescriptionPanel)`  | 이 슬롯이 참조할 `DescriptionPanel`을 주입하여, 클릭 시 해당 패널을 통해 상세 정보를 출력할 수 있도록 연결하는 초기화 메서드  | `void`        | `Public`   |
+
+### 📦DescriptionPanel
+> **Description:**
+> 도감에서 선택된 슬롯의 상세 정보를 화면에 표시하는 패널 UI 컴포넌트.  
+> 몬스터 / 아이템 / 장비 타입에 따라 아이콘, 이름, 설명 텍스트를 갱신하며,  
+> 해금 여부에 따라 실제 정보 또는 실루엣·잠금 문구를 보여준다. 필요 시 패널을 숨기는 기능도 제공한다.
+
+**🟢Attributes (속성)**
+
+| Name                    | Description                       | Type              | Visibility |
+|:------------------------|:----------------------------------|:------------------|:-----------|
+| `descriptionIcon`       | 상세 정보에 표시될 아이콘 이미지(몬스터/아이템/장비 공용) | `Image`           | `Private`  |
+| `descriptionNameText`   | 상세 정보 상단에 표시되는 이름 텍스트             | `TextMeshProUGUI` | `Private`  |
+| `descriptionText`       | 상세 설명(효과, 설정 등)을 출력하는 본문 텍스트      | `TextMeshProUGUI` | `Private`  |
+| `descriptionSilhouette` | 미해금 상태일 때 사용되는 공통 실루엣(잠금) 스프라이트   | `Sprite`          | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                             | Description                                                               | Type (Return) | Visibility |
+|:-------------------------------------------------|:--------------------------------------------------------------------------|:--------------|:-----------|
+| `ShowMonster(data: Monster, unlocked: bool)`     | 몬스터 상세 정보를 패널에 표시. 해금 여부에 따라 아이콘/이름/설명을 실제 데이터 또는 잠금 표현으로 설정하고 패널을 활성화한다. | `void`        | `Public`   |
+| `ShowItem(data: ItemData, unlocked: bool)`       | 아이템 상세 정보를 패널에 표시. 해금 여부에 따라 아이콘/이름/설명을 설정하고 패널을 활성화한다.                   | `void`        | `Public`   |
+| `ShowEquip(data: EquipmentData, unlocked: bool)` | 장비 상세 정보를 패널에 표시. 해금 여부에 따라 아이콘/이름/설명을 설정하고 패널을 활성화한다.                    | `void`        | `Public`   |
+| `Hide()`                                         | 상세 정보 패널 전체를 비활성화하여 화면에서 숨기는 메서드                                          | `void`        | `Public`   |
+
+### 📦FloatingText
+> **Description:**
+> 플레이어 머리 위 등에 잠깐 떠올랐다가 사라지는 연출용 텍스트를 담당하는 컴포넌트.  
+> 시작 위치에서 위로 천천히 상승(rise)하면서, 일정 시간 동안 페이드인 → 유지 → 페이드아웃 애니메이션을 수행하고 애니메이션이 끝나면 스스로 `Destroy` 되는 일회성 UI 오브젝트 역할을 한다.
+
+**🟢Attributes (속성)**
+
+| Name             | Description                        | Type          | Visibility |
+|:-----------------|:-----------------------------------|:--------------|:-----------|
+| `riseDuration`   | 텍스트가 화면에 존재하는 총 지속 시간              | `float`       | `Private`  |
+| `riseSpeed`      | 텍스트가 위로 상승하는 속도                    | `float`       | `Private`  |
+| `fadeInDuration` | 생성 후 완전히 보이기까지 걸리는 페이드인 구간 시간      | `float`       | `Private`  |
+| `fadeOutStart`   | 전체 진행도(0~1) 중 페이드아웃을 시작할 지점 비율     | `float`       | `Private`  |
+| `_textMesh`      | 실제 텍스트를 표시하는 `TextMeshPro` 컴포넌트 참조 | `TextMeshPro` | `Private`  |
+| `_elapsedTime`   | 생성 이후 누적 경과 시간                     | `float`       | `Private`  |
+| `_originalColor` | 텍스트의 원래 색상(알파 변경 전 기본 색상)          | `Color`       | `Private`  |
+| `_startPosition` | 텍스트가 떠오르기 시작하는 월드 좌표 시작 위치         | `Vector3`     | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                               | Description                                                                                    | Type (Return) | Visibility |
+|:---------------------------------------------------|:-----------------------------------------------------------------------------------------------|:--------------|:-----------|
+| `Initialize(text: string, startPosition: Vector3)` | 표시할 텍스트와 시작 위치를 설정하고, 초기 색상을 완전 투명(알파 0)으로 만든 뒤 애니메이션을 시작할 준비를 하는 초기화 메서드                      | `void`        | `Public`   |
+| `FloatingAnimation()`                              | 경과 시간에 따라 텍스트의 상승 위치와 알파 값을 계산하여 페이드인/유지/페이드아웃 애니메이션을 적용하고, 지정 시간이 지나면 오브젝트를 삭제하는 내부 애니메이션 메서드 | `void`        | `Private`  |
+
+### 📦HUDManager
+> **Description:**
+> 게임 플레이 중 화면에 표시되는 HUD(UI)를 총괄 관리하는 매니저 컴포넌트.  
+> HP/EXP 바, 타이머, 골드/처치 수, 장비·아이템 슬롯, 보스 체력바, 퀘스트 패널 등  
+> 다양한 UI 요소를 `PlayerManager`, `GameManager`, `InventoryManager`, `SpawnManager`, `EventManager`의 이벤트에 따라 갱신·표시한다.
+
+**🟢Attributes (속성)**
+
+| Name               | Description                              | Type               | Visibility |
+|:-------------------|:-----------------------------------------|:-------------------|:-----------|
+| `playerManager`    | 플레이어 현재 HP/EXP/골드/킬 수 등의 정보를 제공하는 매니저 참조 | `PlayerManager`    | `Private`  |
+| `inventoryManager` | 장비 및 소비 아이템 정보를 관리하는 인벤토리 매니저 참조         | `InventoryManager` | `Private`  |
+| `spawnManager`     | 보스 스폰 이벤트를 발생시키는 스폰 매니저 참조               | `SpawnManager`     | `Private`  |
+| `eventManager`     | 퀘스트 알림 등 커스텀 이벤트를 방송하는 이벤트 매니저           | `EventManager`     | `Private`  |
+| `hpSlider`         | 플레이어 HP를 표시하는 슬라이더                       | `Slider`           | `Private`  |
+| `expSlider`        | 플레이어 경험치를 표시하는 슬라이더                      | `Slider`           | `Private`  |
+| `timerText`        | 생존 시간(타이머)을 “MM:SS” 형식으로 표시하는 텍스트        | `TextMeshProUGUI`  | `Private`  |
+| `goldText`         | 현재 보유 골드를 표시하는 텍스트                       | `TextMeshProUGUI`  | `Private`  |
+| `killCountText`    | 누적 처치 수를 표시하는 텍스트                        | `TextMeshProUGUI`  | `Private`  |
+| `weaponSlots`      | 공격형 장비(무기) 아이콘을 표시하는 이미지 슬롯 배열 (최대 6개)   | `Image[]`          | `Private`  |
+| `passiveSlots`     | 패시브 장비 아이콘을 표시하는 이미지 슬롯 배열 (최대 6개)       | `Image[]`          | `Private`  |
+| `itemSlots`        | 소비 아이템 아이콘을 표시하는 이미지 슬롯 배열 (최대 3개)       | `Image[]`          | `Private`  |
+| `bossHpBarPanel`   | 보스 등장 시 표시되는 보스 HP 바 패널 오브젝트             | `GameObject`       | `Private`  |
+| `bossNameText`     | 현재 보스 이름을 표시하는 텍스트                       | `TextMeshProUGUI`  | `Private`  |
+| `bossHpBarSlider`  | 보스 체력을 비율로 표시하는 슬라이더                     | `Slider`           | `Private`  |
+| `questInfo`        | 퀘스트 안내/알림을 보여주는 퀘스트 패널 오브젝트              | `GameObject`       | `Private`  |
+| `questInfoText`    | 현재 퀘스트 또는 알림 내용을 출력하는 텍스트                | `TextMeshProUGUI`  | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                                | Description                                                                                        | Type (Return) | Visibility |
+|:----------------------------------------------------|:---------------------------------------------------------------------------------------------------|:--------------|:-----------|
+| `UpdateHpBar(currentHp: float, maxHp: float)`       | `PlayerManager.OnHpChanged` 이벤트를 받아 HP 슬라이더 값을 `currentHp / maxHp` 비율로 갱신한다.                       | `void`        | `Private`  |
+| `UpdateExpBar(currentExp: float, maxExp: float)`    | `PlayerManager.OnExpChanged` 이벤트를 받아 EXP 슬라이더 값을 `currentExp / maxExp` 비율로 갱신한다.                   | `void`        | `Private`  |
+| `UpdateTimerText(time: float)`                      | `GameManager.OnTimeChanged` 이벤트를 받아 경과 시간을 초 단위로 입력받아 “MM:SS” 포맷으로 변환 후 타이머 텍스트를 갱신한다.             | `void`        | `Private`  |
+| `UpdateGoldText(amount: int)`                       | `PlayerManager.OnGoldChanged` 이벤트를 받아 골드 텍스트를 현재 값으로 갱신한다.                                         | `void`        | `Private`  |
+| `UpdateKillCountText(amount: int)`                  | `PlayerManager.OnKillCountChanged` 이벤트를 받아 처치 수 텍스트를 현재 값으로 갱신한다.                                  | `void`        | `Private`  |
+| `InitHUD()`                                         | 게임 시작 시 HP/EXP/타이머/골드/킬 수의 초기값을 설정하고, 보스 HP 바 패널과 퀘스트 패널을 비활성화하며, 인벤토리 UI를 초기 갱신한다.                | `void`        | `Private`  |
+| `UpdateInventoryUI()`                               | `InventoryManager.OnInventoryChanged` 이벤트를 받아 무기, 패시브, 아이템 슬롯을 각각 현재 인벤토리 상태에 맞게 아이콘/활성화 여부를 갱신한다. | `void`        | `Private`  |
+| `UpdateSlots(slots: Image[], icons: List<Sprite>)`  | 주어진 슬롯 배열과 아이콘 리스트를 기반으로, 각 슬롯에 아이콘을 매칭하거나 비활성화하는 헬퍼 메서드(남는 슬롯은 숨김 처리).                            | `void`        | `Private`  |
+| `ShowBossHpBarPanel(show: bool, boss: BossMonster)` | 보스 등장/퇴장 시 호출되어 보스 HP 바 패널을 보이거나 숨기고, 보스 이름과 HP 바를 초기 설정하며, 보스 HP 변경 이벤트에 구독/해제한다.                 | `void`        | `Private`  |
+| `UpdateBossHpBar(currentHp: float, maxHp: float)`   | `BossMonster.OnBossHpChanged` 이벤트를 받아 보스 HP 바 슬라이더 값을 `currentHp / maxHp` 비율로 갱신한다.                | `void`        | `Private`  |
+| `ToggleQuestInfo(notificationMessage: string)`      | `EventManager.OnToggleEvent` 이벤트를 받아 퀘스트 패널의 활성/비활성 상태를 토글하고, 전달된 메시지로 퀘스트 텍스트를 갱신한다.              | `void`        | `Private`  |
+
+### 📦InGamePanelManager
+> **Description:**
+> 인게임 동안 표시되는 일시정지 패널, 보상 선택 패널, 게임오버 패널을 관리하는 UI 매니저 컴포넌트.  
+> `GameManager`가 호출하는 공개 메서드를 통해 각 패널의 표시/숨김을 제어하고,  
+> `RewardManager`, `InventoryManager`, `GameManager`에서 제공하는 데이터로 패널 내부 텍스트와 아이콘을 갱신한다.
+
+**🟢Attributes (속성)**
+
+| Name                    | Description                                | Type               | Visibility |
+|:------------------------|:-------------------------------------------|:-------------------|:-----------|
+| `rewardManager`         | 보상 UI 상태 및 선택 이벤트를 제공하는 `RewardManager` 참조 | `RewardManager`    | `Private`  |
+| `inventoryManager`      | 무기/패시브 인벤토리 정보를 제공하는 `InventoryManager` 참조 | `InventoryManager` | `Private`  |
+| `playerImage`           | 일시정지/게임오버 패널에서 표시할 플레이어 이미지 스프라이트          | `Sprite`           | `Private`  |
+| `pausePanel`            | 일시정지(UI) 전체 패널 오브젝트                        | `GameObject`       | `Private`  |
+| `pausePlayerImage`      | 일시정지 패널에 표시되는 플레이어 이미지                     | `Image`            | `Private`  |
+| `pauseTimerText`        | 일시정지 패널의 타이머 텍스트(플레이 시간)                   | `TextMeshProUGUI`  | `Private`  |
+| `pauseWeaponSlots`      | 일시정지 패널의 공격형 장비 슬롯 이미지 배열 (최대 6개)          | `Image[]`          | `Private`  |
+| `pausePassiveSlots`     | 일시정지 패널의 패시브 장비 슬롯 이미지 배열 (최대 6개)          | `Image[]`          | `Private`  |
+| `rewardPanel`           | 보상 선택 패널 오브젝트                              | `GameObject`       | `Private`  |
+| `rewardSlots`           | 각 보상 카드를 선택하기 위한 버튼 슬롯 배열                  | `Button[]`         | `Private`  |
+| `rewardsIcon`           | 보상 카드에 표시되는 아이콘 이미지 배열                     | `Image[]`          | `Private`  |
+| `rewardsDescription`    | 각 보상의 설명 텍스트(UI Text) 배열                   | `Text[]`           | `Private`  |
+| `rerollCostText`        | 리롤 비용을 표시하는 텍스트                            | `TextMeshProUGUI`  | `Private`  |
+| `rerollCountText`       | 남은 리롤 횟수를 표시하는 텍스트                         | `TextMeshProUGUI`  | `Private`  |
+| `skipExpRatio`          | 스킵 시 획득할 경험치 비율을 표시하는 텍스트                  | `TextMeshProUGUI`  | `Private`  |
+| `gameOverPanel`         | 게임오버 패널 오브젝트                               | `GameObject`       | `Private`  |
+| `gameOverPlayerImage`   | 게임오버 패널에 표시되는 플레이어 이미지                     | `Image`            | `Private`  |
+| `gameOverTitleText`     | 게임오버 패널의 제목 텍스트(클리어/사망 등)                  | `TextMeshProUGUI`  | `Private`  |
+| `gameOverTimerText`     | 게임오버 시점까지의 플레이 시간을 표시하는 타이머 텍스트            | `TextMeshProUGUI`  | `Private`  |
+| `gameOverGoldText`      | 게임오버 시 보유 골드를 표시하는 텍스트                     | `TextMeshProUGUI`  | `Private`  |
+| `gameOverKillCountText` | 게임오버 시 총 킬 수를 표시하는 텍스트                     | `TextMeshProUGUI`  | `Private`  |
+| `gameOverWeaponSlots`   | 게임오버 패널의 공격형 장비 슬롯 이미지 배열                  | `Image[]`          | `Private`  |
+| `gameOverPassiveSlots`  | 게임오버 패널의 패시브 장비 슬롯 이미지 배열                  | `Image[]`          | `Private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                                      | Description                                                                                                      | Type (Return) | Visibility |
+|:----------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------|:--------------|:-----------|
+| `ShowPausePanel(show: bool)`                              | `GameManager`가 호출하는 인터페이스. 일시정지 패널을 열거나 닫으며, 열릴 때 `UpdatePausePanel()`을 호출해 타이머·인벤토리·이미지를 최신 상태로 갱신한다.           | `void`        | `Public`   |
+| `ShowRewardPanel(show: bool)`                             | 보상 패널의 활성/비활성 상태를 제어하는 메서드. `RewardManager`에서 내용이 셋업된 패널을 표시하거나 숨긴다.                                             | `void`        | `Public`   |
+| `ShowGameOverPanel(show: bool, clear: bool)`              | 게임오버 또는 클리어 시 호출되며, `clear` 여부에 따라 제목/내용을 설정하기 위해 `UpdateGameOverPanel(clear)`을 호출한 뒤 게임오버 패널을 표시/숨긴다.           | `void`        | `Public`   |
+| `OnClickMainMenu()`                                       | 게임오버/일시정지 패널 내 ‘메인메뉴’ 버튼 클릭 시 호출되어 `GameManager.Instance.GoToMainMenu()`를 실행한다.                                  | `void`        | `Public`   |
+| `OnClickRestart()`                                        | ‘다시하기’ 버튼 클릭 시 호출되어 `GameManager.Instance.RestartGame()`을 실행한다.                                                  | `void`        | `Public`   |
+| `OnClickResume()`                                         | ‘계속하기’ 버튼 클릭 시 호출되어 `GameManager.Instance.ResumeGame()`을 실행, 일시정지를 해제한다.                                         | `void`        | `Public`   |
+| `UpdateRewardTextUI(cost: int, count: int, ratio: float)` | 리롤 비용/횟수/스킵 경험치 비율을 UI에 반영하고, 비용 부족·리롤 불가 상태일 때는 텍스트 색상을 빨간색으로 표시하는 내부 콜백 메서드.                                   | `void`        | `Private`  |
+| `UpdateRewardUI(rewards: List<ScriptableObject>)`         | 전달된 보상 리스트(ItemData/EquipmentData)에 따라 아이콘과 설명 텍스트를 설정하고, 각 보상 버튼에 `rewardManager.OnRewardSelected()` 리스너를 등록한다. | `void`        | `Private`  |
+| `UpdatePausePanel()`                                      | 일시정지 패널의 플레이어 이미지, 현재까지의 게임 시간, 인벤토리(무기/패시브 슬롯)를 최신 상태로 갱신하는 헬퍼 메서드.                                             | `void`        | `Private`  |
+| `UpdateGameOverPanel(clear: bool)`                        | 게임오버 패널의 제목(클리어/사망), 플레이 시간, 골드, 킬 수, 인벤토리 슬롯 이미지를 설정하는 메서드.                                                     | `void`        | `Private`  |
+| `UpdateInventoryUI(weapons: Image[], passives: Image[])`  | 현재 `InventoryManager`의 무기/패시브 리스트를 읽어 전달된 슬롯 배열에 아이콘을 채우고, 남는 슬롯은 비활성화하는 인벤토리 UI 갱신 메서드.                         | `void`        | `Private`  |
+| `UpdateSlots(slots: Image[], icons: List<Sprite>)`        | 슬롯 배열과 아이콘 리스트를 순회하며 슬롯에 스프라이트를 설정하거나 비활성화하는 공용 헬퍼 함수.                                                           | `void`        | `Private`  |
+
+### 📦MainMenuPanelManager
+> **Description:**
+> 여기에 클래스 설명 작성
+
+**🟢Attributes (속성)**
+
+| Name              | Description              | Type              | Visibility |
+|:------------------|:-------------------------|:------------------|:-----------|
+| `mainPanel`       | 메인메뉴 패널                  | `GameObject`      | `private`  |
+| `lobbyPanel`      | 로비 패널                    | `GameObject`      | `private`  |
+| `upgradePanel`    | 강화 패널                    | `GameObject`      | `private`  |
+| `codexPanel`      | 도감 패널                    | `GameObject`      | `private`  |
+| `settingPanel`    | 설정 패널                    | `GameObject`      | `private`  |
+| `pressAnyKeyText` | 게임시작 시 '아무 키를 눌러 시작' 텍스트 | `Text`            | `private`  |
+| `upgradeGoldText` | 강화 패널의 골드 텍스트            | `TextMeshProUGUI` | `private`  |
+| `_isPanelShown`   | 타이틀 패널이 표시되었는지 여부        | `bool`            | `private`  |
+| `_upgradeManager` | 업그레이드 매니저                | `UpgradeManager`  | `private`  |
+
+**🔷Operations (메서드)**
+
+| Name                            | Description                   | Type (Return) | Visibility |
+|:--------------------------------|:------------------------------|:--------------|:-----------|
+| `HandleLobbyInput()`            | 아무 키나 눌렀을 때 로비 패널로 전환하는 메서드   | `void`        | `public`   |
+| `ToggleUpgradePanel()`          | 강화 패널을 표시하거나 숨기는 메서드          | `void`        | `public`   |
+| `ToggleSettingPanel()`          | 설정 패널을 표시하거나 숨기는 메서드          | `void`        | `public`   |
+| `ToggleCodexPanel()`            | 도감 패널을 표시하거나 숨기는 메서드          | `void`        | `public`   |
+| `Onclick_StartGame()`           | 게임을 시작하는 메서드                  | `void`        | `public`   |
+| `CheckAndShowTitlePanel()`      | 게임 최초 실행 시에만 타이틀 패널을 표시하는 메서드 | `void`        | `private`  |
+| `CalculateAlpha()`              | 텍스트 깜빡임을 위한 투명도를 계산하는 메서드     | `float`       | `private`  |
+| `UpdateBlinkText(alpha: float)` | 텍스트를 깜빡임 효과로 업데이트하는 메서드       | `void`        | `private`  |
+| `UpdateGoldText(amount: int)`   | 강화 패널의 골드 텍스트를 업데이트하는 메서드     | `void`        | `private`  |
+
+### 📦TooltipController
+> **Description:**
+> 툴팁 표시 및 위치를 관리하는 클래스
+
+**🟢Attributes (속성)**
+
+| Name          | Description | Type            | Visibility |
+|:--------------|:------------|:----------------|:-----------|
+| `tooltipRect` | 툴팁의 위치      | `RectTransform` | `private`  |
+| `contentText` | 툴팁의 텍스트     | `TMP_Text`      | `private`  |
+| `offset`      | 툴팁의 오프셋     | `Vector2`       | `private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                                                  | Description                   | Type (Return) | Visibility |
+|:----------------------------------------------------------------------|:------------------------------|:--------------|:-----------|
+| `ShowTooltip(text: string)`                                           | 툴팁을 표시하는 메서드                  | `void`        | `public`   |
+| `ShowUpgradeTooltip(data: UpgradeData, currentLevel: int, cost: int)` | 업그레이드 정보를 툴팁으로 표시하는 메서드       | `void`        | `public`   |
+| `HideTooltip()`                                                       | 툴팁을 숨기는 메서드                   | `void`        | `public`   |
+| `UpdateTooltipPosition()`                                             | 툴팁의 위치를 마우스 위치에 따라 업데이트하는 메서드 | `void`        | `private`  |
+
+### 📦UpgradeSlot
+> **Description:**
+> 강화 슬롯의 UI를 관리하는 클래스
+
+**🟢Attributes (속성)**
+
+| Name                 | Description | Type                | Visibility |
+|:---------------------|:------------|:--------------------|:-----------|
+| `upgradeData`        | 강화 데이터      | `UpgradeData`       | `private`  |
+| `normalColor`        | 정상 상태의 색상   | `Color`             | `private`  |
+| `lockedColor`        | 잠긴 상태의 색상   | `Color`             | `private`  |
+| `_data`              | 업그레이드 데이터   | `UpgradeData`       | `private`  |
+| `_upgradeManager`    | 업그레이드 매니저   | `UpgradeManager`    | `private`  |
+| `_tooltipController` | 툴팁 컨트롤러     | `TooltipController` | `private`  |
+| `_buttonImage`       | 강화 버튼 이미지   | `Image`             | `private`  |
+| `_texts`             | 강화 텍스트 리스트  | `TMP_Text[]`        | `private`  |
+
+**🔷Operations (메서드)**
+
+| Name                                                     | Description                     | Type (Return) | Visibility |
+|:---------------------------------------------------------|:--------------------------------|:--------------|:-----------|
+| `Initialize(data: UpgradeData, manager: UpgradeManager)` | 슬롯을 초기화하는 메서드                   | `void`        | `public`   |
+| `UpdateDisplay()`                                        | 슬롯의 표시 내용을 업데이트하는 메서드           | `void`        | `public`   |
+| `OnPointerClick(eventData: PointerEventData)`            | 슬롯을 클릭했을 때 이벤트를 처리하는 메서드        | `void`        | `public`   |
+| `OnPointerEnter(eventData: PointerEventData)`            | 마우스가 슬롯 위에 올라갔을 때 툴팁을 표시하는 메서드  | `void`        | `public`   |
+| `OnPointerExit(eventData: PointerEventData)`             | 마우스가 슬롯 위에서 벗어났을 때 툴팁을 제거하는 메서드 | `void`        | `public`   |
+| `OnPurchaseClicked()`                                    | 구매 버튼을 클릭했을 때 호출되는 메서드          | `void`        | `private`  |
+| `OnRefundClicked()`                                      | 환불 버튼을 클릭했을 때 호출되는 메서드          | `void`        | `private`  |
+| `RefreshTooltip()`                                       | 툴팁을 업데이트하는 메서드                  | `void`        | `private`  |
+| `OnGoldChanged(newGold: int)`                            | 골드가 변경되었을 때 호출되는 메서드            | `void`        | `private`  |
+| `OnUpgradeChanged(type: UpgradeType, newLevel: int)`     | 업그레이드가 변경되었을 때 호출되는 메서드         | `void`        | `private`  |
 
 ---
 

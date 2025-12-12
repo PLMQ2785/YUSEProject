@@ -1132,21 +1132,29 @@ UpgradeManager가 플레이어에게 재화가 부족하다는 UI를 표시하�
 
 ![Sequence Diagram 10](../imgs/Diagram_Sequance/10.jpg)
 
-&ensp;위 그림은 플레이어가 도감을 초기화하는 상황의 Sequence diagram이다. 플레이어가 설정 화면에서 '도감 초기화' 버튼을 누르면 SettingManager의 OnResetCodexClick이 호출되고 CodexManager의 ResetCodex를 호출하여 도감을 초기화한다.
+&ensp;위 그림은 플레이어가 도감을 초기화하는 상황의 Sequence Diagram이다. 플레이어가 설정 화면에서 '도감 초기화' 버튼을 누르면 SettingManager의 OnResetCodexClick()이 호출된다. SettingManager는 LootDataBase의 Initialize() 또는 ResetAllUnlocks()를 호출하여 모든 도감 항목의 해금 상태를 초기화한다. LootDataBase는 _monsterRegistry, _equipmentRegistry, _itemRegistry를 순회하며 각 항목의 IsUnlocked를 false로 설정한다.
+
+ 해금 상태 초기화가 완료되면 SettingManager는 SaveManager를 통해 초기화된 상태를 영구 저장한다. SaveUnlockedMonsters(), SaveUnlockedEquipment(), SaveUnlockedItems()를 각각 빈 HashSet으로 호출하여 PlayerPrefs에 빈 리스트를 저장하고, Save()를 호출해 PlayerPrefs.Save()로 영구 저장한다. 이후 도감 화면에 진입하면 모든 항목이 실루엣으로 표시된다.
 
 ![Sequence Diagram 11](../imgs/Diagram_Sequance/11.jpg)
 
-&ensp;위 그림은 사용자가 아이템을 사용하는 Use case를 나타내는 Sequence diagram이다.
+&ensp;위 그림은 사용자가 아이템을 사용하는 Use Case를 나타내는 Sequence Diagram이다. 게임 플레이 중 얻은 아이템은 InventoryManager가 관리한다. 플레이어가 숫자키(1, 2, 3)를 누르면 InputManager가 해당 키 입력을 감지하고 슬롯 번호를 결정한 후 GetItemUseInput 이벤트를 통해 PlayerManager에 전달한다. PlayerManager는 HandleItemUseInput()을 호출하고 InventoryManager의 UseItem(slotNumber)를 실행한다.
 
-게임 플레이 중 얻은 아이템은 PlayerManager가 보낸 AddItem 신호를 통해 ItemManager가 관리한다. 게임 플레이 중 사용자가 아이템을 사용하기위해 GetItemUseInput 신호를 보내면 UseItem, ActivateItem 신호로 PlayerManager를 거쳐 ItemManager가 관리하고 있던 아이템이 사용된다. 아이템 사용 신호를 받은 후 ItemManager가 Item에게 Activate 신호를 보내면 Item에서 그 아이템의 durability를 확인한다. 만약 durability가 0보다 크면 정상적으로 아이템이 사용되고, 그렇지 않으면 아이템이 사용되지 않는다. 아이템이 사용된 경우에 UpdateCooldown을 통해 아이템의 쿨타임을 적용하고 durability를 1 감소시킨 후, 사용된 아이템에 따른 효과를 PlayerManager에서 반영한다.
+ InventoryManager는 해당 슬롯에 아이템이 존재하는지 확인한다. 아이템이 존재하면 Item의 durability와 currentCooldown을 확인한다. durability가 0보다 크고 쿨다운이 완료되었으면 Activate()를 호출하여 아이템 효과(Heal, ApplyBuff 등)를 PlayerManager에 적용하고, durability를 1 감소시키며 쿨다운을 시작한다. durability가 0이 되면 아이템은 인벤토리에서 제거되고 OnInventoryChanged 이벤트가 발생한다. 슬롯이 비어있거나 쿨다운 중이거나 사용 횟수가 소진되었으면 사용이 실패한다.
+
 
 ![Sequence Diagram 12](../imgs/Diagram_Sequance/12.jpg)
 
-&ensp;위 그림은 플레이어가 결과 화면에서 게임을 재시작 할 때를 나타내는 Sequence diagram이다. 플레이어가 InGAME Panel의 'Restart' 버튼을 누르면 InGamePanelManager가 이벤트를 받아 GameManager에게 Restart 함수를 실행 시킨다. GameManager는 열려있는 결과 화면창을 닫고 시스템을 초기화한 이후에 게임씬을 다시 시작한다.
+&ensp;위 그림은 플레이어가 결과 화면에서 게임을 재시작 할 때를 나타내는 Sequence Diagram이다. 플레이어가 GameOverPanel 또는 GameClearPanel의 '재시작' 버튼을 누르면 InGamePanelManager의 OnClickRestart()가 호출되고, 이는 GameManager에게 RestartGame() 함수를 실행시킨다.
+
+ GameManager는 SceneManager.GetActiveScene()을 통해 현재 씬 정보를 획득한 후, LoadScene(currentScene.name)을 호출하여 씬을 다시 로드한다. 씬 재로드 전에 UnsubscribeInGameEvents()를 통해 이전 매니저들의 이벤트 구독을 해제한다. 씬 로드가 완료되면 OnSceneLoaded 콜백이 호출되어 게임 상태를 Playing으로 설정하고 _gameTime을 0으로 초기화한다. InitializeInGameManagers()를 통해 PlayerManager와 SpawnManager를 찾아 초기화하고 이벤트를 구독한다. 플레이어는 MaxHp, 레벨 1, 경험치 0, 기본 무기로 초기화되고 몹스터 스폰이 시작되어 게임이 처음부터 다시 시작된다.
+
 
 ![Sequence Diagram 13](../imgs/Diagram_Sequance/13.jpg)
 
-&ensp;위 그림은 플레이어가 결과 화면에서 메인 메뉴로 넘어갈 떄를 나타내는 Sequence diagram이다. 플레이어가 InGamePanel의 'Main menu' 버튼을 누르면 InGamePanelManager가 이벤트를 받아 GameManager에게 GoToMain 함수를 실행시킨다.GameManager는 현재 게임씬에서 메인 화면씬으로 전환한다.
+&ensp;위 그림은 플레이어가 결과 화면에서 메인 메뉴로 넘어갈 때를 나타내는 Sequence Diagram이다. 플레이어가 GameOverPanel 또는 GameClearPanel의 '메인 화면으로' 버튼을 누르면 InGamePanelManager의 OnClickMainMenu()가 호출되고, 이는 GameManager에게 GoToMainMenu() 함수를 실행시킨다.
+
+ GameManager는 먼저 게임 중 획득한 골드를 UpgradeManager에서 조회하여 SaveManager를 통해 PlayerPrefs에 저장한다. 그 후 UnsubscribeInGameEvents()를 통해 PlayerManager, RewardManager, SpawnManager 등 인게임 매니저들의 이벤트 구독을 해제하고, 게임 상태를 MainMenu로 변경한다. SceneManager.LoadScene("MainMenuScene")을 호출하여 메인 메뉴 씬을 로드한다. 씬 로드가 완료되면 UpgradeManager가 RefreshGold()를 통해 저장된 골드를 로드하고 OnGoldChanged 이벤트를 발생시켜 UI에 반영한다. 이로써 플레이어는 메인 화면에 도착하여 다시 게임을 시작할 수 있다.
 
 ---
 

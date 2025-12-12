@@ -72,7 +72,7 @@
 | `InitializeInGameManagers()`                       | 인게임 씬 로드 후 매니저들을 찾아 연결하고 필요한 이벤트를 구독하는 메서드           | `IEnumerator` | `Private`  |
 | `UnsubscribeInGameEvents()`                        | 씬 전환 또는 파괴 시 인게임 매니저들의 이벤트 구독을 안전하게 해제하는 메서드         | `void`        | `Private`  |
 
-### 🏷️InputManager
+### 📦InputManager
 > **Description:**
 > 사용자의 입력을 받아와 처리하고, 이벤트 형태로 필요한 곳에 분배하는 매니저 클래스
 
@@ -104,7 +104,7 @@
 | `IsMouseButtonPressed(button: int)` | 특정 마우스 버튼을 누르고 있는지 확인하는 메서드                        | `bool`        | `Public`   |
 | `IsMouseButtonDown(button: int)`    | 특정 마우스 버튼이 눌렸는지 확인하는 메서드                           | `bool`        | `Public`   |
 
-### 🏷️PoolManager
+### 📦PoolManager
 > **Description:**
 > 오브젝트를 미리 생성하거나 재활용하여 성능 부하를 줄이는 오브젝트 풀링 시스템의 중앙 관리 클래스
 
@@ -216,7 +216,7 @@
 
 ## 📂 3.2.2 Enemies 관련 클래스
 
-### 🏷️BossMonster
+### 📦BossMonster
 > **Description:**
 > Monster 클래스를 상속받는 보스 몬스터 클래스.   
   보스 전용 체력바 UI 연동을 위한 이벤트와 사망 시 보상 생성 로직을 포함.
@@ -299,7 +299,7 @@
 | `UpdateSpeedDebuffs()`                                                 | 매 프레임 감속 디버프 시간을 갱신하고 만료된 디버프를 제거함           | `void`        | `private`   |
 | `RecalculateSpeedMultiplier()`                                         | 현재 활성화된 디버프 중 가장 강한 효과를 기준으로 속도 배율을 재계산함     | `void`        | `private`   |
 
-### 🏷️NormalMonster
+### 📦NormalMonster
 > **Description:**
 > Monster 클래스를 상속받는 일반 몬스터 클래스   
   플레이어를 향해 단순 이동하며, 이동방향에 따라 스프라이트 방향을 설정한다
@@ -310,7 +310,7 @@
 |:--------------------------------|:-------------------------------------------------------------|:-------|:-----------|
 | `Move(targetPosition: Vector2)` | CurrentMoveSpeed를 사용하여 타겟 위치로 이동하며, 타겟의 X좌표에 따라 스프라이트를 좌우 반전 | `void` | `public`   |
 
-### 🏷️ExplodingMonster
+### 📦ExplodingMonster
 > **Description:**
 > Monster 클래스를 상속받는 자폭 몬스터 클래스. 플레이어에게 접근하여 일정 범위 내에 들어오면 자폭 시퀀스를 시작하고, 잠시 후 폭발하여 광역 데미지를 입힌다
 
@@ -336,7 +336,7 @@
 | `ExplosionSequence()`      | 경고 효과 후 폭발을 일으키는 코루틴                   | `IEnumerator` | `private`  |
 | `Explode()`                | 범위 내 플레이어에게 데미지를 입히는 메서드                | `void`        | `private`  |
 
-### 🏷️RangedMonster
+### 📦RangedMonster
 > **Description:**
 > Monster 클래스를 상속받는 원거리 공격 몬스터 클래스. 플레이어와 일정 거리를 유지하며 투사체를 발사하여 공격한다
 
@@ -358,7 +358,7 @@
 | `ShootProjectile()`        | 투사체 인스턴스를 생성하고 초기화                         | `void`        | `private`  |
 | `UpdateSpriteDirection()`  | 타겟 위치에 따라 스프라이트 좌우 반전                      | `void`        | `private`  |
 
-### 🏷️Projectile2
+### 📦Projectile2
 > **Description:**
 > 적 몬스터가 발사하는 투사체 클래스
   초기화된 방향 또는 타겟을 향해 직선으로 이동하며
@@ -746,7 +746,7 @@
 | `Data`       | 아이템의 Scriptable Object를 저장하는 필드 | `ItemData` | `public`   |
 | `IsUnlocked` | 아이템의 획득 이력을 나타내는 필드             | `bool`     | `public`   |
 
-### 🏷️LootDataBase
+### 📦LootDataBase
 > **Description:**
 > 몬스터, 장비, 아이템의 데이터를 관리하고 상태를 관리하는 클래스
 
@@ -788,7 +788,7 @@
 | `GetRandomItem()`                 | 랜덤 아이템 가져오기                | `ItemData`            | `public`   |
 | `SaveUnlockStates()`              | unlock 상태를 SaveManager에 저장 | `void`                | `private`  |
 
-### 🏷️MonsterInfo
+### 📦MonsterInfo
 > **Description:**
 > 몬스터 런타임 데이터를 나타내는 클래스
 
@@ -877,7 +877,7 @@
 |:-----------|:-----------------------|:--------------|:-----------|
 | `Magnet()` | 획득 가능한 오브젝트를 끌어당기는 메서드 | `void`        | `private`  |
 
-### 🏷️PlayerManager
+### 📦PlayerManager
 > **Description:**
 > 플레이어의 핵심 상태 및 능력치를 관리하고, 이동, 피해 처리, 레벨업, 대시 등 캐릭터의 모든 생명 주기 및 로직을 제어하는 중앙 관리 클래스
 
@@ -992,7 +992,7 @@
 
 ## 📂 3.2.7 UI 관련 클래스
 
-### 🏷️CodexManager
+### 📦CodexManager
 
 > **Description:**
 > 몬스터/장비/아이템 도감 UI 전체를 관리하는 매니저 클래스  
@@ -1018,7 +1018,7 @@
 | `RefreshCodex()`                     | 기존 도감 슬롯을 모두 제거한 뒤, `LootDataBase`에서 몬스터/장비/아이템 정보를 조회하여 슬롯을 동적 생성하고 `DescriptionPanel`과 연결하는 메서드 | `void`        | `Public`   |
 | `ClearContent(content: Transform)`   | 전달받은 Content Transform의 모든 자식 슬롯 오브젝트를 제거하여 도감 UI를 초기화하는 유틸리티 메서드                                 | `void`        | `Private`  |
 
-### 🏷️CodexSlot
+### 📦CodexSlot
 > **Description:**
 > 도감 UI 그리드 안에서 각 칸(슬롯)을 표현하는 컴포넌트.  
 > 몬스터 / 아이템 / 장비 타입에 따라 아이콘을 설정하고, 슬롯 클릭 시 `DescriptionPanel`에 상세 정보를 띄우도록 버튼 이벤트를 연결하는 역할을 한다.
@@ -1041,7 +1041,7 @@
 | `SetEquip(data: EquipmentData, unlocked: bool)` | 장비 도감 슬롯을 설정. 해금 여부에 따라 아이콘/실루엣을 설정하고, 클릭 시 장비 상세 정보 표시 이벤트를 등록한다.                | `void`        | `Public`   |
 | `SetDescriptionPanel(panel: DescriptionPanel)`  | 이 슬롯이 참조할 `DescriptionPanel`을 주입하여, 클릭 시 해당 패널을 통해 상세 정보를 출력할 수 있도록 연결하는 초기화 메서드  | `void`        | `Public`   |
 
-### 🏷️DescriptionPanel
+### 📦DescriptionPanel
 > **Description:**
 > 도감에서 선택된 슬롯의 상세 정보를 화면에 표시하는 패널 UI 컴포넌트.  
 > 몬스터 / 아이템 / 장비 타입에 따라 아이콘, 이름, 설명 텍스트를 갱신하며,  
@@ -1065,7 +1065,7 @@
 | `ShowEquip(data: EquipmentData, unlocked: bool)` | 장비 상세 정보를 패널에 표시. 해금 여부에 따라 아이콘/이름/설명을 설정하고 패널을 활성화한다.                    | `void`        | `Public`   |
 | `Hide()`                                         | 상세 정보 패널 전체를 비활성화하여 화면에서 숨기는 메서드                                          | `void`        | `Public`   |
 
-### 🏷️FloatingText
+### 📦FloatingText
 > **Description:**
 > 플레이어 머리 위 등에 잠깐 떠올랐다가 사라지는 연출용 텍스트를 담당하는 컴포넌트.  
 > 시작 위치에서 위로 천천히 상승(rise)하면서, 일정 시간 동안 페이드인 → 유지 → 페이드아웃 애니메이션을 수행하고 애니메이션이 끝나면 스스로 `Destroy` 되는 일회성 UI 오브젝트 역할을 한다.
@@ -1134,7 +1134,7 @@
 | `UpdateBossHpBar(currentHp: float, maxHp: float)`   | `BossMonster.OnBossHpChanged` 이벤트를 받아 보스 HP 바 슬라이더 값을 `currentHp / maxHp` 비율로 갱신한다.                | `void`        | `Private`  |
 | `ToggleQuestInfo(notificationMessage: string)`      | `EventManager.OnToggleEvent` 이벤트를 받아 퀘스트 패널의 활성/비활성 상태를 토글하고, 전달된 메시지로 퀘스트 텍스트를 갱신한다.              | `void`        | `Private`  |
 
-### 🏷️InGamePanelManager
+### 📦InGamePanelManager
 > **Description:**
 > 인게임 동안 표시되는 일시정지 패널, 보상 선택 패널, 게임오버 패널을 관리하는 UI 매니저 컴포넌트.  
 > `GameManager`가 호출하는 공개 메서드를 통해 각 패널의 표시/숨김을 제어하고,  
