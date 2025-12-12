@@ -126,6 +126,12 @@ public class MainMenuPanelManager : MonoBehaviour
     {
         GameManager.Instance.StartGame();
     }
+
+    //게임 종료 함수
+    public void OnClick_QuitGame()
+    {
+        GameManager.Instance.Shutdown();
+    }
     #endregion
 
     #region Private Methods
