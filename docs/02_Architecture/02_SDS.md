@@ -1917,12 +1917,19 @@ SettingManager는 LoadAndApplySavedSettings()를 통해 저장된 설정을 로�
 ![state machine diagram](../imgs/stateDiagram.jpg)
 
 
-* 각 State는 게임에서 어떤 Scene을 보여주고 있는지에 대한 상태이고, Game Scene 내에서는 플레이어의 행동에 따라 캐릭터의 상태가 어떻게 바뀌는지 나타낸다.
+* 각 State는 게임에서 어떤 Scene을 보여주고 있는지에 대한 상태이고, Game Scene 내에서는 플레이어와 몬스터의 행동에 따라 캐릭터의 상태가 어떻게 바뀌는지 나타낸다. 게임의 최상위 상태는 [GameManager](cci:2://file:///d:/Develop/SE%20Project/SE-Fork/roguelike/Assets/01_Scripts/_Core/GameManager.cs:18:0-443:1)의 `GameState` enum(MainMenu, Playing, Paused, GameOver, GameClear)으로 관리된다.
 
-&ensp;이 프로젝트의 State는 크게 Title Scene, Lobby, Option, Directory, Enhance, Game Scene, Game Over, Game Clear가 있다.
-게임을 시작하게 되면 Title Scene에서 시작한다. Title 화면에서 아무키나 누르면 Lobby화면으로 이동한다. Lobby화면에서 Option 버튼을 누르면 옵션으로 그리고 Exit 버튼을 누르면 게임을 종료할 수 있다. Lobby에서는 도감 버튼을 눌러서 플레이어가 게임을 플레이하면서 모은 오브젝트들의 정보를 확인 할 수 있으며, 강화 버튼을 통해 Enhance로 가서 플레이할 캐릭터의 능력치를 플레이어가 원하는 대로 강화할 수 있다. 그리고 게임을 하기 위해서 Start 버튼을 누르면 Game Scene으로 들어간다.
+&ensp;이 프로젝트의 State는 크게 Title Scene, Lobby, Upgrade Panel, Codex Panel, Setting Panel, Loading Game, InGame(Playing, Paused, Reward Selection, Boss Battle), Game Over, Game Clear가 있다. 게임을 실행하면 Title Scene에서 시작한다. Title 화면에서 아무 키나 누르면 `MainMenuPanelManager.HandleLobbyInput()`이 호출되어 Lobby 화면으로 이동한다. 
 
-&ensp;Game Scene에 들어가면 본격적으로 게임을 플레이할 수 있다. 게임 특성상 공격은 자동으로 나가기 때문에 Player는 기본적으로 움직이는 Move 상태, 움직이지 않는 idle 상태, Enemy에게 데미지를 입은 Damaged 상태, 그리고 피가 0 이하면 죽는 Dead 상태가 있다. 시스템 내부적으로 Enemy는 Player의 주변에서 Spawn 된다. Spawn 상태 이후에 Player가 있는 방향으로 이동하는 Chase 상태, Player와 충돌하거나 공격 범위 내에 있을 때 공격하는 Attack 상태, 그리고 Player의 공격에 맞았을 때 데미지를 받는 Damaged 상태가 있다. 이 Enemy의 모든 행동은 Enemy의 hp가 0이 아닐 때 작동하며 hp가 0 이하가 되면 Enemy는 사라진다. 만약 Player가 Dead 상태가 되면 Game Over로 넘어간다. Game Over에서는 재시작 버튼을 눌러 다시 Game Scene으로 돌아가 게임을 할 수 있고 로비 버튼을 통해 Lobby로 돌아갈 수도 있다. 또한 플레이어가 마지막 보스를 쓰러뜨리면 Game Clear로 간다. Game Clear에서도 마찬가지로 Game Scene이나 Lobby로 돌아갈 수 있다. 게임은 Game Clear나 Game Over가 되면 끝난다.
+&ensp;Lobby 화면에서는 여러 버튼을 통해 다양한 패널로 이동할 수 있다. '캐릭터 강화' 버튼을 누르면 Upgrade Panel로 이동하여 게임에서 획득한 골드로 캐릭터의 영구 능력치를 강화할 수 있다. '도감' 버튼을 누르면 Codex Panel로 이동하여 게임을 플레이하면서 발견한 몬스터, 장비, 아이템의 정보를 확인할 수 있으며, 미발견 항목은 실루엣으로 표시된다. '설정' 버튼을 누르면 Setting Panel로 이동하여 해상도, 볼륨 등을 조절하거나 도감을 초기화할 수 있다. 각 패널에서 뒤로가기를 누르면 Lobby로 돌아온다. '시작하기' 버튼을 누르면 `GameManager.StartGame()`이 호출되어 Loading Game 상태를 거쳐 InGame Scene으로 진입한다.
+
+&ensp;InGame에 들어가면 본격적으로 게임을 플레이할 수 있으며, 여러 하위 상태가 존재한다. 기본 Playing 상태에서 Player는 WASD 키 입력에 따라 Idle(정지) 또는 Moving(이동) 상태로 전환되며, Space 키를 누르면 쿨다운이 완료된 경우 Dashing(대시) 상태로 전환된다. 몬스터에게 피격당하면 Damaged 상태가 되어 무적 시간 동안 깜빡임 효과가 적용되고, HP가 0 이하가 되면 Dead 상태로 전환된다.
+
+&ensp;시스템 내부적으로 Enemy는 `SpawnManager`에 의해 Wave 기반으로 Player 주변에 Spawn된다. Spawned 상태 이후 페이드인 효과와 함께 Chasing 상태로 전환되어 Player 방향으로 이동한다. Player와 충돌하거나 공격 범위 내에 들어오면 Attacking 상태로 전환되어 접촉 데미지 또는 원거리 공격을 수행한다. Player의 공격에 맞으면 Damaged 상태가 되어 붉은 깜빡임 효과가 적용되고, HP가 0 이하가 되면 Dead 상태로 전환되어 경험치 구슬을 드롭하고 오브젝트 풀로 반환된다.
+
+&ensp;Playing 상태에서 ESC 키를 누르면 `GameManager.PauseGame()`이 호출되어 `Time.timeScale`이 0이 되고 Paused 상태로 전환된다. 일시정지 메뉴에서 '계속하기'를 누르면 [ResumeGame()](cci:1://file:///d:/Develop/SE%20Project/SE-Fork/roguelike/Assets/01_Scripts/_Core/GameManager.cs:176:4-191:5)으로 Playing 상태로 복귀하고, '메인 화면으로'를 누르면 [GoToMainMenu()](cci:1://file:///d:/Develop/SE%20Project/SE-Fork/roguelike/Assets/01_Scripts/_Core/GameManager.cs:277:4-285:5)로 Lobby로 돌아간다. 레벨업하거나 보물상자를 획득하면 Reward Selection 상태로 전환되어 3개의 보상 중 하나를 선택하거나 리롤/스킵할 수 있으며, 선택 완료 시 [HandleRewardFinished()](cci:1://file:///d:/Develop/SE%20Project/SE-Fork/roguelike/Assets/01_Scripts/_Core/GameManager.cs:352:4-363:5)가 호출되어 Playing 상태로 복귀한다. 보스 몬스터가 스폰되면 Boss Battle 상태로 전환되어 타이머가 정지하고 보스 HP바가 표시되며, 보스를 처치하면 보물상자가 드롭된다.
+
+&ensp;Player가 Dead 상태가 되면 `GameManager.GameOver()`가 호출되어 Game Over 상태로 전환된다. Game Over 화면에서는 플레이 시간, 획득 골드, 처치 수, 장착 장비가 표시되며, '재시작' 버튼을 누르면 [RestartGame()](cci:1://file:///d:/Develop/SE%20Project/SE-Fork/roguelike/Assets/01_Scripts/_Core/GameManager.cs:287:4-294:5)으로 InGame을 처음부터 다시 시작할 수 있고, '메인 화면으로' 버튼을 누르면 [GoToMainMenu()](cci:1://file:///d:/Develop/SE%20Project/SE-Fork/roguelike/Assets/01_Scripts/_Core/GameManager.cs:277:4-285:5)로 Lobby로 돌아갈 수 있다. 마지막 보스를 처치하면 `GameManager.GameClear()`가 호출되어 Game Clear 상태로 전환되며, Game Over와 마찬가지로 재시작하거나 Lobby로 돌아갈 수 있다. 게임은 Game Clear나 Game Over가 되면 종료되며, 획득한 골드는 `SaveManager`를 통해 영구 저장되어 다음 플레이에서 강화에 사용할 수 있다.
 
 ---
 
